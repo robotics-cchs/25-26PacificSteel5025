@@ -1,4 +1,13 @@
 # 2025-2026PacificSteel5025
-This our repository for the 2025-2026 FRC Robotics Competition for our team, Pacific Steel 5025
+# Team
+PacificSteel5025
 
-We will develop this throughout the season.
+Lead Developer: Christian
+Developers: Armine, Celine, Charles, Diego, Roy
+
+This is our codebase for the 2025-2026 FRCRobotics Competition
+
+# Specifications
+Programming Language: Java
+Software: Github, 2026 WPILib VS Code 
+
