@@ -3,6 +3,7 @@
 PacificSteel5025
 
 Lead Developer: Christian
+
 Developers: Armine, Celine, Charles, Diego, Roy
 
 This is our codebase for the 2025-2026 FRCRobotics Competition
