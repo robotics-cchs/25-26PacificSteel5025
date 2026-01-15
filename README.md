@@ -31,3 +31,13 @@ Programming tasks:
 6. Update Motor Controllers: Kraken, TalonSRX
 7. Update PDP
 
+Controllers:
+ - Left Joystick: Left and Right movement
+ - Right Joystick: Forward and Backward movement
+ - Left Trigger: Intake
+ - Right Trigger: Shoot
+ - Left Button: Agiatation
+ - Right Button: Processor
+ - Y Button: Up Climb
+ - A Button: Down Climb
+
