@@ -22,5 +22,12 @@ Software: Github, 2026 WPILib VS Code
   - 40...59 -> other motor controllers
   - 60...69 -> pneumatics
 
-
+Programming tasks:
+1. Update Tan Laptop: WPI, Game Tools Computer, 
+2. Update Blue Laptop
+3. Update Gaming Laptop: GT, Computer
+4. Update Roborios: R2, R3
+5. Update Radios
+6. Update Motor Controllers: Kraken, TalonSRX
+7. Update PDP
 
