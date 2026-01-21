@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -23,13 +24,14 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final int motorOnePort = 22;
-  private final int motorTwoPort = 23;
+  private final int motorOnePort = 32;
+  private final int motorTwoPort = 33;
   private final int controllerOnePort = 0;
 
   private final TalonSRX motorOne = new TalonSRX(motorOnePort);
   private final TalonSRX motorTwo = new TalonSRX(motorTwoPort);
-  private final XboxController controllerOne = new XboxController(controllerOnePort);
+ // private final XboxController controllerOne = new XboxController(controllerOnePort);
+  private final Joystick joystickOne = new Joystick(controllerOnePort);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -94,8 +96,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    motorOne.set(TalonSRXControlMode.PercentOutput, controllerOne.getRawAxis(0));
-    motorTwo.set(TalonSRXControlMode.PercentOutput, controllerOne.getRawAxis(0));
+    motorOne.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(0));
+    motorTwo.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(1));
   }
 
   /** This function is called once when the robot is disabled. */

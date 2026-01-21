@@ -24,8 +24,8 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final int motorOnePort = 21;
-  private final int joystickOnePort = 0;
+  private final int motorOnePort = 31;
+  private final int joystickOnePort = 1;
 
 
   private final TalonSRX motorOne = new TalonSRX(motorOnePort);
