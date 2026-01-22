@@ -6,6 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,13 +28,22 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final int motorOnePort = 32;
-  private final int motorTwoPort = 33;
-  private final int controllerOnePort = 0;
+  private final int tsrxMotorOnePort = 32; //Need to adjust as necessary
+  private final int tsrxMotorTwoPort = 33; //Need to adjust as necessary
+  private final int tfxMotorOnePort = 21; //Need to adjust as necessary
+  private final int tfxMotorTwoPort = 22; //Need to adjust as necessary
+  private final int controllerOnePort = 1;
+  private final int joystickOnePort = 0;
 
-  private final TalonSRX motorOne = new TalonSRX(motorOnePort);
-  private final TalonSRX motorTwo = new TalonSRX(motorTwoPort);
- // private final XboxController controllerOne = new XboxController(controllerOnePort);
+
+  private final TalonSRX tsrxMotorOne = new TalonSRX(tsrxMotorOnePort);
+  private final TalonSRX tsrxMotorTwo = new TalonSRX(tsrxMotorTwoPort);
+  private final TalonFX tfxMotorOne = new TalonFX(tfxMotorOnePort);
+  private final TalonFX tfxMotorTwo = new TalonFX(tfxMotorTwoPort);
+
+  private final MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
+
+  private final XboxController controllerOne = new XboxController(controllerOnePort);
   private final Joystick joystickOne = new Joystick(controllerOnePort);
 
   /**
@@ -42,10 +55,18 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    motorOne.configFactoryDefault();
-    motorTwo.configFactoryDefault();
-    motorOne.setInverted(true);
-    motorTwo.setInverted(false);
+    tsrxMotorOne.configFactoryDefault();
+    tsrxMotorTwo.configFactoryDefault();
+    tfxMotorOne.getConfigurator().apply(new TalonFXConfiguration());
+    tfxMotorTwo.getConfigurator().apply(new TalonFXConfiguration());
+
+    tsrxMotorOne.setInverted(false); //need to adjust as necessary
+    tsrxMotorTwo.setInverted(false); //need to adjust as necessary
+
+    motorConfiguration.Inverted = InvertedValue.Clockwise_Positive; 
+    tfxMotorOne.getConfigurator().apply(motorConfiguration);
+    tfxMotorTwo.getConfigurator().apply(motorConfiguration);
+    
   }
 
   /**
@@ -96,15 +117,19 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    motorOne.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(0));
-    motorTwo.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(1));
+    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(0));
+    tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(1));
+    tfxMotorOne.set(controllerOne.getRawAxis(4));
+    tfxMotorTwo.set(controllerOne.getRawAxis(5));
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    motorOne.set(TalonSRXControlMode.PercentOutput,0);
-    motorTwo.set(TalonSRXControlMode.PercentOutput,0);
+    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput,0);
+    tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput,0);
+    tfxMotorOne.set(0);
+    tfxMotorTwo.set(0);
   }
 
   /** This function is called periodically when disabled. */
