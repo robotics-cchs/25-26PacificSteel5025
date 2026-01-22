@@ -6,6 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,12 +28,19 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final int motorOnePort = 21;
+  private final int tsrxMotorOnePort = 31; //Need to adjust
+  private final int tfxMotorOnePort = 30; //Need to adjust
+
   private final int joystickOnePort = 0;
+  private final int xboxControllerOnePort = 1;
 
+  private final MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
 
-  private final TalonSRX motorOne = new TalonSRX(motorOnePort);
-  private final XboxController controllerOne = new XboxController(joystickOnePort);
+  private final TalonSRX tsrxMotorOne = new TalonSRX(tsrxMotorOnePort);
+  private final TalonFX tfxMotorOne = new TalonFX(tfxMotorOnePort);
+  
+  private final Joystick joystickOne = new Joystick(joystickOnePort);
+  private final XboxController controllerOne = new XboxController(xboxControllerOnePort);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,8 +51,12 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    motorOne.configFactoryDefault();
-    motorOne.setInverted(true);
+    tsrxMotorOne.configFactoryDefault();
+    tsrxMotorOne.setInverted(true);
+
+    tfxMotorOne.getConfigurator().apply(new TalonFXConfiguration());
+    motorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    tfxMotorOne.getConfigurator().apply(motorConfigs);
   }
 
   /**
@@ -92,13 +107,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    motorOne.set(TalonSRXControlMode.PercentOutput, controllerOne.getRawAxis(0));
+    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, controllerOne.getRawAxis(0));
+    tfxMotorOne.set(controllerOne.getRawAxis(1));
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    motorOne.set(TalonSRXControlMode.PercentOutput, 0);
+    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, 0);
+    tfxMotorOne.set(0);
   }
 
   /** This function is called periodically when disabled. */
