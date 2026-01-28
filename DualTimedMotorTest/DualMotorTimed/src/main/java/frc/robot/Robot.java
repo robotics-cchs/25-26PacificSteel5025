@@ -14,6 +14,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,10 +31,15 @@ public class Robot extends TimedRobot {
 
   private final int tsrxMotorOnePort = 32; //Need to adjust as necessary
   private final int tsrxMotorTwoPort = 33; //Need to adjust as necessary
-  private final int tfxMotorOnePort = 21; //Need to adjust as necessary
+
+  private final int tfxMotorOnePort = 51; //Need to adjust as necessary
   private final int tfxMotorTwoPort = 22; //Need to adjust as necessary
-  private final int controllerOnePort = 1;
-  private final int joystickOnePort = 0;
+
+  private final int controllerOnePort = 0; //Need to adjust as necessary
+  private final int joystickOnePort = 1; //Need to adjust as necessary
+
+  private final int MAX_SHOOTERSPEED_COUNT = 5;
+  private final int MIN_SHOOTERSPEED_COUNT = 0;
 
 
   private final TalonSRX tsrxMotorOne = new TalonSRX(tsrxMotorOnePort);
@@ -45,6 +51,14 @@ public class Robot extends TimedRobot {
 
   private final XboxController controllerOne = new XboxController(controllerOnePort);
   private final Joystick joystickOne = new Joystick(controllerOnePort);
+
+  private int shooterSpeedCounter = 0;
+  private int controllerDPadValue = 0;
+
+  private double tsrxMotorOneSpeed = 0;
+  private double tsrxMotorTwoSpeed = 0;
+  private double tfxMotorOneSpeed = 0;
+  private double tfxMotorTwoSpeed = 0;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -117,10 +131,63 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(0));
-    tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput, joystickOne.getRawAxis(1));
-    tfxMotorOne.set(controllerOne.getRawAxis(4));
-    tfxMotorTwo.set(controllerOne.getRawAxis(5));
+    tsrxMotorOneSpeed = joystickOne.getRawAxis(0);
+    tsrxMotorTwoSpeed = joystickOne.getRawAxis(1);
+    tfxMotorOneSpeed = controllerOne.getRawAxis(4);
+    tfxMotorTwoSpeed = controllerOne.getRawAxis(5);
+    
+    controllerDPadValue = controllerOne.getPOV();
+
+    SmartDashboard.putNumber("TSRX Motor One", tsrxMotorOneSpeed);
+    SmartDashboard.putNumber("TSRX Motor Two", tsrxMotorTwoSpeed);
+    SmartDashboard.putNumber("TFX Motor One", tfxMotorOneSpeed);
+    SmartDashboard.putNumber("TFX Motor Two", tfxMotorTwoSpeed);
+    SmartDashboard.putNumber("D-Pad POV", controllerDPadValue);
+    SmartDashboard.putNumber("Shooter Counter", shooterSpeedCounter);
+
+    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, tsrxMotorOneSpeed);
+    tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput, tsrxMotorTwoSpeed);
+    tfxMotorTwo.set(tfxMotorTwoSpeed);
+
+    if(controllerOne.getXButtonPressed() && shooterSpeedCounter != MAX_SHOOTERSPEED_COUNT) {
+      SmartDashboard.putBoolean("X Button Pressed", controllerOne.getXButtonPressed());
+      shooterSpeedCounter++;
+      switch(shooterSpeedCounter) {
+        case 1:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
+        break;
+        case 2:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
+        break;
+        case 3:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
+        break;
+        case 4:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
+        break; 
+      }
+      tfxMotorOne.set(tfxMotorOneSpeed);
+    }
+
+    if(controllerOne.getAButtonPressed() && shooterSpeedCounter != MIN_SHOOTERSPEED_COUNT) {
+      SmartDashboard.putBoolean("A Button Pressed", controllerOne.getAButtonPressed());
+      shooterSpeedCounter--;
+      switch(shooterSpeedCounter) {
+        case 1:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
+        break;
+        case 2:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
+        break;
+        case 3:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
+        break;
+        case 4:
+        tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
+        break; 
+      }
+      tfxMotorOne.set(tfxMotorOneSpeed);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
