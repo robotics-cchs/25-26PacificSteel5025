@@ -154,17 +154,17 @@ public class Robot extends TimedRobot {
       shooterSpeedCounter++;
       switch(shooterSpeedCounter) {
         case 1:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
+          break;
         case 2:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
+          break;
         case 3:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
+          break;
         case 4:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
-        break; 
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
+          break; 
       }
       tfxMotorOne.set(tfxMotorOneSpeed);
     }
@@ -174,17 +174,17 @@ public class Robot extends TimedRobot {
       shooterSpeedCounter--;
       switch(shooterSpeedCounter) {
         case 1:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
+          break;
         case 2:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
+          break;
         case 3:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
+          break;
         case 4:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
-        break; 
+          tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
+          break; 
       }
       tfxMotorOne.set(tfxMotorOneSpeed);
     }
