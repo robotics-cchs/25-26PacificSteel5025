@@ -35,26 +35,26 @@ public class Constants {
         // Swerve Drive Ports: 30 ... 39
         
         // Misc MC Ports: 40 ... 59
-        public static final int MCPort40 = 40;
-        public static final int MCPort41 = 41;
-        public static final int MCPort42 = 42;
-        public static final int MCPort43 = 43;
-        public static final int MCPort44 = 44;
-        public static final int MCPort45 = 45;
-        public static final int MCPort46 = 46;
-        public static final int MCPort47 = 47;
-        public static final int MCPort48 = 48;
-        public static final int MCPort49 = 49;
-        public static final int MCPort50 = 50;
-        public static final int MCPort51 = 51;
-        public static final int MCPort52 = 52;
-        public static final int MCPort53 = 53;
-        public static final int MCPort54 = 54;
-        public static final int MCPort55 = 55;
-        public static final int MCPort56 = 56;
-        public static final int MCPort57 = 57;
-        public static final int MCPort58 = 58;
-        public static final int MCPort59 = 59;
+        public static final int tsrxPort40 = 40;
+        public static final int tsrxPort41 = 41;
+        public static final int tsrxPort42 = 42;
+        public static final int tsrxPort43 = 43;
+        public static final int tsrxPort44 = 44;
+        public static final int tsrxPort45 = 45;
+        public static final int tsrxPort46 = 46;
+        public static final int tsrxPort47 = 47;
+        public static final int tsrxPort48 = 48;
+        public static final int tsrxPort49 = 49;
+        public static final int tsrxPort50 = 50;
+        public static final int tfxPort51 = 51;
+        public static final int tfxPort52 = 52;
+        public static final int tfxPort53 = 53;
+        public static final int tfxPort54 = 54;
+        public static final int tfxPort55 = 55;
+        public static final int tfxPort56 = 56;
+        public static final int tfxPort57 = 57;
+        public static final int tfxPort58 = 58;
+        public static final int tfxPort59 = 59;
        
         // Pneumatics Ports: 60 ... 69
         public static final int pneumaticPort60 = 60;
@@ -79,21 +79,25 @@ public class Constants {
         public static final AnalogEncoder absEncoder = new AnalogEncoder(absEncoderChannelA);
         public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
 
-        // Initialize Non-Swerve MotorControllers
-        public static final TalonSRX sLeftShooterMotor = new TalonSRX(MCPort40); //Running during entire comp.
-        public static final TalonSRX sRightShooterMotor = new TalonSRX(MCPort41); //Running during entire comp.
+        // Initialize TalonSRX Non-Swerve MotorControllers
+        public static final TalonSRX sLeftShooterMotor = new TalonSRX(tsrxPort40); //Running during entire comp.
+        public static final TalonSRX sRightShooterMotor = new TalonSRX(tsrxPort41); //Running during entire comp.
 
-        public static final TalonSRX sLeftIntakeMotor = new TalonSRX(MCPort42);
-        public static final TalonSRX sRightIntakeMotor = new TalonSRX(MCPort43);
+        public static final TalonSRX sLeftIntakeMotor = new TalonSRX(tsrxPort42);
+        public static final TalonSRX sRightIntakeMotor = new TalonSRX(tsrxPort43);
 
-        public static final TalonSRX sLeftIntakeLifterMotor = new TalonSRX(MCPort44);
-        public static final TalonSRX sRightIntakeLifterMotor = new TalonSRX(MCPort45);
+        public static final TalonSRX sLeftIntakeLifterMotor = new TalonSRX(tsrxPort44);
+        public static final TalonSRX sRightIntakeLifterMotor = new TalonSRX(tsrxPort45);
 
-        public static final TalonSRX sLeftConveyorMotor = new TalonSRX(MCPort46);
-        public static final TalonSRX sRightConveyorMotor = new TalonSRX(MCPort47);
+        public static final TalonSRX sLeftConveyorMotor = new TalonSRX(tsrxPort46);
+        public static final TalonSRX sRightConveyorMotor = new TalonSRX(tsrxPort47);
 
-        public static final TalonSRX sLeftKickerMotor = new TalonSRX(MCPort48);
-        public static final TalonSRX sRightKickerMotor = new TalonSRX(MCPort49);
+        public static final TalonSRX sLeftKickerMotor = new TalonSRX(tsrxPort48);
+        public static final TalonSRX sRightKickerMotor = new TalonSRX(tsrxPort49);
+        public static final TalonSRX randomMotor = new TalonSRX(tsrxPort50);
+
+        // Initialize TalonFX Non-Swerve Motor Controllers
+
         
         // Initialize Pneumatics
 
