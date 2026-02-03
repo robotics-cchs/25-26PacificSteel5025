@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
   private final int controllerOnePort = 0; //Need to adjust as necessary
   private final int joystickOnePort = 1; //Need to adjust as necessary
 
-  private final int MAX_SHOOTERSPEED_COUNT = 5;
+  private final int MAX_SHOOTERSPEED_COUNT = 4;
   private final int MIN_SHOOTERSPEED_COUNT = 0;
 
 
@@ -57,8 +57,8 @@ public class Robot extends TimedRobot {
 
   private double tsrxMotorOneSpeed = 0;
   private double tsrxMotorTwoSpeed = 0;
-  private double tfxMotorOneSpeed = 0;
-  private double tfxMotorTwoSpeed = 0;
+  private double tfxMotorOneSpeed = 0.01;
+  private double tfxMotorTwoSpeed = 0;  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -133,7 +133,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     tsrxMotorOneSpeed = joystickOne.getRawAxis(0);
     tsrxMotorTwoSpeed = joystickOne.getRawAxis(1);
-    tfxMotorOneSpeed = controllerOne.getRawAxis(4);
+    // tfxMotorOneSpeed = controllerOne.getRawAxis(4);
     tfxMotorTwoSpeed = controllerOne.getRawAxis(5);
     
     controllerDPadValue = controllerOne.getPOV();
@@ -147,56 +147,58 @@ public class Robot extends TimedRobot {
 
     tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, tsrxMotorOneSpeed);
     tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput, tsrxMotorTwoSpeed);
+    tfxMotorOne.set(tfxMotorOneSpeed);
     tfxMotorTwo.set(tfxMotorTwoSpeed);
 
     if(controllerOne.getXButtonPressed() && shooterSpeedCounter != MAX_SHOOTERSPEED_COUNT) {
-      SmartDashboard.putBoolean("X Button Pressed", controllerOne.getXButtonPressed());
       shooterSpeedCounter++;
       switch(shooterSpeedCounter) {
         case 1:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed + 0.25);
+          break;
         case 2:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed + 0.25);
+          break;
         case 3:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed + 0.25);
+          break;
         case 4:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
-        break; 
+          tfxMotorOneSpeed = (tfxMotorOneSpeed + 0.25);
+          break; 
       }
-      tfxMotorOne.set(tfxMotorOneSpeed);
     }
 
-    if(controllerOne.getAButtonPressed() && shooterSpeedCounter != MIN_SHOOTERSPEED_COUNT) {
-      SmartDashboard.putBoolean("A Button Pressed", controllerOne.getAButtonPressed());
+    if(controllerOne.getAButtonPressed() && shooterSpeedCounter != MIN_SHOOTERSPEED_COUNT) { 
       shooterSpeedCounter--;
       switch(shooterSpeedCounter) {
+        case 0:
+          tfxMotorOneSpeed = (tfxMotorOneSpeed - 0.25);
+          break;
         case 1:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.25);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed - 0.25);
+          break;
         case 2:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.50);
-        break;
+          tfxMotorOneSpeed = (tfxMotorOneSpeed - 0.25);
+          break;
         case 3:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 0.75);
-        break;
-        case 4:
-        tfxMotorOneSpeed = (tfxMotorOneSpeed * 1.00);
-        break; 
+          tfxMotorOneSpeed = (tfxMotorOneSpeed - 0.25);
+          break; 
       }
-      tfxMotorOne.set(tfxMotorOneSpeed);
     }
   }
 
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
-    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput,0);
-    tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput,0);
-    tfxMotorOne.set(0);
-    tfxMotorTwo.set(0);
+    tsrxMotorOneSpeed = 0;
+    tsrxMotorTwoSpeed = 0;
+    tfxMotorOneSpeed = 0;
+    tfxMotorTwoSpeed = 0;
+
+    tsrxMotorOne.set(TalonSRXControlMode.PercentOutput, tsrxMotorOneSpeed);
+    tsrxMotorTwo.set(TalonSRXControlMode.PercentOutput, tsrxMotorTwoSpeed);
+    tfxMotorOne.set(tfxMotorOneSpeed);
+    tfxMotorTwo.set(tfxMotorTwoSpeed);
   }
 
   /** This function is called periodically when disabled. */
