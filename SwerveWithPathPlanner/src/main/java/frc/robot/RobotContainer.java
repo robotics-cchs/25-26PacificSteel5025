@@ -26,7 +26,12 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 public class RobotContainer {
-    private double MaxSpeed = 1.0 * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    double sped = 0;
+    double slowSpeed = 0.25;
+    double fullSpeed = 1.00;
+    
+    // CHANGE TO EITHER: slowSpeed or fullSpeed AND DEPLOY SS
+    private double MaxSpeed = slowSpeed * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -52,7 +57,6 @@ public class RobotContainer {
 
         configureBindings();
         CameraServer.startAutomaticCapture(0);
-        CameraServer.startAutomaticCapture(1);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
     }
@@ -63,9 +67,12 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                drive.withVelocityX(joystick.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
+                    .withVelocityY(joystick.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                // drive.withVelocityX(joystick.getLeftY() * MaxSpeed * (1-sped)) // Drive forward with negative Y (forward)
+                //     .withVelocityY(joystick.getLeftX() * MaxSpeed * (1-sped)) // Drive left with negative X (left)
+                //     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -87,6 +94,15 @@ public class RobotContainer {
         joystick.povDown().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         );
+        if (joystick.povLeft().getAsBoolean()) {
+            sped = .6666;
+        } else {
+            if (joystick.povRight().getAsBoolean()) {
+                sped = .3333;
+            } else {
+                sped = 0;
+            }
+        }
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -96,7 +112,7 @@ public class RobotContainer {
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // Reset the field-centric heading on left bumper press.
-        joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        // joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
