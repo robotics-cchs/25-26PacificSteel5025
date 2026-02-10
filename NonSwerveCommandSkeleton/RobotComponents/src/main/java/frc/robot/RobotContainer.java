@@ -4,15 +4,58 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.OperatorConstants;
+
+import frc.robot.commands.ConveyorForwardCommand;
+import frc.robot.commands.ConveyorReverseCommand;
+import frc.robot.commands.IntakeInCommand;
+import frc.robot.commands.IntakeOutCommand;
+import frc.robot.commands.KickerCommand;
+import frc.robot.commands.ShooterCommand;
+
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RobotContainer {
+  // The robots subsystems and commands are defined below
+  private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
+  private final DrivetrainSubsystem m_driveSubsystem = new DrivetrainSubsystem();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  
+  // The robotics controllers are defined below
+  private final CommandXboxController m_xboxControllerOne = new CommandXboxController(OperatorConstants.controllerOnePort);
+  private final CommandXboxController m_xboxControllerTwo = new CommandXboxController(OperatorConstants.controllerTwoPort);
+  private final CommandJoystick m_joystickOne = new CommandJoystick(OperatorConstants.joystickOnePort);
+  private final CommandJoystick m_joystickTwo = new CommandJoystick(OperatorConstants.joystickTwoPort);
+
+  // A chooser for autonomous commands
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+
   public RobotContainer() {
     configureBindings();
+    CameraServer.startAutomaticCapture();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    // Bindings will need to be configured based on need
+    m_xboxControllerOne.a().whileTrue(new ConveyorForwardCommand(m_conveyorSubsystem));
+    m_xboxControllerOne.x().whileTrue(new ConveyorReverseCommand(m_conveyorSubsystem));
+    m_xboxControllerOne.y().whileTrue(new IntakeInCommand(m_intakeSubsystem));
+    m_xboxControllerOne.b().whileTrue(new IntakeOutCommand(m_intakeSubsystem));
+    m_xboxControllerTwo.a().whileTrue(new KickerCommand(m_kickerSubsystem));
+    m_xboxControllerTwo.x().whileTrue(new ShooterCommand(m_shooterSubsystem));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
