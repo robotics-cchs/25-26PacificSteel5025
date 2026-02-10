@@ -11,6 +11,8 @@ import frc.robot.subsystems.ConveyorSubsystem;
 public class ConveyorReverseCommand extends Command {
   private final ConveyorSubsystem m_conveyorSubsystem;
 
+  private double conveyorReverseSpeed;
+
   /** Creates a new ConveyorReverseCommand. */
   public ConveyorReverseCommand(ConveyorSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,15 +22,22 @@ public class ConveyorReverseCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    conveyorReverseSpeed = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    m_conveyorSubsystem.conveyorReverseSpeed(conveyorReverseSpeed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if(interrupted) { m_conveyorSubsystem.stop(); }
+  }
 
   // Returns true when the command should end.
   @Override

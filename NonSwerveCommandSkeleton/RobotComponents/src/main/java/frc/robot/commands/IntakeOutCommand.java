@@ -11,6 +11,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeOutCommand extends Command {
   private final IntakeSubsystem m_intakeSubsystem;
 
+  private double intakeOutSpeed;
+
   /** Creates a new IntakeOutCommand. */
   public IntakeOutCommand(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -20,15 +22,22 @@ public class IntakeOutCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intakeOutSpeed = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    m_intakeSubsystem.intakeOutSpeed(intakeOutSpeed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if(interrupted) { m_intakeSubsystem.stop(); }
+  }
 
   // Returns true when the command should end.
   @Override

@@ -1,9 +1,11 @@
 package frc.robot;
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// the WPILib BSD license file in the root directory of this project.=
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
@@ -35,7 +37,7 @@ public class Constants {
         
         // Swerve Drive Ports: 30 ... 39
         
-        // Misc MC Ports: 40 ... 59
+        // TalonSRX MotorController Ports: 40 ... 49
         public static final int tsrxPort40 = 40;
         public static final int tsrxPort41 = 41;
         public static final int tsrxPort42 = 42;
@@ -46,7 +48,9 @@ public class Constants {
         public static final int tsrxPort47 = 47;
         public static final int tsrxPort48 = 48;
         public static final int tsrxPort49 = 49;
-        public static final int tsrxPort50 = 50;
+
+        // TalonFX MotorController Ports: 50 ... 59
+        public static final int tfxPort50 = 50;
         public static final int tfxPort51 = 51;
         public static final int tfxPort52 = 52;
         public static final int tfxPort53 = 53;
@@ -69,6 +73,12 @@ public class Constants {
         public static final int pneumaticPort68 = 68;
         public static final int pneumaticPort69 = 69;
 
+        // Initialize Motor Configuration
+        // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
+        // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
+        public static MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
+        public static TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
+
         // Initialize Controllers/Joysticks.
         public static final Joystick joystickOne = new Joystick(joystickOnePort);
         public static final Joystick joystickTwo = new Joystick(joystickTwoPort);
@@ -80,27 +90,38 @@ public class Constants {
         public static final AnalogEncoder absEncoder = new AnalogEncoder(absEncoderChannelA);
         public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
 
-        // Initialize TalonSRX Non-Swerve MotorControllers
-        public static final TalonSRX sLeftShooterMotor = new TalonSRX(tsrxPort40); //Running during entire comp.
-        public static final TalonSRX sRightShooterMotor = new TalonSRX(tsrxPort41); //Running during entire comp.
+        // Initialize TalonSRX MotorControllers
+        public static final TalonSRX tsrxLeftShooterMotor = new TalonSRX(tsrxPort40); //Running during entire comp.
+        public static final TalonSRX tsrxRightShooterMotor = new TalonSRX(tsrxPort41); //Running during entire comp.
 
-        public static final TalonSRX sLeftIntakeMotor = new TalonSRX(tsrxPort42);
-        public static final TalonSRX sRightIntakeMotor = new TalonSRX(tsrxPort43);
+        public static final TalonSRX tsrxLeftIntakeMotor = new TalonSRX(tsrxPort42);
+        public static final TalonSRX tsrxRightIntakeMotor = new TalonSRX(tsrxPort43);
 
-        public static final TalonSRX sLeftIntakeLifterMotor = new TalonSRX(tsrxPort44);
-        public static final TalonSRX sRightIntakeLifterMotor = new TalonSRX(tsrxPort45);
+        public static final TalonSRX tsrxLeftIntakeLifterMotor = new TalonSRX(tsrxPort44);
+        public static final TalonSRX tsrxRightIntakeLifterMotor = new TalonSRX(tsrxPort45);
 
-        public static final TalonSRX sLeftConveyorMotor = new TalonSRX(tsrxPort46);
-        public static final TalonSRX sRightConveyorMotor = new TalonSRX(tsrxPort47);
+        public static final TalonSRX tsrxLeftConveyorMotor = new TalonSRX(tsrxPort46);
+        public static final TalonSRX tsrxRightConveyorMotor = new TalonSRX(tsrxPort47);
 
-        public static final TalonSRX sLeftKickerMotor = new TalonSRX(tsrxPort48);
-        public static final TalonSRX sRightKickerMotor = new TalonSRX(tsrxPort49);
-        public static final TalonSRX randomMotor = new TalonSRX(tsrxPort50);
+        public static final TalonSRX tsrxLeftKickerMotor = new TalonSRX(tsrxPort48);
+        public static final TalonSRX tsrxRightKickerMotor = new TalonSRX(tsrxPort49);
 
         // Initialize TalonFX Non-Swerve Motor Controllers
-        public static final TalonFX motor = new TalonFX(tfxPort51);
+        public static final TalonFX tfxLeftShooterMotor = new TalonFX(tfxPort50);
+        public static final TalonFX tfxRightShooterMotor = new TalonFX(tfxPort51); 
 
-        
+        public static final TalonFX tfxLeftIntakeMotor = new TalonFX(tfxPort52); 
+        public static final TalonFX tfxRightIntakeMotor = new TalonFX(tfxPort53); 
+
+        public static final TalonFX tfxLeftIntakeLifterMotor = new TalonFX(tfxPort54); 
+        public static final TalonFX tfxRightIntakeLifterMotor = new TalonFX(tfxPort55); 
+
+        public static final TalonFX tfxLeftConveyorMotor = new TalonFX(tfxPort56); 
+        public static final TalonFX tfxRightConveyorMotor = new TalonFX(tfxPort57); 
+
+        public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort58); 
+        public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort59); 
+
         // Initialize Pneumatics
 
     }

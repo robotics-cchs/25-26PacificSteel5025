@@ -10,6 +10,8 @@ import frc.robot.subsystems.KickerSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class KickerCommand extends Command {
   private final KickerSubsystem m_kickerSubsystem;
+
+  private double kickerSpeed;
   
   /** Creates a new KickerCommand. */
   public KickerCommand(KickerSubsystem subsystem) {
@@ -20,15 +22,22 @@ public class KickerCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    kickerSpeed = 0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    m_kickerSubsystem.kickerSpeed(kickerSpeed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if(interrupted) { m_kickerSubsystem.stop(); }
+  }
 
   // Returns true when the command should end.
   @Override
