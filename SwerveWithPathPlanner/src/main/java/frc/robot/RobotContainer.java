@@ -18,12 +18,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
-import frc.robot.generated.TunerConstants;
+import frc.robot.constants.SwerveConstants;
+import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
     double sped = 0;
@@ -31,7 +32,7 @@ public class RobotContainer {
     double fullSpeed = 1.00;
     
     // CHANGE TO EITHER: slowSpeed or fullSpeed AND DEPLOY SS
-    private double MaxSpeed = slowSpeed * TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxSpeed = slowSpeed * SwerveConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -45,8 +46,8 @@ public class RobotContainer {
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
-    private final CommandXboxController joystick = new CommandXboxController(0);
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public final CommandSwerveDrivetrain drivetrain = SwerveConstants.createDrivetrain();
+    public final ShooterSubsystem shooter = new ShooterSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -67,12 +68,13 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(joystick.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
-                    .withVelocityY(joystick.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                drive.withVelocityX(OperatorConstants.controllerOne.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
+                    .withVelocityY(OperatorConstants.controllerOne.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
+                    .withRotationalRate(-OperatorConstants.controllerOne.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
                 // drive.withVelocityX(joystick.getLeftY() * MaxSpeed * (1-sped)) // Drive forward with negative Y (forward)
                 //     .withVelocityY(joystick.getLeftX() * MaxSpeed * (1-sped)) // Drive left with negative X (left)
                 //     .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+
             )
         );
 
@@ -83,21 +85,21 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        OperatorConstants.controllerOne.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        OperatorConstants.controllerOne.b().whileTrue(drivetrain.applyRequest(() ->
+            point.withModuleDirection(new Rotation2d(-OperatorConstants.controllerOne.getLeftY(), -OperatorConstants.controllerOne.getLeftX()))
         ));
 
-        joystick.povUp().whileTrue(drivetrain.applyRequest(() ->
+        OperatorConstants.controllerOne.povUp().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.5).withVelocityY(0))
         );
-        joystick.povDown().whileTrue(drivetrain.applyRequest(() ->
+        OperatorConstants.controllerOne.povDown().whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(-0.5).withVelocityY(0))
         );
-        if (joystick.povLeft().getAsBoolean()) {
+        if (OperatorConstants.controllerOne.povLeft().getAsBoolean()) {
             sped = .6666;
         } else {
-            if (joystick.povRight().getAsBoolean()) {
+            if (OperatorConstants.controllerOne.povRight().getAsBoolean()) {
                 sped = .3333;
             } else {
                 sped = 0;
@@ -106,11 +108,11 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
+        OperatorConstants.controllerOne.back().and(OperatorConstants.controllerOne.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        OperatorConstants.controllerOne.back().and(OperatorConstants.controllerOne.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        OperatorConstants.controllerOne.start().and(OperatorConstants.controllerOne.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        OperatorConstants.controllerOne.start().and(OperatorConstants.controllerOne.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        
         // Reset the field-centric heading on left bumper press.
         // joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 

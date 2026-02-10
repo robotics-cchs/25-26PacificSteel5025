@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.constants;
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /** Add your docs here. */
-public class Constants {
+public class MechanismConstants {
     public static class OperatorConstants {
 
         // Controller/Joystick Ports
@@ -72,8 +72,8 @@ public class Constants {
         // Initialize Controllers/Joysticks.
         public static final Joystick joystickOne = new Joystick(joystickOnePort);
         public static final Joystick joystickTwo = new Joystick(joystickTwoPort);
-        public static final XboxController controllerOne = new XboxController(controllerOnePort);
-        public static final XboxController controllerTwo = new XboxController(controllerTwoPort);
+        public static final CommandXboxController controllerOne = new CommandXboxController(controllerOnePort);
+        public static final CommandXboxController controllerTwo = new CommandXboxController(controllerTwoPort);
 
         // Initialize Non-Swerve Encoders
         public static final Encoder quadEncoder = new Encoder(quadEncoderChannelA, quadEncoderChannelB);
