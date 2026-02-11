@@ -24,14 +24,24 @@ public class IntakeSubsystem extends SubsystemBase {
           .withNeutralMode(NeutralModeValue.Brake))
       .withCurrentLimits(
         new CurrentLimitsConfigs()
-          .withStatorCurrentLimit(Amps.of(40))
+          .withStatorCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withStatorCurrentLimitEnable(true))
       .withCurrentLimits(
         new CurrentLimitsConfigs()
-          .withSupplyCurrentLimit(Amps.of(40))
+          .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
     OperatorConstants.motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
+    
+    OperatorConstants.tfxLeftIntakeMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+    OperatorConstants.tfxLeftIntakeLifterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+    OperatorConstants.tfxRightIntakeMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+    OperatorConstants.tfxRightIntakeLifterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+
+    OperatorConstants.tfxLeftIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
+    OperatorConstants.tfxLeftIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
+    OperatorConstants.tfxRightIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
+    OperatorConstants.tfxRightIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
 
     OperatorConstants.tfxLeftIntakeMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
     OperatorConstants.tfxLeftIntakeMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
@@ -46,24 +56,32 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putData("Stator Current", OperatorConstants.tfxLeftIntakeMotor.getStatorCurrent());
-    
-    
-    OperatorConstants.tfxLeftIntakeMotor.getSupplyCurrent();
-  }
-  public void intakeLifterSpeed(double speed) {
 
+  }
+  public void intakeUpSpeed(double speed) {
+    OperatorConstants.tfxLeftIntakeLifterMotor.set(speed);
+    OperatorConstants.tfxRightIntakeLifterMotor.set(speed);
+  }
+
+  public void intakeDownSpeed(double speed) {
+    OperatorConstants.tfxLeftIntakeLifterMotor.set(speed);
+    OperatorConstants.tfxRightIntakeLifterMotor.set(speed);
   }
 
   public void intakeInSpeed(double speed) {
-
+    OperatorConstants.tfxLeftIntakeMotor.set(speed);
+    OperatorConstants.tfxRightIntakeMotor.set(speed);
   }
 
   public void intakeOutSpeed(double speed) {
-
+    OperatorConstants.tfxLeftIntakeMotor.set(speed);
+    OperatorConstants.tfxRightIntakeMotor.set(speed);
   }
 
   public void stop() {
-
+    OperatorConstants.tfxLeftIntakeLifterMotor.set(0);
+    OperatorConstants.tfxRightIntakeLifterMotor.set(0);
+    OperatorConstants.tfxLeftIntakeMotor.set(0);
+    OperatorConstants.tfxRightIntakeMotor.set(0);
   }
 }

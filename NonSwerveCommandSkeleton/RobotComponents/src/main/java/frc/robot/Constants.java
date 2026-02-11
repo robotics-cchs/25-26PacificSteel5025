@@ -73,6 +73,11 @@ public class Constants {
         public static final int pneumaticPort68 = 68;
         public static final int pneumaticPort69 = 69;
 
+        // Constants
+        public static final double MAX_VOLTAGE = 12.2;
+        public static final double MAX_AMPS = 60;
+        public static final boolean SET_SAFETY = true;
+
         // Initialize Motor Configuration
         // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
         // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html

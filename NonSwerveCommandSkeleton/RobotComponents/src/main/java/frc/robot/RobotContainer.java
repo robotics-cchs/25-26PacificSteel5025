@@ -14,8 +14,10 @@ import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.commands.ConveyorForwardCommand;
 import frc.robot.commands.ConveyorReverseCommand;
+import frc.robot.commands.IntakeDownCommand;
 import frc.robot.commands.IntakeInCommand;
 import frc.robot.commands.IntakeOutCommand;
+import frc.robot.commands.IntakeUpCommand;
 import frc.robot.commands.KickerCommand;
 import frc.robot.commands.ShooterCommand;
 
@@ -51,8 +53,12 @@ public class RobotContainer {
     // Bindings will need to be configured based on need
     m_xboxControllerOne.a().whileTrue(new ConveyorForwardCommand(m_conveyorSubsystem));
     m_xboxControllerOne.x().whileTrue(new ConveyorReverseCommand(m_conveyorSubsystem));
-    m_xboxControllerOne.y().whileTrue(new IntakeInCommand(m_intakeSubsystem));
-    m_xboxControllerOne.b().whileTrue(new IntakeOutCommand(m_intakeSubsystem));
+
+    m_xboxControllerTwo.a().whileTrue(new IntakeInCommand(m_intakeSubsystem));
+    m_xboxControllerTwo.b().whileTrue(new IntakeOutCommand(m_intakeSubsystem));
+    m_xboxControllerTwo.leftTrigger().whileTrue(new IntakeDownCommand(m_intakeSubsystem));
+    m_xboxControllerTwo.rightTrigger().whileTrue(new IntakeUpCommand(m_intakeSubsystem));
+
     m_xboxControllerTwo.a().whileTrue(new KickerCommand(m_kickerSubsystem));
     m_xboxControllerTwo.x().whileTrue(new ShooterCommand(m_shooterSubsystem));
   }
