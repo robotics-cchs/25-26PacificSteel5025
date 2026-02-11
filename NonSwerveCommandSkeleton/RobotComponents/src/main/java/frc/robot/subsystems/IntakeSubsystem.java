@@ -56,8 +56,17 @@ public class IntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Left Intake Lifter", OperatorConstants.tfxLeftIntakeLifterMotor.get());
+    SmartDashboard.putNumber("Right Intake Lifter", OperatorConstants.tfxRightIntakeLifterMotor.get());
+    SmartDashboard.putNumber("Left Intake", OperatorConstants.tfxLeftIntakeMotor.get());
+    SmartDashboard.putNumber("Right Intake", OperatorConstants.tfxRightIntakeMotor.get());
 
+    SmartDashboard.putBoolean("Left Intake Lifter Safety", OperatorConstants.tfxLeftIntakeLifterMotor.isSafetyEnabled());
+    SmartDashboard.putBoolean("Right Intake Lifter Safety", OperatorConstants.tfxRightIntakeLifterMotor.isSafetyEnabled());
+    SmartDashboard.putBoolean("Left Intake", OperatorConstants.tfxLeftIntakeMotor.isSafetyEnabled());
+    SmartDashboard.putBoolean("Right Intake", OperatorConstants.tfxRightIntakeMotor.isSafetyEnabled());
   }
+
   public void intakeUpSpeed(double speed) {
     OperatorConstants.tfxLeftIntakeLifterMotor.set(speed);
     OperatorConstants.tfxRightIntakeLifterMotor.set(speed);
