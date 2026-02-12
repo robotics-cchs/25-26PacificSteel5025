@@ -28,6 +28,10 @@ public class Constants {
         // Swerve Encoder Ports: 00 ... 09
         
         // Misc Encoder Ports: 10 ... 19
+        /**
+         * Values can not be all 0 otherwise it throws an error and does not allow
+         * for program to be initiated on Roborio
+         */
         public static final int quadEncoderChannelA = 0;
         public static final int quadEncoderChannelB = 1;
         public static final int absEncoderChannelA = 2;
@@ -76,13 +80,14 @@ public class Constants {
         // Constants
         public static final double MAX_VOLTAGE = 12.2;
         public static final double MAX_AMPS = 50;
-        public static final boolean SET_SAFETY = true;
+        public static final boolean SET_SAFETY_TRUE = true;
 
-        // Initialize Motor Configuration
-        // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
-        // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
-        public static MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
-        public static TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
+        // Constant Speeds
+        public static final double MAX_CONVEYOR_SPEED = 0.125;
+        public static final double MAX_INTAKE_SPEED = 0.125;
+        public static final double MAX_INTAKELIFTER_SPEED = 0.125;
+        public static final double MAX_KICKER_SPEED = 0.125;
+        public static final double MAX_SHOOTER_SPEED = 0.125;
 
         // Initialize Controllers/Joysticks.
         public static final Joystick joystickOne = new Joystick(joystickOnePort);
@@ -96,36 +101,32 @@ public class Constants {
         public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
 
         // Initialize TalonSRX MotorControllers
-        public static final TalonSRX tsrxLeftShooterMotor = new TalonSRX(tsrxPort40); //Running during entire comp.
-        public static final TalonSRX tsrxRightShooterMotor = new TalonSRX(tsrxPort41); //Running during entire comp.
+        // public static final TalonSRX tsrxLeftShooterMotor = new TalonSRX(tsrxPort40);
+        // public static final TalonSRX tsrxRightShooterMotor = new TalonSRX(tsrxPort41); 
 
-        public static final TalonSRX tsrxLeftIntakeMotor = new TalonSRX(tsrxPort42);
-        public static final TalonSRX tsrxRightIntakeMotor = new TalonSRX(tsrxPort43);
+        // public static final TalonSRX tsrxLeftIntakeMotor = new TalonSRX(tsrxPort42);
+        // public static final TalonSRX tsrxRightIntakeMotor = new TalonSRX(tsrxPort43);
 
-        public static final TalonSRX tsrxLeftIntakeLifterMotor = new TalonSRX(tsrxPort44);
-        public static final TalonSRX tsrxRightIntakeLifterMotor = new TalonSRX(tsrxPort45);
+        // public static final TalonSRX tsrxLeftIntakeLifterMotor = new TalonSRX(tsrxPort44);
+        // public static final TalonSRX tsrxRightIntakeLifterMotor = new TalonSRX(tsrxPort45);
 
-        public static final TalonSRX tsrxLeftConveyorMotor = new TalonSRX(tsrxPort46);
-        public static final TalonSRX tsrxRightConveyorMotor = new TalonSRX(tsrxPort47);
+        // public static final TalonSRX tsrxLeftConveyorMotor = new TalonSRX(tsrxPort46);
+        // public static final TalonSRX tsrxRightConveyorMotor = new TalonSRX(tsrxPort47);
 
-        public static final TalonSRX tsrxLeftKickerMotor = new TalonSRX(tsrxPort48);
-        public static final TalonSRX tsrxRightKickerMotor = new TalonSRX(tsrxPort49);
+        // public static final TalonSRX tsrxLeftKickerMotor = new TalonSRX(tsrxPort48);
+        // public static final TalonSRX tsrxRightKickerMotor = new TalonSRX(tsrxPort49);
 
         // Initialize TalonFX Non-Swerve Motor Controllers
-        public static final TalonFX tfxLeftShooterMotor = new TalonFX(tfxPort50);
-        public static final TalonFX tfxRightShooterMotor = new TalonFX(tfxPort51); 
+        public static final TalonFX tfxLeftShooterMotor = new TalonFX(tfxPort50); // Kraken X60
+        public static final TalonFX tfxRightShooterMotor = new TalonFX(tfxPort51); // Kraken X60
 
-        public static final TalonFX tfxLeftIntakeMotor = new TalonFX(tfxPort52); 
-        public static final TalonFX tfxRightIntakeMotor = new TalonFX(tfxPort53); 
+        public static final TalonFX tfxIntakeMotor = new TalonFX(tfxPort52); // Kraken X44
+        public static final TalonFX tfxIntakeLifterMotor = new TalonFX(tfxPort53); // Kraken X60
 
-        public static final TalonFX tfxLeftIntakeLifterMotor = new TalonFX(tfxPort54); 
-        public static final TalonFX tfxRightIntakeLifterMotor = new TalonFX(tfxPort55); 
+        public static final TalonFX tfxConveyorMotor = new TalonFX(tfxPort54); // Kraken X44
 
-        public static final TalonFX tfxLeftConveyorMotor = new TalonFX(tfxPort56); 
-        public static final TalonFX tfxRightConveyorMotor = new TalonFX(tfxPort57); 
-
-        public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort58); 
-        public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort59); 
+        public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44
+        public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44
 
         // Initialize Pneumatics
 

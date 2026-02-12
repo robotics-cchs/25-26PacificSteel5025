@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -18,7 +19,13 @@ import frc.robot.Constants.OperatorConstants;
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    OperatorConstants.commonConfigs
+    // Initialize Motor Configuration
+    // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
+    // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
+    MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
+    TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
+
+    commonConfigs
       .withMotorOutput(
         new MotorOutputConfigs()
           .withNeutralMode(NeutralModeValue.Coast))
@@ -31,69 +38,49 @@ public class IntakeSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
-    OperatorConstants.motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
+    motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
     
-    OperatorConstants.tfxLeftIntakeMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-    OperatorConstants.tfxLeftIntakeLifterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-    OperatorConstants.tfxRightIntakeMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-    OperatorConstants.tfxRightIntakeLifterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+    OperatorConstants.tfxIntakeMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+    OperatorConstants.tfxIntakeLifterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
 
-    OperatorConstants.tfxLeftIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
-    OperatorConstants.tfxLeftIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
-    OperatorConstants.tfxRightIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
-    OperatorConstants.tfxRightIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
+    OperatorConstants.tfxIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+    OperatorConstants.tfxIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    OperatorConstants.tfxLeftIntakeMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
-    OperatorConstants.tfxLeftIntakeMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
+    OperatorConstants.tfxIntakeMotor.getConfigurator().apply(commonConfigs);
+    OperatorConstants.tfxIntakeMotor.getConfigurator().apply(motorConfiguration);
 
-    OperatorConstants.tfxRightIntakeMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
-    OperatorConstants.tfxRightIntakeMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
-
-    OperatorConstants.tfxLeftIntakeLifterMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
-    OperatorConstants.tfxLeftIntakeLifterMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
-
-    OperatorConstants.tfxRightIntakeLifterMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
-    OperatorConstants.tfxRightIntakeLifterMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
+    OperatorConstants.tfxIntakeLifterMotor.getConfigurator().apply(commonConfigs);
+    OperatorConstants.tfxIntakeLifterMotor.getConfigurator().apply(motorConfiguration);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Left Intake Lifter", OperatorConstants.tfxLeftIntakeLifterMotor.get());
-    SmartDashboard.putNumber("Right Intake Lifter", OperatorConstants.tfxRightIntakeLifterMotor.get());
-    SmartDashboard.putNumber("Left Intake", OperatorConstants.tfxLeftIntakeMotor.get());
-    SmartDashboard.putNumber("Right Intake", OperatorConstants.tfxRightIntakeMotor.get());
+    SmartDashboard.putNumber("Left Intake Lifter", OperatorConstants.tfxIntakeLifterMotor.get());
+    SmartDashboard.putNumber("Left Intake", OperatorConstants.tfxIntakeMotor.get());
 
-    SmartDashboard.putBoolean("Left Intake Lifter Safety", OperatorConstants.tfxLeftIntakeLifterMotor.isSafetyEnabled());
-    SmartDashboard.putBoolean("Right Intake Lifter Safety", OperatorConstants.tfxRightIntakeLifterMotor.isSafetyEnabled());
-    SmartDashboard.putBoolean("Left Intake", OperatorConstants.tfxLeftIntakeMotor.isSafetyEnabled());
-    SmartDashboard.putBoolean("Right Intake", OperatorConstants.tfxRightIntakeMotor.isSafetyEnabled());
+    SmartDashboard.putBoolean("Intake Lifter Safety", OperatorConstants.tfxIntakeLifterMotor.isSafetyEnabled());
+    SmartDashboard.putBoolean("Intake Safety", OperatorConstants.tfxIntakeMotor.isSafetyEnabled());
   }
 
   public void intakeUpSpeed(double speed) {
-    OperatorConstants.tfxLeftIntakeLifterMotor.set(-speed);
-    OperatorConstants.tfxRightIntakeLifterMotor.set(-speed);
+    OperatorConstants.tfxIntakeLifterMotor.set(-speed);
   }
 
   public void intakeDownSpeed(double speed) {
-    OperatorConstants.tfxLeftIntakeLifterMotor.set(speed);
-    OperatorConstants.tfxRightIntakeLifterMotor.set(speed);
+    OperatorConstants.tfxIntakeLifterMotor.set(speed);
   }
 
   public void intakeInSpeed(double speed) {
-    OperatorConstants.tfxLeftIntakeMotor.set(speed);
-    OperatorConstants.tfxRightIntakeMotor.set(speed);
+    OperatorConstants.tfxIntakeMotor.set(speed);
   }
 
   public void intakeOutSpeed(double speed) {
-    OperatorConstants.tfxLeftIntakeMotor.set(-speed);
-    OperatorConstants.tfxRightIntakeMotor.set(-speed);
+    OperatorConstants.tfxIntakeMotor.set(-speed);
   }
 
   public void stop() {
-    OperatorConstants.tfxLeftIntakeLifterMotor.set(0);
-    OperatorConstants.tfxRightIntakeLifterMotor.set(0);
-    OperatorConstants.tfxLeftIntakeMotor.set(0);
-    OperatorConstants.tfxRightIntakeMotor.set(0);
+    OperatorConstants.tfxIntakeLifterMotor.set(0);
+    OperatorConstants.tfxIntakeMotor.set(0);
   }
 }

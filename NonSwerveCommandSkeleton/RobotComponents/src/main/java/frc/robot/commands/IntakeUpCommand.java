@@ -5,13 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeUpCommand extends Command {
   private final IntakeSubsystem m_intakeSubsystem;
 
-  private double intakeLifterSpeed;
+  private double intakeUpSpeed;
   
   /** Creates a new IntakeUpCommand. */
   public IntakeUpCommand(IntakeSubsystem subsystem) {
@@ -23,14 +24,14 @@ public class IntakeUpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeLifterSpeed = 0;
+    intakeUpSpeed = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeLifterSpeed = 0.125;
-    m_intakeSubsystem.intakeUpSpeed(intakeLifterSpeed);
+    intakeUpSpeed = OperatorConstants.MAX_INTAKELIFTER_SPEED;
+    m_intakeSubsystem.intakeUpSpeed(intakeUpSpeed);
   }
 
   // Called once the command ends or is interrupted.

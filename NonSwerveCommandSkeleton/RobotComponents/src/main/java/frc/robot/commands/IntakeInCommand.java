@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -29,7 +30,7 @@ public class IntakeInCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeInSpeed = 0.125;
+    intakeInSpeed = OperatorConstants.MAX_INTAKE_SPEED;
     m_intakeSubsystem.intakeInSpeed(intakeInSpeed);
   }
 

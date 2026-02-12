@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -18,10 +19,16 @@ import frc.robot.Constants.OperatorConstants;
 public class ConveyorSubsystem extends SubsystemBase {
   /** Creates a new ConveyorSubsystem. */ 
   public ConveyorSubsystem() {
-    OperatorConstants.commonConfigs
+    // Initialize Motor Configuration
+    // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
+    // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
+    MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
+    TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
+    
+    commonConfigs
       .withMotorOutput(
         new MotorOutputConfigs()
-          .withNeutralMode(NeutralModeValue.Brake))
+          .withNeutralMode(NeutralModeValue.Coast))
       .withCurrentLimits(
         new CurrentLimitsConfigs()
           .withStatorCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
@@ -31,43 +38,31 @@ public class ConveyorSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
     
-    OperatorConstants.motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
+    motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
 
-    OperatorConstants.tfxLeftConveyorMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-    OperatorConstants.tfxRightConveyorMotor.setVoltage(OperatorConstants.MAX_VOLTAGE); 
+    OperatorConstants.tfxConveyorMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
+    OperatorConstants.tfxConveyorMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    OperatorConstants.tfxLeftConveyorMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY);
-    OperatorConstants.tfxRightConveyorMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY); 
-
-    OperatorConstants.tfxLeftConveyorMotor.getConfigurator().apply(OperatorConstants.commonConfigs); 
-    OperatorConstants.tfxLeftConveyorMotor.getConfigurator().apply(OperatorConstants.commonConfigs); 
-    OperatorConstants.tfxLeftConveyorMotor.getConfigurator().apply(OperatorConstants.motorConfiguration); 
-    OperatorConstants.tfxLeftConveyorMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
-
+    OperatorConstants.tfxConveyorMotor.getConfigurator().apply(commonConfigs);  
+    OperatorConstants.tfxConveyorMotor.getConfigurator().apply(motorConfiguration); 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Conveyor Left", OperatorConstants.tfxLeftConveyorMotor.get()); 
-    SmartDashboard.putNumber("Conveyor Right", OperatorConstants.tfxRightConveyorMotor.get()); 
-    
-    SmartDashboard.putBoolean("Conveyor Left", OperatorConstants.tfxLeftConveyorMotor.isSafetyEnabled()); 
-    SmartDashboard.putBoolean("Conveyor Right", OperatorConstants.tfxRightConveyorMotor.isSafetyEnabled()); 
+    SmartDashboard.putNumber("Conveyor", OperatorConstants.tfxConveyorMotor.get()); 
+    SmartDashboard.putBoolean("Conveyor", OperatorConstants.tfxConveyorMotor.isSafetyEnabled()); 
   }
 
   public void conveyorForwardSpeed(double speed) {
-    OperatorConstants.tfxLeftConveyorMotor.set(speed);
-    OperatorConstants.tfxRightConveyorMotor.set(speed);
+    OperatorConstants.tfxConveyorMotor.set(speed);
   }
 
   public void conveyorReverseSpeed(double speed) {
-    OperatorConstants.tfxLeftConveyorMotor.set(speed);
-    OperatorConstants.tfxRightConveyorMotor.set(speed);
+    OperatorConstants.tfxConveyorMotor.set(-speed);
   }
 
   public void stop() {
-    OperatorConstants.tfxLeftConveyorMotor.set(0);
-    OperatorConstants.tfxRightConveyorMotor.set(0);
+    OperatorConstants.tfxConveyorMotor.set(0);
   }
 }
