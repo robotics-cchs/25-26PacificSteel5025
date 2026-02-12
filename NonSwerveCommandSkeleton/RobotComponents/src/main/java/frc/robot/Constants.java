@@ -128,7 +128,5 @@ public class Constants {
         public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44
         public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44
 
-        // Initialize Pneumatics
-
     }
 }
