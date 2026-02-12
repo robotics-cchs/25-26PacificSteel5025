@@ -29,7 +29,7 @@ public class IntakeOutCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeOutSpeed = 0.3;
+    intakeOutSpeed = 0.125;
     m_intakeSubsystem.intakeOutSpeed(intakeOutSpeed);
   }
 

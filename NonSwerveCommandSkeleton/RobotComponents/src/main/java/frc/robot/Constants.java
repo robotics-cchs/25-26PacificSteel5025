@@ -20,8 +20,8 @@ public class Constants {
     public static class OperatorConstants {
 
         // Controller/Joystick Ports
-        public static final int controllerOnePort = 0;
-        public static final int controllerTwoPort = 1;
+        public static final int controllerOnePort = 1;
+        public static final int controllerTwoPort = 0;
         public static final int joystickOnePort = 2;
         public static final int joystickTwoPort = 3;
 
@@ -30,8 +30,8 @@ public class Constants {
         // Misc Encoder Ports: 10 ... 19
         public static final int quadEncoderChannelA = 0;
         public static final int quadEncoderChannelB = 1;
-        public static final int absEncoderChannelA = 0;
-        public static final int dceEncoderChannelA = 0;
+        public static final int absEncoderChannelA = 2;
+        public static final int dceEncoderChannelA = 3;
 
         // Swerve Turn Ports: 20 ... 29
         
@@ -75,7 +75,7 @@ public class Constants {
 
         // Constants
         public static final double MAX_VOLTAGE = 12.2;
-        public static final double MAX_AMPS = 60;
+        public static final double MAX_AMPS = 50;
         public static final boolean SET_SAFETY = true;
 
         // Initialize Motor Configuration

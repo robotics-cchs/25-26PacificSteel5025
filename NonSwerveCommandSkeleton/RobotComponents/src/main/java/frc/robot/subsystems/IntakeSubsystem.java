@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
     OperatorConstants.commonConfigs
       .withMotorOutput(
         new MotorOutputConfigs()
-          .withNeutralMode(NeutralModeValue.Brake))
+          .withNeutralMode(NeutralModeValue.Coast))
       .withCurrentLimits(
         new CurrentLimitsConfigs()
           .withStatorCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
@@ -47,9 +47,12 @@ public class IntakeSubsystem extends SubsystemBase {
     OperatorConstants.tfxLeftIntakeMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
 
     OperatorConstants.tfxRightIntakeMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
-    OperatorConstants.tfxLeftIntakeMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
+    OperatorConstants.tfxRightIntakeMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
 
     OperatorConstants.tfxLeftIntakeLifterMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
+    OperatorConstants.tfxLeftIntakeLifterMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
+
+    OperatorConstants.tfxRightIntakeLifterMotor.getConfigurator().apply(OperatorConstants.commonConfigs);
     OperatorConstants.tfxRightIntakeLifterMotor.getConfigurator().apply(OperatorConstants.motorConfiguration);
   }
 
@@ -68,8 +71,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeUpSpeed(double speed) {
-    OperatorConstants.tfxLeftIntakeLifterMotor.set(speed);
-    OperatorConstants.tfxRightIntakeLifterMotor.set(speed);
+    OperatorConstants.tfxLeftIntakeLifterMotor.set(-speed);
+    OperatorConstants.tfxRightIntakeLifterMotor.set(-speed);
   }
 
   public void intakeDownSpeed(double speed) {
@@ -83,8 +86,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeOutSpeed(double speed) {
-    OperatorConstants.tfxLeftIntakeMotor.set(speed);
-    OperatorConstants.tfxRightIntakeMotor.set(speed);
+    OperatorConstants.tfxLeftIntakeMotor.set(-speed);
+    OperatorConstants.tfxRightIntakeMotor.set(-speed);
   }
 
   public void stop() {

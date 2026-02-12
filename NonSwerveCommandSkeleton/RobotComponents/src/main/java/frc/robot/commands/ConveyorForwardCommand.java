@@ -29,7 +29,7 @@ public class ConveyorForwardCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorForwardSpeed = 0.3;
+    conveyorForwardSpeed = 0.125;
     m_conveyorSubsystem.conveyorForwardSpeed(conveyorForwardSpeed);
   }
 

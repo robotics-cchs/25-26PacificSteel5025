@@ -31,7 +31,7 @@ public class ConveyorSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
     
-    OperatorConstants.motorConfiguration.Inverted = InvertedValue.CounterClockwise_Positive;
+    OperatorConstants.motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
 
     OperatorConstants.tfxLeftConveyorMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
     OperatorConstants.tfxRightConveyorMotor.setVoltage(OperatorConstants.MAX_VOLTAGE); 
@@ -67,6 +67,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-
+    OperatorConstants.tfxLeftConveyorMotor.set(0);
+    OperatorConstants.tfxRightConveyorMotor.set(0);
   }
 }
