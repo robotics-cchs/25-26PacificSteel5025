@@ -24,7 +24,18 @@ public class IntakeInCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_intakeSubsystem.forward();
+    if (m_intakeSubsystem.intakeDir == -1) {
+      m_intakeSubsystem.toggle(true);
+    }
+    else if (!m_intakeSubsystem.currentToggleStatus) {
+      m_intakeSubsystem.toggle(true);
+    }
+    else {
+      m_intakeSubsystem.toggle(false);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

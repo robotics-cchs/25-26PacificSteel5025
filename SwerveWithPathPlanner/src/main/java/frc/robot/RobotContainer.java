@@ -12,6 +12,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.cameraserver.CameraServer;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,9 +21,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.commands.ConveyorForwardCommand;
+import frc.robot.commands.ConveyorReverseCommand;
+import frc.robot.commands.IntakeInCommand;
+import frc.robot.commands.IntakeOutCommand;
+import frc.robot.commands.KickerCommand;
+import frc.robot.commands.KickerDownCommand;
+import frc.robot.commands.KickerUpCommand;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.ShooterDecCommand;
+import frc.robot.commands.ShooterIncCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.telemetry.Telemetry;
 
@@ -32,8 +46,13 @@ public class RobotContainer {
     double fullSpeed = 1.00;
     
     // CHANGE TO EITHER: slowSpeed or fullSpeed AND DEPLOY SS
-    private double MaxSpeed = slowSpeed * SwerveConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+    private double MaxSpeed = fullSpeed * SwerveConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
+
+    private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
+    private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+    private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
+    private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -47,7 +66,6 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     public final CommandSwerveDrivetrain drivetrain = SwerveConstants.createDrivetrain();
-    public final ShooterSubsystem shooter = new ShooterSubsystem();
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -55,8 +73,21 @@ public class RobotContainer {
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+        
+        // Register Commands to Pathplanner
+        NamedCommands.registerCommand("Shooter Toggle Command", new ShooterCommand(m_shooterSubsystem));
+        NamedCommands.registerCommand("Shooter Decrese Speed Command", new ShooterDecCommand(m_shooterSubsystem));
+        NamedCommands.registerCommand("Shooter Increase Speed Command", new ShooterIncCommand(m_shooterSubsystem));
+        NamedCommands.registerCommand("Kicker Toggle Command", new KickerCommand(m_kickerSubsystem));
+        NamedCommands.registerCommand("Kicker Set Down Command", new KickerDownCommand(m_kickerSubsystem));
+        NamedCommands.registerCommand("Kicker Set Up Command", new KickerUpCommand(m_kickerSubsystem));
+        NamedCommands.registerCommand("Intake Toggle In Command", new IntakeInCommand(m_intakeSubsystem));//
+        NamedCommands.registerCommand("Intake Toggle Out Command", new IntakeOutCommand(m_intakeSubsystem));//
+        NamedCommands.registerCommand("Conveyor Toggle Forward Command", new ConveyorForwardCommand(m_conveyorSubsystem));//
+        NamedCommands.registerCommand("Conveyor Toggle Reverse Command", new ConveyorReverseCommand(m_conveyorSubsystem));//
 
         configureBindings();
+
         CameraServer.startAutomaticCapture(0);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();

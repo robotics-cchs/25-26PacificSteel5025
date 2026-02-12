@@ -25,7 +25,7 @@ public class KickerDownCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_kickerSubsystem.dec();
+    m_kickerSubsystem.dec(); // Requests a decrease to motor speed
   }
 
   // Called once the command ends or is interrupted.

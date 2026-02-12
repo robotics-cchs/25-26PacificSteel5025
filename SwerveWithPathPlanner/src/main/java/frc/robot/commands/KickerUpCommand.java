@@ -25,7 +25,7 @@ public class KickerUpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_kickerSubsystem.inc();
+    m_kickerSubsystem.inc(); // Requests a increase to motor speed
   }
 
   // Called once the command ends or is interrupted.

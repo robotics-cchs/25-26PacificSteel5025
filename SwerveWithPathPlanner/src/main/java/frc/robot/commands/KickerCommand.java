@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.subsystems.KickerSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -26,7 +25,7 @@ public class KickerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Math.abs(OperatorConstants.sLeftKickerMotor.getMotorOutputVoltage())>0) {
+    if (m_kickerSubsystem.currentToggleStatus) {
       m_kickerSubsystem.toggle(false);// Toggles the motor off
     } else {
       m_kickerSubsystem.toggle(true);// Toggles the motor on

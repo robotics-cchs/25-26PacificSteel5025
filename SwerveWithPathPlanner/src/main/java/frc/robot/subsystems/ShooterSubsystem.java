@@ -4,29 +4,34 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  double shootSpeed = .5;
+  public double shootSpeed = .5;
+  public boolean currentToggleStatus = false;
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
-    OperatorConstants.sLeftShooterMotor.configFactoryDefault();
-    OperatorConstants.sLeftShooterMotor.setInverted(true);
-    OperatorConstants.sRightShooterMotor.configFactoryDefault();
-    OperatorConstants.sRightShooterMotor.setInverted(false);
+    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
+    OperatorConstants.krkLeftKickerMotor.setVoltage(OperatorConstants.maxVoltage);
+    OperatorConstants.krkLeftKickerMotor.setSafetyEnabled(true);
+    OperatorConstants.krkRightKickerMotor.setVoltage(OperatorConstants.maxVoltage);
+    OperatorConstants.krkRightKickerMotor.setSafetyEnabled(true);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Right Conveyor Motor",OperatorConstants.krkRightConveyorMotor.getMotorVoltage().getValueAsDouble());
+    SmartDashboard.putNumber("Left Conveyor Motor",OperatorConstants.krkLeftConveyorMotor.getMotorVoltage().getValueAsDouble());
+    SmartDashboard.putBoolean("Current Conveyor Toggle Status", currentToggleStatus);
   }
 
   public void toggle(Boolean toggle) {
-    OperatorConstants.sLeftShooterMotor.set(TalonSRXControlMode.PercentOutput, toggle?shootSpeed:0); // Sets the speed to shootSpeed when toggled
-    OperatorConstants.sRightShooterMotor.set(TalonSRXControlMode.PercentOutput, toggle?shootSpeed:0); // Sets the speed to shootSpeed when toggled
+    OperatorConstants.krkLeftShooterMotor.set(toggle?shootSpeed:0); // Sets the speed to shootSpeed when toggled
+    OperatorConstants.krkRightShooterMotor.set(toggle?shootSpeed:0); // Sets the speed to shootSpeed when toggled
+    currentToggleStatus = toggle;
   }
 
   public void inc() {
@@ -37,7 +42,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    OperatorConstants.sLeftShooterMotor.set(TalonSRXControlMode.PercentOutput, 0); // Zeroes the speed
-    OperatorConstants.sRightShooterMotor.set(TalonSRXControlMode.PercentOutput, 0); // Zeroes the speed
+    OperatorConstants.krkLeftShooterMotor.stopMotor(); // Zeroes the speed
+    OperatorConstants.krkRightShooterMotor.stopMotor(); // Zeroes the speed
   }
 }

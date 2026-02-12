@@ -24,7 +24,18 @@ public class ConveyorReverseCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_conveyorSubsystem.reverse();
+    if (m_conveyorSubsystem.conveyorDir == 1) {
+      m_conveyorSubsystem.toggle(true);
+    }
+    else if (!m_conveyorSubsystem.currentToggleStatus) {
+      m_conveyorSubsystem.toggle(true);
+    }
+    else {
+      m_conveyorSubsystem.toggle(false);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

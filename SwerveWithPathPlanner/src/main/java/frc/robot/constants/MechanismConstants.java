@@ -3,8 +3,13 @@ package frc.robot.constants;
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import static edu.wpi.first.units.Units.Amps;
+
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -17,6 +22,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class MechanismConstants {
     public static class OperatorConstants {
 
+
+        public static final double maxVoltage = 12.2;
+        public static final double maxCurrentSupply = 60;
+        public static final double maxCurrentStator = 60;
         // Controller/Joystick Ports
         public static final int controllerOnePort = 0;
         public static final int controllerTwoPort = 1;
@@ -36,17 +45,17 @@ public class MechanismConstants {
         // Swerve Drive Ports: 30 ... 39
         
         // Misc MC Ports: 40 ... 59
-        public static final int tsrxPort40 = 40;
-        public static final int tsrxPort41 = 41;
-        public static final int tsrxPort42 = 42;
-        public static final int tsrxPort43 = 43;
-        public static final int tsrxPort44 = 44;
-        public static final int tsrxPort45 = 45;
-        public static final int tsrxPort46 = 46;
-        public static final int tsrxPort47 = 47;
-        public static final int tsrxPort48 = 48;
-        public static final int tsrxPort49 = 49;
-        public static final int tsrxPort50 = 50;
+        public static final int tfxPort40 = 40;
+        public static final int tfxPort41 = 41;
+        public static final int tfxPort42 = 42;
+        public static final int tfxPort43 = 43;
+        public static final int tfxPort44 = 44;
+        public static final int tfxPort45 = 45;
+        public static final int tfxPort46 = 46;
+        public static final int tfxPort47 = 47;
+        public static final int tfxPort48 = 48;
+        public static final int tfxPort49 = 49;
+        public static final int tfxPort50 = 50;
         public static final int tfxPort51 = 51;
         public static final int tfxPort52 = 52;
         public static final int tfxPort53 = 53;
@@ -80,27 +89,47 @@ public class MechanismConstants {
         public static final AnalogEncoder absEncoder = new AnalogEncoder(absEncoderChannelA);
         public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
 
-        // Initialize TalonSRX Non-Swerve MotorControllers
-        public static final TalonSRX sLeftShooterMotor = new TalonSRX(tsrxPort40); //Running during entire comp.
-        public static final TalonSRX sRightShooterMotor = new TalonSRX(tsrxPort41); //Running during entire comp.
+        // Initialize TalonFX Non-Swerve MotorControllers
+        public static final TalonFX krkLeftShooterMotor = new TalonFX(tfxPort40); //Running during entire comp.
+        public static final TalonFX krkRightShooterMotor = new TalonFX(tfxPort41); //Running during entire comp.
 
-        public static final TalonSRX sLeftIntakeMotor = new TalonSRX(tsrxPort42);
-        public static final TalonSRX sRightIntakeMotor = new TalonSRX(tsrxPort43);
+        public static final TalonFX krkLeftIntakeMotor = new TalonFX(tfxPort42);
+        public static final TalonFX krkRightIntakeMotor = new TalonFX(tfxPort43);
 
-        public static final TalonSRX sLeftIntakeLifterMotor = new TalonSRX(tsrxPort44);
-        public static final TalonSRX sRightIntakeLifterMotor = new TalonSRX(tsrxPort45);
+        public static final TalonFX krkLeftIntakeLifterMotor = new TalonFX(tfxPort44);
+        public static final TalonFX krkRightIntakeLifterMotor = new TalonFX(tfxPort45);
 
-        public static final TalonSRX sLeftConveyorMotor = new TalonSRX(tsrxPort46);
-        public static final TalonSRX sRightConveyorMotor = new TalonSRX(tsrxPort47);
+        public static final TalonFX krkLeftConveyorMotor = new TalonFX(tfxPort46);
+        public static final TalonFX krkRightConveyorMotor = new TalonFX(tfxPort47);
 
-        public static final TalonSRX sLeftKickerMotor = new TalonSRX(tsrxPort48);
-        public static final TalonSRX sRightKickerMotor = new TalonSRX(tsrxPort49);
-        public static final TalonSRX randomMotor = new TalonSRX(tsrxPort50);
+        public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort48);
+        public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort49);
+        public static final TalonFX randomMotor = new TalonFX(tfxPort50);
 
         // Initialize TalonFX Non-Swerve Motor Controllers
         public static final TalonFX motor = new TalonFX(tfxPort51);
-
         
+        public static final TalonFXConfiguration defaultConfig = new TalonFXConfiguration().withCurrentLimits(
+            new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(Amps.of(maxCurrentStator)) // Makes stator current limits
+                .withStatorCurrentLimitEnable(true) // Enables the current limits
+                .withSupplyCurrentLimit(Amps.of(maxCurrentSupply)) // Makes supply current limits
+                .withSupplyCurrentLimitEnable(true) // Enables the current limits
+        ).withMotorOutput(
+            new MotorOutputConfigs()
+                .withInverted(InvertedValue.Clockwise_Positive) // Says to not inverse the motor
+        );
+        public static final TalonFXConfiguration invertedDefaultConfig = new TalonFXConfiguration().withCurrentLimits(
+            new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(Amps.of(maxCurrentStator)) // Makes stator current limits
+                .withStatorCurrentLimitEnable(true) // Enables the current limits
+                .withSupplyCurrentLimit(Amps.of(maxCurrentSupply)) // Makes supply current limits
+                .withSupplyCurrentLimitEnable(true) // Enables the current limits
+        ).withMotorOutput(
+            new MotorOutputConfigs()
+                .withInverted(InvertedValue.CounterClockwise_Positive) // Says to inverse the motor
+        );
+
         // Initialize Pneumatics
 
     }
