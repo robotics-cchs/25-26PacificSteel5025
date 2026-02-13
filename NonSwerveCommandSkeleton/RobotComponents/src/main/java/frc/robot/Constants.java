@@ -64,18 +64,6 @@ public class Constants {
         public static final int tfxPort57 = 57;
         public static final int tfxPort58 = 58;
         public static final int tfxPort59 = 59;
-       
-        // Pneumatics Ports: 60 ... 69
-        public static final int pneumaticPort60 = 60;
-        public static final int pneumaticPort61 = 61;
-        public static final int pneumaticPort62 = 62;
-        public static final int pneumaticPort63 = 63;
-        public static final int pneumaticPort64 = 64;
-        public static final int pneumaticPort65 = 65;
-        public static final int pneumaticPort66 = 66;
-        public static final int pneumaticPort67 = 67;
-        public static final int pneumaticPort68 = 68;
-        public static final int pneumaticPort69 = 69;
 
         // Constants
         public static final double MAX_VOLTAGE = 12.2;
@@ -127,6 +115,5 @@ public class Constants {
 
         public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44
         public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44
-
     }
 }

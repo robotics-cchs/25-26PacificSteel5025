@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Amps;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -17,14 +18,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class KickerSubsystem extends SubsystemBase {
+  // Initialize Motor Configuration
+  // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
+  // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
+  MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
+  TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
+  VoltageConfigs voltageConfigs = new VoltageConfigs();
+
   /** Creates a new KickerSubsystem. */
   public KickerSubsystem() {
-    // Initialize Motor Configuration
-    // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
-    // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
-    MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
-    TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
-
     commonConfigs
       .withMotorOutput(
         new MotorOutputConfigs()
@@ -38,19 +40,20 @@ public class KickerSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
-    motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
+    motorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+
+    voltageConfigs.PeakForwardVoltage = OperatorConstants.MAX_VOLTAGE;
 
     OperatorConstants.tfxLeftKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
     OperatorConstants.tfxRightKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    OperatorConstants.tfxLeftKickerMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-    OperatorConstants.tfxRightKickerMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-
     OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(motorConfiguration);
+    OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(voltageConfigs);
 
     OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(motorConfiguration);
+    OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(voltageConfigs);
   }
 
   @Override
@@ -61,6 +64,9 @@ public class KickerSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("Left Kicker Safety", OperatorConstants.tfxLeftKickerMotor.isSafetyEnabled());
     SmartDashboard.putBoolean("Right Kicker Safety", OperatorConstants.tfxRightKickerMotor.isSafetyEnabled());
+
+    SmartDashboard.putNumber("Left Kicker Voltage", voltageConfigs.PeakForwardVoltage);
+    SmartDashboard.putNumber("Right Kicker Voltage", voltageConfigs.PeakForwardVoltage);
   }
 
   public void kickerSpeed(double speed) {

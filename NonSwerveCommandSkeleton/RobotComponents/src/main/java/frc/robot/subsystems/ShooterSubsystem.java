@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.Amps;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -17,14 +18,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
+  // Initialize Motor Configuration
+  // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
+  // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
+  MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
+  TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
+  VoltageConfigs voltageConfigs = new VoltageConfigs();
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
-    // Initialize Motor Configuration
-    // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
-    // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
-    MotorOutputConfigs motorConfiguration = new MotorOutputConfigs();
-    TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
-    
     commonConfigs
       .withMotorOutput(
         new MotorOutputConfigs()
@@ -38,19 +40,20 @@ public class ShooterSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
-    motorConfiguration.Inverted = InvertedValue.Clockwise_Positive;
+    motorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+
+    voltageConfigs.PeakForwardVoltage = OperatorConstants.MAX_VOLTAGE;
 
     OperatorConstants.tfxLeftShooterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
     OperatorConstants.tfxRightShooterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    OperatorConstants.tfxLeftShooterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-    OperatorConstants.tfxRightShooterMotor.setVoltage(OperatorConstants.MAX_VOLTAGE);
-
     OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(motorConfiguration);
+    OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(voltageConfigs);
 
     OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(motorConfiguration);
+    OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(voltageConfigs);
   }
 
   @Override
@@ -61,6 +64,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("Left Shooter Safety", OperatorConstants.tfxLeftShooterMotor.isSafetyEnabled());
     SmartDashboard.putBoolean("Right Shooter Safety", OperatorConstants.tfxRightShooterMotor.isSafetyEnabled());
+
+    SmartDashboard.putNumber("Left Shooter Voltage", voltageConfigs.PeakForwardVoltage);
+    SmartDashboard.putNumber("Right Shooter Voltage", voltageConfigs.PeakForwardVoltage);
   }
 
   public void shooterSpeed(double speed) {
