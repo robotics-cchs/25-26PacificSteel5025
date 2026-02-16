@@ -19,18 +19,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.commands.ConveyorForwardCommand;
-import frc.robot.commands.ConveyorReverseCommand;
-import frc.robot.commands.IntakeInCommand;
-import frc.robot.commands.IntakeOutCommand;
-import frc.robot.commands.KickerCommand;
-import frc.robot.commands.KickerDownCommand;
-import frc.robot.commands.KickerUpCommand;
-import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.ShooterDecCommand;
-import frc.robot.commands.ShooterIncCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -54,6 +45,57 @@ public class RobotContainer {
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
+    // All requests as variables, and now instead of command files, with a more modern WPIlib style
+    Command toggleShootCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.toggle();
+    }, m_shooterSubsystem);
+
+    Command shooterSpeedUpCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.inc();
+    }, m_shooterSubsystem);
+
+    Command shooterSpeedDownCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.dec();
+    }, m_shooterSubsystem);
+
+    Command toggleKickerCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.toggle();
+    }, m_kickerSubsystem);
+
+    Command kickerSpeedUpCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.inc();
+    }, m_kickerSubsystem);
+
+    Command kickerSpeedDownCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.dec();
+    }, m_kickerSubsystem);
+
+    // Intake commands
+    Command toggleIntakeCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.toggle();
+    }, m_intakeSubsystem);
+
+    Command intakeForwardCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.forward();
+    }, m_intakeSubsystem);
+
+    Command intakeReverseCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.reverse();
+    }, m_intakeSubsystem);
+
+    // Conveyor commands
+    Command toggleConveyorCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.toggle();
+    }, m_conveyorSubsystem);
+
+    Command conveyorForwardCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.forward();
+    }, m_conveyorSubsystem);
+
+    Command conveyorReverseCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.reverse();
+    }, m_conveyorSubsystem);
+
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -71,28 +113,34 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        configureAutoBindings();
+        configureBindings();
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
-        
-        // Register Commands to Pathplanner
-        NamedCommands.registerCommand("Shooter Toggle Command", new ShooterCommand(m_shooterSubsystem));
-        NamedCommands.registerCommand("Shooter Decrese Speed Command", new ShooterDecCommand(m_shooterSubsystem));
-        NamedCommands.registerCommand("Shooter Increase Speed Command", new ShooterIncCommand(m_shooterSubsystem));
-        NamedCommands.registerCommand("Kicker Toggle Command", new KickerCommand(m_kickerSubsystem));
-        NamedCommands.registerCommand("Kicker Set Down Command", new KickerDownCommand(m_kickerSubsystem));
-        NamedCommands.registerCommand("Kicker Set Up Command", new KickerUpCommand(m_kickerSubsystem));
-        NamedCommands.registerCommand("Intake Toggle In Command", new IntakeInCommand(m_intakeSubsystem));//
-        NamedCommands.registerCommand("Intake Toggle Out Command", new IntakeOutCommand(m_intakeSubsystem));//
-        NamedCommands.registerCommand("Conveyor Toggle Forward Command", new ConveyorForwardCommand(m_conveyorSubsystem));//
-        NamedCommands.registerCommand("Conveyor Toggle Reverse Command", new ConveyorReverseCommand(m_conveyorSubsystem));//
-
-        configureBindings();
 
         CameraServer.startAutomaticCapture(0);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
     }
+    private void configureAutoBindings() {
+        // Register commands
+        NamedCommands.registerCommand("ToggleShoot", toggleShootCommand);
+        NamedCommands.registerCommand("ShooterSpeedUp", shooterSpeedUpCommand);
+        NamedCommands.registerCommand("ShooterSpeedDown", shooterSpeedDownCommand);
 
+        NamedCommands.registerCommand("ToggleKicker", toggleKickerCommand);
+        NamedCommands.registerCommand("KickerSpeedUp", kickerSpeedUpCommand);
+        NamedCommands.registerCommand("KickerSpeedDown", kickerSpeedDownCommand);
+
+        NamedCommands.registerCommand("ToggleIntake", toggleIntakeCommand);
+        NamedCommands.registerCommand("IntakeForward", intakeForwardCommand);
+        NamedCommands.registerCommand("IntakeReverse", intakeReverseCommand);
+
+        NamedCommands.registerCommand("ToggleConveyor", toggleConveyorCommand);
+        NamedCommands.registerCommand("ConveyorForward", conveyorForwardCommand);
+        NamedCommands.registerCommand("ConveyorReverse", conveyorReverseCommand);
+    }
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.

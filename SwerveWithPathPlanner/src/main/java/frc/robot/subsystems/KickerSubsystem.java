@@ -9,15 +9,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class KickerSubsystem extends SubsystemBase {
-  public double shootSpeed = .5;
-  public boolean currentToggleStatus = false;
-  /** Creates a new ShooterSubsystem. */
+  double shootSpeed = .5;
+  boolean currentToggleStatus = false;
+  /** Creates a new KickerSubsystem. */
   public KickerSubsystem() {
     OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
-    OperatorConstants.krkLeftKickerMotor.setVoltage(OperatorConstants.maxVoltage);
     OperatorConstants.krkLeftKickerMotor.setSafetyEnabled(true);
-    OperatorConstants.krkRightKickerMotor.setVoltage(OperatorConstants.maxVoltage);
     OperatorConstants.krkRightKickerMotor.setSafetyEnabled(true);
   }
 
@@ -26,12 +24,12 @@ public class KickerSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Kicker Motor",OperatorConstants.krkRightKickerMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Left Kicker Motor",OperatorConstants.krkLeftKickerMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Current Kicker Toggle Status", currentToggleStatus);
+    OperatorConstants.krkLeftKickerMotor.set(shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
+    OperatorConstants.krkRightKickerMotor.set(shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
   }
 
-  public void toggle(Boolean toggle) {
-    OperatorConstants.krkLeftKickerMotor.set(toggle?shootSpeed:0); // Sets the speed to shootSpeed when toggled
-    OperatorConstants.krkRightKickerMotor.set(toggle?shootSpeed:0); // Sets the speed to shootSpeed when toggled
-    currentToggleStatus = toggle;
+  public void toggle() {
+    currentToggleStatus = !currentToggleStatus;
   }
 
   public void inc() {
@@ -42,7 +40,6 @@ public class KickerSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    OperatorConstants.krkLeftKickerMotor.stopMotor(); // Zeroes the speed
-    OperatorConstants.krkRightKickerMotor.stopMotor(); // Zeroes the speed
+    currentToggleStatus = false;
   }
 }
