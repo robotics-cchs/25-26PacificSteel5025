@@ -30,7 +30,7 @@ public class ConveyorReverseCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorReverseSpeed = OperatorConstants.MAX_CONVEYOR_SPEED;
+    conveyorReverseSpeed = OperatorConstants.INIT_CONVEYOR_SPEED;
     m_conveyorSubsystem.conveyorReverseSpeed(conveyorReverseSpeed);
   }
 

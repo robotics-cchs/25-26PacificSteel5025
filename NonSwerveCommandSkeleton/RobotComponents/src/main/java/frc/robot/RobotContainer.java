@@ -52,17 +52,23 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Bindings will need to be configured based on need
-    m_xboxControllerOne.b().whileTrue(new DriveCommand(m_driveSubsystem)); // Drivetrain On
-    m_xboxControllerOne.y().whileTrue(new DriveCommand(m_driveSubsystem)); // Speed Up
-    m_xboxControllerOne.a().whileTrue(new DriveCommand(m_driveSubsystem)); // Speed Down
+    // Controller One Bindings
+    m_xboxControllerOne.b().onChange(new ShooterCommand(m_shooterSubsystem)); // Activate/Deactivate Shooter
+    m_xboxControllerOne.y().whileTrue(new ShooterCommand(m_shooterSubsystem)); // Increase shooter speed by 0.025
+    m_xboxControllerOne.a().whileTrue(new ShooterCommand(m_shooterSubsystem)); // Decrease shooter speed by 0.025
 
-    m_xboxControllerTwo.a().whileTrue(new IntakeInCommand(m_intakeSubsystem)); // Activate Intake
-    m_xboxControllerTwo.b().whileTrue(new IntakeOutCommand(m_intakeSubsystem)); // Deactivate Intake
-    m_xboxControllerTwo.leftTrigger().whileTrue(new IntakeDownCommand(m_intakeSubsystem)); // Intake Down
-    m_xboxControllerTwo.rightTrigger().whileTrue(new IntakeUpCommand(m_intakeSubsystem)); // Intake Up
-
-    m_xboxControllerTwo.a().whileTrue(new KickerCommand(m_kickerSubsystem));
-    m_xboxControllerTwo.x().whileTrue(new ShooterCommand(m_shooterSubsystem));
+    m_xboxControllerOne.rightBumper().whileTrue(new KickerCommand(m_kickerSubsystem)); // On & Off push ball towards into shooter
+    m_xboxControllerOne.leftBumper().whileTrue(new KickerCommand(m_kickerSubsystem)); // On & Off push ball away from shooter
+    
+     // Controller Two Bindings
+    m_xboxControllerTwo.x().onChange(new IntakeInCommand(m_intakeSubsystem)); // Activate/Deactivate Intake
+    m_xboxControllerTwo.a().whileTrue(new IntakeDownCommand(m_intakeSubsystem)); // Intake Down
+    m_xboxControllerTwo.y().whileTrue(new IntakeUpCommand(m_intakeSubsystem)); // Intake Up
+    
+    m_xboxControllerTwo.b().onChange(new ConveyorForwardCommand(m_conveyorSubsystem)); // Activate/Deactivate Conveyor
+    m_xboxControllerTwo.rightBumper().whileTrue(new ConveyorForwardCommand(m_conveyorSubsystem)); // Move conveyor towards the shooter
+    m_xboxControllerTwo.leftBumper().whileTrue(new ConveyorReverseCommand(m_conveyorSubsystem)); // Move conveyor away from shooter
+   
   }
 
   public Command getAutonomousCommand() {

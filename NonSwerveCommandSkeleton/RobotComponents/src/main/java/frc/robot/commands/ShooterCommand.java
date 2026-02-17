@@ -12,8 +12,12 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShooterCommand extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
 
+  private double speedCounter = OperatorConstants.INIT_SHOOTER_SPEED;
   private double shooterSpeed;
-
+  private boolean shooterActivated;
+  private final double MIN_SPEED_COUNTER = OperatorConstants.INIT_SHOOTER_SPEED;
+  private final double MAX_SPEED_COUNTER = 0.3;
+  
   /** Creates a new ShooterCommand. */
   public ShooterCommand(ShooterSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,13 +29,25 @@ public class ShooterCommand extends Command {
   @Override
   public void initialize() {
     shooterSpeed = 0;
+    shooterActivated = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSpeed = OperatorConstants.MAX_SHOOTER_SPEED;
-    m_shooterSubsystem.shooterSpeed(shooterSpeed);
+    if(OperatorConstants.controllerOne.getBButtonPressed()) {
+      shooterActivated = !shooterActivated;
+    }
+    if(OperatorConstants.controllerOne.getYButtonPressed() && speedCounter != MAX_SPEED_COUNTER) {
+      speedCounter = speedCounter + 0.025;
+    }
+    if(OperatorConstants.controllerOne.getAButtonPressed() && speedCounter != MIN_SPEED_COUNTER) {
+      speedCounter = speedCounter - 0.025;
+    }
+    if(shooterActivated) {
+      shooterSpeed = OperatorConstants.INIT_SHOOTER_SPEED + speedCounter;
+      m_shooterSubsystem.shooterSpeed(shooterSpeed);
+    } 
   }
 
   // Called once the command ends or is interrupted.

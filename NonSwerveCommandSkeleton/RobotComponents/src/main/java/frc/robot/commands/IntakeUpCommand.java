@@ -30,7 +30,7 @@ public class IntakeUpCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeUpSpeed = OperatorConstants.MAX_INTAKELIFTER_SPEED;
+    intakeUpSpeed = OperatorConstants.INIT_INTAKELIFTER_SPEED;
     m_intakeSubsystem.intakeUpSpeed(intakeUpSpeed);
   }
 
