@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -44,6 +45,9 @@ public class ShooterCommand extends Command {
     if(OperatorConstants.controllerOne.getAButtonPressed() && speedCounter != MIN_SPEED_COUNTER) {
       speedCounter = speedCounter - 0.025;
     }
+
+    SmartDashboard.putBoolean("Shooter Activated", shooterActivated);
+
     if(shooterActivated) {
       shooterSpeed = OperatorConstants.INIT_SHOOTER_SPEED + speedCounter;
       m_shooterSubsystem.shooterSpeed(shooterSpeed);
