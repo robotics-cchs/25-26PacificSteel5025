@@ -146,11 +146,15 @@ public class Robot extends TimedRobot {
       }
     }
     if (controllerOne.getXButtonPressed()) {
-      if (toggleShooter==0) {
-        toggleShooter = 1;
+      toggleShooter = toggleShooter++;
+      if (toggleShooter <= 24 && toggleShooter != 0) {
+        rightShooter.set(0.4);
+        leftShooter.set(0.4);
       } else {
-        toggleShooter = 0;
+        rightShooter.set(0.4+(.025*(toggleShooter-1)));
+        leftShooter.set(0.4+(.025*(toggleShooter-1)));
       }
+      
     }
     if (controllerOne.getYButtonPressed()) {
       if (toggleIntake==0) {
@@ -163,8 +167,9 @@ public class Robot extends TimedRobot {
     targetVelocity = SmartDashboard.getNumber("Target Speed", 0.5);
     output = pid.calculate(currentVelocity, targetVelocity);
     SmartDashboard.putNumber("PID Output", output);
-    leftShooter.set(-toggleShooter*Math.max(-1.0, Math.min(1.0, output)));
-    rightShooter.set(toggleShooter*Math.max(-1.0, Math.min(1.0, output)));
+    // (I changed something that might not need these next two lines -- line 148 and following)
+    //leftShooter.set(-toggleShooter*Math.max(-1.0, Math.min(1.0, output)));
+    //rightShooter.set(toggleShooter*Math.max(-1.0, Math.min(1.0, output)));
     intake.set(toggleIntake);
     conveyor.set(TalonSRXControlMode.PercentOutput, toggleConveyor);
     kicker.set((controllerOne.getRightBumperButton()?-1:0)*toggleShooter*toggleConveyor);
