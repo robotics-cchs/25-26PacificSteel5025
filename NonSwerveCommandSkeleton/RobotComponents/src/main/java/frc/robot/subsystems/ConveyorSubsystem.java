@@ -54,8 +54,13 @@ public class ConveyorSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Conveyor", OperatorConstants.tfxConveyorMotor.get()); 
-    SmartDashboard.putBoolean("Conveyor", OperatorConstants.tfxConveyorMotor.isSafetyEnabled()); 
     SmartDashboard.putNumber("Conveyor Voltage", voltageConfigs.PeakForwardVoltage);
+    SmartDashboard.putBoolean("Conveyor", OperatorConstants.tfxConveyorMotor.isSafetyEnabled()); 
+    SmartDashboard.putBoolean("Conveyor Activated", OperatorConstants.tfxConveyorMotor.isAlive());
+  }
+
+  public void conveyorSpeed(double speed) {
+    OperatorConstants.tfxConveyorMotor.set(speed);
   }
 
   public void conveyorForwardSpeed(double speed) {

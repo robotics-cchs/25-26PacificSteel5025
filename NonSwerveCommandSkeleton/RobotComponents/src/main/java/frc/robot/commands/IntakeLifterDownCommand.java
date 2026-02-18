@@ -9,13 +9,13 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeUpCommand extends Command {
-  private final IntakeSubsystem m_intakeSubsystem;
-
-  private double intakeUpSpeed;
+public class IntakeLifterDownCommand extends Command {
   
-  /** Creates a new IntakeUpCommand. */
-  public IntakeUpCommand(IntakeSubsystem subsystem) {
+  private final IntakeSubsystem m_intakeSubsystem;
+  private double intakeDownSpeed = OperatorConstants.INIT_INTAKELIFTER_SPEED;
+
+  /** Creates a new IntakeDownCommand. */
+  public IntakeLifterDownCommand(IntakeSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_intakeSubsystem = subsystem;
     addRequirements(m_intakeSubsystem);
@@ -23,15 +23,12 @@ public class IntakeUpCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    intakeUpSpeed = 0;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeUpSpeed = OperatorConstants.INIT_INTAKELIFTER_SPEED;
-    m_intakeSubsystem.intakeUpSpeed(intakeUpSpeed);
+    m_intakeSubsystem.intakeDownSpeed(-intakeDownSpeed);
   }
 
   // Called once the command ends or is interrupted.

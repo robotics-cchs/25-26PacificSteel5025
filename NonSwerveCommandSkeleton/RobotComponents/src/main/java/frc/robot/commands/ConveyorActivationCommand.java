@@ -4,39 +4,52 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class IntakeDownCommand extends Command {
-  private final IntakeSubsystem m_intakeSubsystem;
-
-  private double intakeDownSpeed;
-
-  /** Creates a new IntakeDownCommand. */
-  public IntakeDownCommand(IntakeSubsystem subsystem) {
+public class ConveyorActivationCommand extends Command {
+  
+  private final ConveyorSubsystem m_conveyorSubsystem;
+  private double conveyorSpeed;
+  private boolean conveyorActivated;
+  
+  /** Creates a new ConveyorForwardCommand. */
+  public ConveyorActivationCommand(ConveyorSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_intakeSubsystem = subsystem;
-    addRequirements(m_intakeSubsystem);
+    m_conveyorSubsystem = subsystem;
+    addRequirements(m_conveyorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeDownSpeed = 0;
+    conveyorSpeed = 0;
+    conveyorActivated = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeDownSpeed = OperatorConstants.INIT_INTAKELIFTER_SPEED;
-    m_intakeSubsystem.intakeDownSpeed(intakeDownSpeed);
+    if(OperatorConstants.controllerOne.getBButtonPressed()) {
+      conveyorActivated = !conveyorActivated;
+    }
+
+    SmartDashboard.putBoolean("Conveyor Activated", conveyorActivated);
+
+    if(conveyorActivated) {
+      conveyorSpeed = OperatorConstants.INIT_CONVEYOR_SPEED;
+      m_conveyorSubsystem.conveyorSpeed(conveyorSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    if(interrupted) { m_conveyorSubsystem.stop(); }
+  }
 
   // Returns true when the command should end.
   @Override

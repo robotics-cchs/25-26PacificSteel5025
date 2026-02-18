@@ -21,7 +21,8 @@ public class KickerSubsystem extends SubsystemBase {
   // Initialize Motor Configuration
   // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
   // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
-  MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
+  MotorOutputConfigs leftMotorConfigs = new MotorOutputConfigs();
+  MotorOutputConfigs rightMotorConfigs = new MotorOutputConfigs();
   TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
   VoltageConfigs voltageConfigs = new VoltageConfigs();
 
@@ -40,7 +41,8 @@ public class KickerSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
-    motorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    leftMotorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    rightMotorConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     voltageConfigs.PeakForwardVoltage = OperatorConstants.MAX_VOLTAGE;
 
@@ -48,11 +50,11 @@ public class KickerSubsystem extends SubsystemBase {
     OperatorConstants.tfxRightKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
     OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(leftMotorConfigs);
     OperatorConstants.tfxLeftKickerMotor.getConfigurator().apply(voltageConfigs);
 
     OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(rightMotorConfigs);
     OperatorConstants.tfxRightKickerMotor.getConfigurator().apply(voltageConfigs);
   }
 

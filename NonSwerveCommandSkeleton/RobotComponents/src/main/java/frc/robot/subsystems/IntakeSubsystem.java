@@ -21,7 +21,8 @@ public class IntakeSubsystem extends SubsystemBase {
   // Initialize Motor Configuration
   // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
   // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
-  MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
+  MotorOutputConfigs intakeMotorConfigs = new MotorOutputConfigs();
+  MotorOutputConfigs intakeLifterMotorConfigs = new MotorOutputConfigs();
   TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
   VoltageConfigs voltageConfigs = new VoltageConfigs();
 
@@ -40,7 +41,8 @@ public class IntakeSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
-    motorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    intakeMotorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    intakeLifterMotorConfigs.Inverted = InvertedValue.Clockwise_Positive;
     
     voltageConfigs.PeakForwardVoltage = OperatorConstants.MAX_VOLTAGE;
 
@@ -48,11 +50,11 @@ public class IntakeSubsystem extends SubsystemBase {
     OperatorConstants.tfxIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
     OperatorConstants.tfxIntakeMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxIntakeMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxIntakeMotor.getConfigurator().apply(intakeMotorConfigs);
     OperatorConstants.tfxIntakeMotor.getConfigurator().apply(voltageConfigs);
 
     OperatorConstants.tfxIntakeLifterMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxIntakeLifterMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxIntakeLifterMotor.getConfigurator().apply(intakeLifterMotorConfigs);
     OperatorConstants.tfxIntakeLifterMotor.getConfigurator().apply(voltageConfigs);
   }
 

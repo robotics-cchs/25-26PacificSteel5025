@@ -9,16 +9,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ShooterSpeedCommand extends Command {
+  
   private final ShooterSubsystem m_shooterSubsystem;
-
-  private double shooterSpeed = 0;
-  private final double MIN_SPEED_COUNTER = OperatorConstants.INIT_SHOOTER_SPEED;
-  private final double MAX_SPEED_COUNTER = 0.4;
+  private double shooterSpeed = OperatorConstants.INIT_SHOOTER_SPEED;
+  private double shooterSpeedCount = 0;
+  private final double MIN_SPEED_COUNTER = -16;
+  private final double MAX_SPEED_COUNTER = 26;
 
   /** Creates a new ShooterSpeedCommand. */
   public ShooterSpeedCommand(ShooterSubsystem subsystem) {
@@ -29,22 +27,23 @@ public class ShooterSpeedCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    BigDecimal bd = new BigDecimal(Double.toString(OperatorConstants.tfxLeftShooterMotor.get()));
-    bd = bd.setScale(3, RoundingMode.HALF_DOWN);
-    shooterSpeed = bd.doubleValue();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
    
-    if(OperatorConstants.controllerOne.getYButtonPressed() && shooterSpeed <= MAX_SPEED_COUNTER) {
-      shooterSpeed = shooterSpeed + 0.025;
+    if(OperatorConstants.controllerOne.getYButtonPressed() && shooterSpeedCount < MAX_SPEED_COUNTER) {
+      shooterSpeedCount = shooterSpeedCount + 1;
+      shooterSpeed = (shooterSpeed + 0.025);
     }
-    if(OperatorConstants.controllerOne.getAButtonPressed() && shooterSpeed >= MIN_SPEED_COUNTER) {
-      shooterSpeed = shooterSpeed - 0.025;
+    if(OperatorConstants.controllerOne.getAButtonPressed() && shooterSpeedCount > MIN_SPEED_COUNTER) {
+      shooterSpeedCount = shooterSpeedCount - 1;
+      shooterSpeed = (shooterSpeed - 0.025);
     }
+
+    SmartDashboard.putNumber("Shooter Speed Count", shooterSpeedCount);
+
     if(OperatorConstants.tfxLeftShooterMotor.isAlive() && OperatorConstants.tfxRightShooterMotor.isAlive()) {
       m_shooterSubsystem.shooterSpeed(shooterSpeed);
     }

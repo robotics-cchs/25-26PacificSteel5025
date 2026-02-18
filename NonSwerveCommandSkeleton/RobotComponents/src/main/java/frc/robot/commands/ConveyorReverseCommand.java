@@ -10,9 +10,9 @@ import frc.robot.subsystems.ConveyorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ConveyorReverseCommand extends Command {
+  
   private final ConveyorSubsystem m_conveyorSubsystem;
-
-  private double conveyorReverseSpeed;
+  private double conveyorReverseSpeed = OperatorConstants.INIT_CONVEYOR_SPEED;
 
   /** Creates a new ConveyorReverseCommand. */
   public ConveyorReverseCommand(ConveyorSubsystem subsystem) {
@@ -23,15 +23,12 @@ public class ConveyorReverseCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    conveyorReverseSpeed = 0;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    conveyorReverseSpeed = OperatorConstants.INIT_CONVEYOR_SPEED;
-    m_conveyorSubsystem.conveyorReverseSpeed(conveyorReverseSpeed);
+    m_conveyorSubsystem.conveyorReverseSpeed(-conveyorReverseSpeed);
   }
 
   // Called once the command ends or is interrupted.

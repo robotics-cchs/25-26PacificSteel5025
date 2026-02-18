@@ -10,9 +10,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeOutCommand extends Command {
+  
   private final IntakeSubsystem m_intakeSubsystem;
-
-  private double intakeOutSpeed;
+  private double intakeOutSpeed = OperatorConstants.INIT_INTAKE_SPEED;
 
   /** Creates a new IntakeOutCommand. */
   public IntakeOutCommand(IntakeSubsystem subsystem) {
@@ -23,14 +23,11 @@ public class IntakeOutCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    intakeOutSpeed = 0;
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeOutSpeed = OperatorConstants.INIT_INTAKE_SPEED;
     m_intakeSubsystem.intakeOutSpeed(intakeOutSpeed);
   }
 
