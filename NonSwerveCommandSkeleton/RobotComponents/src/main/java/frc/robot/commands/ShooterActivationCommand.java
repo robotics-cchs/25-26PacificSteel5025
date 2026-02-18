@@ -10,17 +10,14 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ShooterCommand extends Command {
+public class ShooterActivationCommand extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
-
-  private double speedCounter = OperatorConstants.INIT_SHOOTER_SPEED;
+  
   private double shooterSpeed;
   private boolean shooterActivated;
-  private final double MIN_SPEED_COUNTER = OperatorConstants.INIT_SHOOTER_SPEED;
-  private final double MAX_SPEED_COUNTER = 0.3;
-  
+
   /** Creates a new ShooterCommand. */
-  public ShooterCommand(ShooterSubsystem subsystem) {
+  public ShooterActivationCommand(ShooterSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooterSubsystem = subsystem;
     addRequirements(m_shooterSubsystem);
@@ -39,17 +36,11 @@ public class ShooterCommand extends Command {
     if(OperatorConstants.controllerOne.getBButtonPressed()) {
       shooterActivated = !shooterActivated;
     }
-    if(OperatorConstants.controllerOne.getYButtonPressed() && speedCounter != MAX_SPEED_COUNTER) {
-      speedCounter = speedCounter + 0.025;
-    }
-    if(OperatorConstants.controllerOne.getAButtonPressed() && speedCounter != MIN_SPEED_COUNTER) {
-      speedCounter = speedCounter - 0.025;
-    }
 
     SmartDashboard.putBoolean("Shooter Activated", shooterActivated);
 
     if(shooterActivated) {
-      shooterSpeed = OperatorConstants.INIT_SHOOTER_SPEED + speedCounter;
+      shooterSpeed = OperatorConstants.INIT_SHOOTER_SPEED;
       m_shooterSubsystem.shooterSpeed(shooterSpeed);
     } 
   }

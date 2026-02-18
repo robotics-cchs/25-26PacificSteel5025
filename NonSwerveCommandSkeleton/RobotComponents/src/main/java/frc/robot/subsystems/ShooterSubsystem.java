@@ -21,7 +21,8 @@ public class ShooterSubsystem extends SubsystemBase {
   // Initialize Motor Configuration
   // URL: https://v6.docs.ctr-electronics.com/en/latest/docs/api-reference/api-usage/configuration.html
   // URL: https://api.ctr-electronics.com/phoenix6/stable/java/com/ctre/phoenix6/configs/package-summary.html
-  MotorOutputConfigs motorConfigs = new MotorOutputConfigs();
+  MotorOutputConfigs leftMotorConfigs = new MotorOutputConfigs();
+  MotorOutputConfigs rightMotorConfigs = new MotorOutputConfigs();
   TalonFXConfiguration commonConfigs = new TalonFXConfiguration();
   VoltageConfigs voltageConfigs = new VoltageConfigs();
 
@@ -40,7 +41,8 @@ public class ShooterSubsystem extends SubsystemBase {
           .withSupplyCurrentLimit(Amps.of(OperatorConstants.MAX_AMPS))
           .withSupplyCurrentLimitEnable(true));
 
-    motorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    rightMotorConfigs.Inverted = InvertedValue.Clockwise_Positive;
+    leftMotorConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
 
     voltageConfigs.PeakForwardVoltage = OperatorConstants.MAX_VOLTAGE;
 
@@ -48,11 +50,11 @@ public class ShooterSubsystem extends SubsystemBase {
     OperatorConstants.tfxRightShooterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
     OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(leftMotorConfigs);
     OperatorConstants.tfxLeftShooterMotor.getConfigurator().apply(voltageConfigs);
 
     OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(commonConfigs);
-    OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(motorConfigs);
+    OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(rightMotorConfigs);
     OperatorConstants.tfxRightShooterMotor.getConfigurator().apply(voltageConfigs);
   }
 
@@ -64,6 +66,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putBoolean("Left Shooter Safety", OperatorConstants.tfxLeftShooterMotor.isSafetyEnabled());
     SmartDashboard.putBoolean("Right Shooter Safety", OperatorConstants.tfxRightShooterMotor.isSafetyEnabled());
+
+    SmartDashboard.putBoolean("Left Shooter Motor Activate", OperatorConstants.tfxLeftShooterMotor.isAlive());
+    SmartDashboard.putBoolean("Right Shooter Motor Activated", OperatorConstants.tfxRightShooterMotor.isAlive());
 
     SmartDashboard.putNumber("Left Shooter Voltage", voltageConfigs.PeakForwardVoltage);
     SmartDashboard.putNumber("Right Shooter Voltage", voltageConfigs.PeakForwardVoltage);

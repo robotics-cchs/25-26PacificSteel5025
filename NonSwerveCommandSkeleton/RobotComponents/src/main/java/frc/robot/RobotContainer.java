@@ -20,8 +20,8 @@ import frc.robot.commands.IntakeInCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakeUpCommand;
 import frc.robot.commands.KickerCommand;
-import frc.robot.commands.ShooterCommand;
-
+import frc.robot.commands.ShooterActivationCommand;
+import frc.robot.commands.ShooterSpeedCommand;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -53,9 +53,9 @@ public class RobotContainer {
   private void configureBindings() {
     // Bindings will need to be configured based on need
     // Controller One Bindings
-    m_xboxControllerOne.b().onChange(new ShooterCommand(m_shooterSubsystem)); // Activate/Deactivate Shooter
-    m_xboxControllerOne.y().whileTrue(new ShooterCommand(m_shooterSubsystem)); // Increase shooter speed by 0.025
-    m_xboxControllerOne.a().whileTrue(new ShooterCommand(m_shooterSubsystem)); // Decrease shooter speed by 0.025
+    m_xboxControllerOne.b().onChange(new ShooterActivationCommand(m_shooterSubsystem)); // Activate/Deactivate Shooter
+    m_xboxControllerOne.y().onChange(new ShooterSpeedCommand(m_shooterSubsystem)); // Increase shooter speed by 0.025
+    m_xboxControllerOne.a().onChange(new ShooterSpeedCommand(m_shooterSubsystem)); // Decrease shooter speed by 0.025
 
     m_xboxControllerOne.rightBumper().whileTrue(new KickerCommand(m_kickerSubsystem)); // On & Off push ball towards into shooter
     m_xboxControllerOne.leftBumper().whileTrue(new KickerCommand(m_kickerSubsystem)); // On & Off push ball away from shooter

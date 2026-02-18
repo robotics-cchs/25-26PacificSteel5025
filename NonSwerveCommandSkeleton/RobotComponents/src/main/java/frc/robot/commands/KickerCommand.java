@@ -30,7 +30,7 @@ public class KickerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    kickerSpeed = OperatorConstants.MAX_KICKER_SPEED;
+    kickerSpeed = OperatorConstants.INIT_KICKER_SPEED;
     m_kickerSubsystem.kickerSpeed(kickerSpeed);
   }
 

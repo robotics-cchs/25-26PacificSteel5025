@@ -20,8 +20,8 @@ public class Constants {
     public static class OperatorConstants {
 
         // Controller/Joystick Ports
-        public static final int controllerOnePort = 1;
-        public static final int controllerTwoPort = 0;
+        public static final int controllerOnePort = 0;
+        public static final int controllerTwoPort = 1;
         public static final int joystickOnePort = 2;
         public static final int joystickTwoPort = 3;
 
