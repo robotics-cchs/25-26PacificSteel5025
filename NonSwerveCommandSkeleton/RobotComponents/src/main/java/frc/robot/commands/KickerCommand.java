@@ -28,10 +28,10 @@ public class KickerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(OperatorConstants.controllerOne.getLeftBumperButtonPressed()) {
+    if(OperatorConstants.controllerOne.getLeftBumperButton()) {
       m_kickerSubsystem.kickerSpeed(kickerSpeed);
     }
-    if(OperatorConstants.controllerOne.getRightBumperButtonPressed()) {
+    if(OperatorConstants.controllerOne.getRightBumperButton()) {
       m_kickerSubsystem.kickerSpeed(-kickerSpeed);
     }
   }

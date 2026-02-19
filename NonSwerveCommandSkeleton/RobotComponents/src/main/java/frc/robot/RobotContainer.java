@@ -62,7 +62,7 @@ public class RobotContainer {
     m_xboxControllerTwo.a().whileTrue(new IntakeLifterDownCommand(m_intakeSubsystem)); // Intake Down
 
     // Controller Two Bindings --- Conveyor
-    m_xboxControllerTwo.b().onChange(new ConveyorActivationCommand(m_conveyorSubsystem)); // Activate/Deactivate Conveyor
+    // m_xboxControllerTwo.b().onChange(new ConveyorActivationCommand(m_conveyorSubsystem)); // Activate/Deactivate Conveyor
     m_xboxControllerTwo.rightBumper().whileTrue(new ConveyorForwardCommand(m_conveyorSubsystem)); // Move conveyor towards the shooter
     m_xboxControllerTwo.leftBumper().whileTrue(new ConveyorReverseCommand(m_conveyorSubsystem)); // Move conveyor away from shooter
    

@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -14,9 +13,8 @@ public class ShooterSpeedCommand extends Command {
   
   private final ShooterSubsystem m_shooterSubsystem;
   private double shooterSpeed = OperatorConstants.INIT_SHOOTER_SPEED;
-  private double shooterSpeedCount = 0;
-  private final double MIN_SPEED_COUNTER = -16;
-  private final double MAX_SPEED_COUNTER = 26;
+  private final double MIN_SPEED_COUNTER = 0.125;
+  private final double MAX_SPEED_COUNTER = 0.800;
 
   /** Creates a new ShooterSpeedCommand. */
   public ShooterSpeedCommand(ShooterSubsystem subsystem) {
@@ -27,22 +25,21 @@ public class ShooterSpeedCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shooterSpeed = OperatorConstants.tfxLeftShooterMotor.get();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
    
-    if(OperatorConstants.controllerOne.getYButtonPressed() && shooterSpeedCount < MAX_SPEED_COUNTER) {
-      shooterSpeedCount = shooterSpeedCount + 1;
+    if(OperatorConstants.controllerOne.getYButtonPressed() && shooterSpeed < MAX_SPEED_COUNTER) {
       shooterSpeed = (shooterSpeed + 0.025);
     }
-    if(OperatorConstants.controllerOne.getAButtonPressed() && shooterSpeedCount > MIN_SPEED_COUNTER) {
-      shooterSpeedCount = shooterSpeedCount - 1;
+
+    if(OperatorConstants.controllerOne.getAButtonPressed() && shooterSpeed > MIN_SPEED_COUNTER) {
       shooterSpeed = (shooterSpeed - 0.025);
     }
-
-    SmartDashboard.putNumber("Shooter Speed Count", shooterSpeedCount);
 
     if(OperatorConstants.tfxLeftShooterMotor.isAlive() && OperatorConstants.tfxRightShooterMotor.isAlive()) {
       m_shooterSubsystem.shooterSpeed(shooterSpeed);
@@ -52,7 +49,9 @@ public class ShooterSpeedCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) { 
-    if(interrupted) { m_shooterSubsystem.stop(); }
+    if(interrupted) { 
+      m_shooterSubsystem.stop(); 
+    }
   }
 
   // Returns true when the command should end.

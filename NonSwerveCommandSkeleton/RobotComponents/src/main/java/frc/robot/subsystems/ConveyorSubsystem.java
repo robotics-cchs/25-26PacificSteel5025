@@ -68,7 +68,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
 
   public void conveyorReverseSpeed(double speed) {
-    OperatorConstants.tfxConveyorMotor.set(-speed);
+    OperatorConstants.tfxConveyorMotor.set(speed);
   }
 
   public void stop() {
