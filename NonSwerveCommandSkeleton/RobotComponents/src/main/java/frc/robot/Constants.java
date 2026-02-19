@@ -19,8 +19,8 @@ public class Constants {
         // Controller/Joystick Ports
         public static final int controllerOnePort = 0;
         public static final int controllerTwoPort = 1;
-        public static final int joystickOnePort = 2;
-        public static final int joystickTwoPort = 3;
+        // public static final int joystickOnePort = 2;
+        // public static final int joystickTwoPort = 3;
 
         // Swerve Encoder Ports: 00 ... 09
         
@@ -29,26 +29,26 @@ public class Constants {
          * Values can not be all 0 otherwise it throws an error and does not allow
          * for program to be initiated on Roborio
          */
-        public static final int quadEncoderChannelA = 0;
-        public static final int quadEncoderChannelB = 1;
-        public static final int absEncoderChannelA = 2;
-        public static final int dceEncoderChannelA = 3;
+        // public static final int quadEncoderChannelA = 0;
+        // public static final int quadEncoderChannelB = 1;
+        // public static final int absEncoderChannelA = 2;
+        // public static final int dceEncoderChannelA = 3;
 
         // Swerve Turn Ports: 20 ... 29
         
         // Swerve Drive Ports: 30 ... 39
         
-        // TalonSRX MotorController Ports: 40 ... 49
-        public static final int tsrxPort40 = 40;
-        public static final int tsrxPort41 = 41;
-        public static final int tsrxPort42 = 42;
-        public static final int tsrxPort43 = 43;
-        public static final int tsrxPort44 = 44;
-        public static final int tsrxPort45 = 45;
-        public static final int tsrxPort46 = 46;
-        public static final int tsrxPort47 = 47;
-        public static final int tsrxPort48 = 48;
-        public static final int tsrxPort49 = 49;
+        // // TalonSRX MotorController Ports: 40 ... 49
+        // public static final int tsrxPort40 = 40;
+        // public static final int tsrxPort41 = 41;
+        // public static final int tsrxPort42 = 42;
+        // public static final int tsrxPort43 = 43;
+        // public static final int tsrxPort44 = 44;
+        // public static final int tsrxPort45 = 45;
+        // public static final int tsrxPort46 = 46;
+        // public static final int tsrxPort47 = 47;
+        // public static final int tsrxPort48 = 48;
+        // public static final int tsrxPort49 = 49;
 
         // TalonFX MotorController Ports: 50 ... 59
         public static final int tfxPort50 = 50;
@@ -58,9 +58,9 @@ public class Constants {
         public static final int tfxPort54 = 54;
         public static final int tfxPort55 = 55;
         public static final int tfxPort56 = 56;
-        public static final int tfxPort57 = 57;
-        public static final int tfxPort58 = 58;
-        public static final int tfxPort59 = 59;
+        // public static final int tfxPort57 = 57;
+        // public static final int tfxPort58 = 58;
+        // public static final int tfxPort59 = 59;
 
         // Constants
         public static final double MAX_VOLTAGE = 12.2;
@@ -69,21 +69,21 @@ public class Constants {
 
         // Constant Speeds
         public static final double INIT_CONVEYOR_SPEED = 0.200;
-        public static final double INIT_INTAKE_SPEED = 0.125;
-        public static final double INIT_INTAKELIFTER_SPEED = 0.100;
-        public static final double INIT_KICKER_SPEED = 0.125;
+        public static final double INIT_INTAKE_SPEED = 0.200;
+        public static final double INIT_INTAKELIFTER_SPEED = 0.125;
+        public static final double INIT_KICKER_SPEED = 0.400;
         public static final double INIT_SHOOTER_SPEED = 0.400;
 
         // Initialize Controllers/Joysticks.
-        public static final Joystick joystickOne = new Joystick(joystickOnePort);
-        public static final Joystick joystickTwo = new Joystick(joystickTwoPort);
+        // public static final Joystick joystickOne = new Joystick(joystickOnePort);
+        // public static final Joystick joystickTwo = new Joystick(joystickTwoPort);
         public static final XboxController controllerOne = new XboxController(controllerOnePort);
         public static final XboxController controllerTwo = new XboxController(controllerTwoPort);
 
         // Initialize Non-Swerve Encoders
-        public static final Encoder quadEncoder = new Encoder(quadEncoderChannelA, quadEncoderChannelB);
-        public static final AnalogEncoder absEncoder = new AnalogEncoder(absEncoderChannelA);
-        public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
+        // public static final Encoder quadEncoder = new Encoder(quadEncoderChannelA, quadEncoderChannelB);
+        // public static final AnalogEncoder absEncoder = new AnalogEncoder(absEncoderChannelA);
+        // public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
 
         // Initialize TalonSRX MotorControllers
         // public static final TalonSRX tsrxLeftShooterMotor = new TalonSRX(tsrxPort40);
@@ -102,15 +102,15 @@ public class Constants {
         // public static final TalonSRX tsrxRightKickerMotor = new TalonSRX(tsrxPort49);
 
         // Initialize TalonFX Non-Swerve Motor Controllers
-        public static final TalonFX tfxLeftShooterMotor = new TalonFX(tfxPort50); // Kraken X60
-        public static final TalonFX tfxRightShooterMotor = new TalonFX(tfxPort51); // Kraken X60
+        public static final TalonFX tfxLeftShooterMotor = new TalonFX(tfxPort50); // Kraken X60 : Shooter
+        public static final TalonFX tfxRightShooterMotor = new TalonFX(tfxPort51); // Kraken X60 : Shooter
 
-        public static final TalonFX tfxIntakeMotor = new TalonFX(tfxPort52); // Kraken X44
-        public static final TalonFX tfxIntakeLifterMotor = new TalonFX(tfxPort53); // Kraken X60
+        public static final TalonFX tfxIntakeMotor = new TalonFX(tfxPort52); // Kraken X44 : Intake
+        public static final TalonFX tfxIntakeLifterMotor = new TalonFX(tfxPort53); // Kraken X60 : Intake Lifter
 
-        public static final TalonFX tfxConveyorMotor = new TalonFX(tfxPort54); // Kraken X44
+        public static final TalonFX tfxConveyorMotor = new TalonFX(tfxPort54); // Kraken X44 : Conveyor
 
-        public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44
-        public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44
+        public static final TalonFX tfxLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44 : Kicker
+        public static final TalonFX tfxRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44 : Kicker
     }
 }

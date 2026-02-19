@@ -72,7 +72,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeUpSpeed(double speed) {
-    OperatorConstants.tfxIntakeLifterMotor.set(-speed);
+    OperatorConstants.tfxIntakeLifterMotor.set(speed);
   }
 
   public void intakeDownSpeed(double speed) {
@@ -84,7 +84,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeOutSpeed(double speed) {
-    OperatorConstants.tfxIntakeMotor.set(-speed);
+    OperatorConstants.tfxIntakeMotor.set(speed);
   }
 
   public void stop() {
