@@ -68,11 +68,11 @@ public class Constants {
         public static final boolean SET_SAFETY_TRUE = true;
 
         // Constant Speeds
-        public static final double INIT_CONVEYOR_SPEED = 0.15;
-        public static final double INIT_INTAKE_SPEED = 0.05;
+        public static final double INIT_CONVEYOR_SPEED = 0.200;
+        public static final double INIT_INTAKE_SPEED = 0.125;
         public static final double INIT_INTAKELIFTER_SPEED = 0.100;
-        public static final double INIT_KICKER_SPEED = 0.4;
-        public static final double INIT_SHOOTER_SPEED = 0.125;
+        public static final double INIT_KICKER_SPEED = 0.125;
+        public static final double INIT_SHOOTER_SPEED = 0.400;
 
         // Initialize Controllers/Joysticks.
         public static final Joystick joystickOne = new Joystick(joystickOnePort);

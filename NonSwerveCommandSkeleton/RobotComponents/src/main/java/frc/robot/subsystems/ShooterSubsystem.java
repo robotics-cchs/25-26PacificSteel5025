@@ -67,7 +67,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putBoolean("Left Shooter Safety", OperatorConstants.tfxLeftShooterMotor.isSafetyEnabled());
     SmartDashboard.putBoolean("Right Shooter Safety", OperatorConstants.tfxRightShooterMotor.isSafetyEnabled());
 
-    SmartDashboard.putBoolean("Left Shooter Motor Activate", OperatorConstants.tfxLeftShooterMotor.isAlive());
+    SmartDashboard.putBoolean("Left Shooter Motor Activated", OperatorConstants.tfxLeftShooterMotor.isAlive());
     SmartDashboard.putBoolean("Right Shooter Motor Activated", OperatorConstants.tfxRightShooterMotor.isAlive());
 
     SmartDashboard.putNumber("Left Shooter Voltage", voltageConfigs.PeakForwardVoltage);

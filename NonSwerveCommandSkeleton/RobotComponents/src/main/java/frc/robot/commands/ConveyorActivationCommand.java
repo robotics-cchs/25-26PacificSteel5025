@@ -33,7 +33,7 @@ public class ConveyorActivationCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(OperatorConstants.controllerOne.getBButtonPressed()) {
+    if(OperatorConstants.controllerTwo.getBButtonPressed()) {
       conveyorActivated = !conveyorActivated;
     }
 
