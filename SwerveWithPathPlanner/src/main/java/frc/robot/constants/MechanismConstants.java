@@ -21,7 +21,18 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 /** Add your docs here. */
 public class MechanismConstants {
     public static class OperatorConstants {
+        public final class MotorSettings {
 
+            public static final double INTAKE_SPEED = 0.5;
+            public static final double INTAKE_LIFTER_SPEED = 0.5;
+            public static final double KICKER_SPEED_BASE = 0.4;
+            public static final double SHOOTER_SPEED_BASE = 0.4;
+            public static final double CONVEYOR_SPEED = 0.5;
+
+            private MotorSettings() {}
+        }
+        public static final double FORWARD = 1;
+        public static final double REVERSE = -1;
 
         public static final double maxVoltage = 12.2;
         public static final double maxCurrentSupply = 60;
@@ -45,16 +56,16 @@ public class MechanismConstants {
         // Swerve Drive Ports: 30 ... 39
         
         // Misc MC Ports: 40 ... 59
-        public static final int tfxPort40 = 40;
-        public static final int tfxPort41 = 41;
-        public static final int tfxPort42 = 42;
-        public static final int tfxPort43 = 43;
-        public static final int tfxPort44 = 44;
-        public static final int tfxPort45 = 45;
-        public static final int tfxPort46 = 46;
-        public static final int tfxPort47 = 47;
-        public static final int tfxPort48 = 48;
-        public static final int tfxPort49 = 49;
+        // public static final int tfxPort40 = 40;
+        // public static final int tfxPort41 = 41;
+        // public static final int tfxPort42 = 42;
+        // public static final int tfxPort43 = 43;
+        // public static final int tfxPort44 = 44;
+        // public static final int tfxPort45 = 45;
+        // public static final int tfxPort46 = 46;
+        // public static final int tfxPort47 = 47;
+        // public static final int tfxPort48 = 48;
+        // public static final int tfxPort49 = 49;
         public static final int tfxPort50 = 50;
         public static final int tfxPort51 = 51;
         public static final int tfxPort52 = 52;
@@ -62,25 +73,25 @@ public class MechanismConstants {
         public static final int tfxPort54 = 54;
         public static final int tfxPort55 = 55;
         public static final int tfxPort56 = 56;
-        public static final int tfxPort57 = 57;
-        public static final int tfxPort58 = 58;
-        public static final int tfxPort59 = 59;
+        // public static final int tfxPort57 = 57;
+        // public static final int tfxPort58 = 58;
+        // public static final int tfxPort59 = 59;
        
         // Pneumatics Ports: 60 ... 69
-        public static final int pneumaticPort60 = 60;
-        public static final int pneumaticPort61 = 61;
-        public static final int pneumaticPort62 = 62;
-        public static final int pneumaticPort63 = 63;
-        public static final int pneumaticPort64 = 64;
-        public static final int pneumaticPort65 = 65;
-        public static final int pneumaticPort66 = 66;
-        public static final int pneumaticPort67 = 67;
-        public static final int pneumaticPort68 = 68;
-        public static final int pneumaticPort69 = 69;
+        // public static final int pneumaticPort60 = 60;
+        // public static final int pneumaticPort61 = 61;
+        // public static final int pneumaticPort62 = 62;
+        // public static final int pneumaticPort63 = 63;
+        // public static final int pneumaticPort64 = 64;
+        // public static final int pneumaticPort65 = 65;
+        // public static final int pneumaticPort66 = 66;
+        // public static final int pneumaticPort67 = 67;
+        // public static final int pneumaticPort68 = 68;
+        // public static final int pneumaticPort69 = 69;
 
         // Initialize Controllers/Joysticks.
-        public static final Joystick joystickOne = new Joystick(joystickOnePort);
-        public static final Joystick joystickTwo = new Joystick(joystickTwoPort);
+        // public static final Joystick joystickOne = new Joystick(joystickOnePort);
+        // public static final Joystick joystickTwo = new Joystick(joystickTwoPort);
         public static final CommandXboxController controllerOne = new CommandXboxController(controllerOnePort);
         public static final CommandXboxController controllerTwo = new CommandXboxController(controllerTwoPort);
 
@@ -90,21 +101,16 @@ public class MechanismConstants {
         public static final DutyCycleEncoder dceEncder = new DutyCycleEncoder(dceEncoderChannelA);
 
         // Initialize TalonFX Non-Swerve MotorControllers
-        public static final TalonFX krkLeftShooterMotor = new TalonFX(tfxPort40); //Running during entire comp.
-        public static final TalonFX krkRightShooterMotor = new TalonFX(tfxPort41); //Running during entire comp.
+        public static final TalonFX krkLeftShooterMotor = new TalonFX(tfxPort50); //Running during entire comp.
+        public static final TalonFX krkRightShooterMotor = new TalonFX(tfxPort51); //Running during entire comp.
 
-        public static final TalonFX krkLeftIntakeMotor = new TalonFX(tfxPort42);
-        public static final TalonFX krkRightIntakeMotor = new TalonFX(tfxPort43);
+        public static final TalonFX krkIntakeMotor = new TalonFX(tfxPort52);
+        public static final TalonFX krkIntakeLifterMotor = new TalonFX(tfxPort53);
 
-        public static final TalonFX krkLeftIntakeLifterMotor = new TalonFX(tfxPort44);
-        public static final TalonFX krkRightIntakeLifterMotor = new TalonFX(tfxPort45);
+        public static final TalonFX krkConveyorMotor = new TalonFX(tfxPort55);
 
-        public static final TalonFX krkLeftConveyorMotor = new TalonFX(tfxPort46);
-        public static final TalonFX krkRightConveyorMotor = new TalonFX(tfxPort47);
-
-        public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort48);
-        public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort49);
-        public static final TalonFX randomMotor = new TalonFX(tfxPort50);
+        public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort55);
+        public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort56);
 
         // Initialize TalonFX Non-Swerve Motor Controllers
         public static final TalonFX motor = new TalonFX(tfxPort51);

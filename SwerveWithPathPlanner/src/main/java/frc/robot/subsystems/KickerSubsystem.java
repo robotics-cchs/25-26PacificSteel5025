@@ -9,8 +9,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class KickerSubsystem extends SubsystemBase {
-  double shootSpeed = .5;
+  double shootSpeed = OperatorConstants.MotorSettings.KICKER_SPEED_BASE;
   boolean currentToggleStatus = false;
+  double direction = OperatorConstants.FORWARD;
   /** Creates a new KickerSubsystem. */
   public KickerSubsystem() {
     OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
@@ -24,8 +25,8 @@ public class KickerSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Kicker Motor",OperatorConstants.krkRightKickerMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Left Kicker Motor",OperatorConstants.krkLeftKickerMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Current Kicker Toggle Status", currentToggleStatus);
-    OperatorConstants.krkLeftKickerMotor.set(shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
-    OperatorConstants.krkRightKickerMotor.set(shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
+    OperatorConstants.krkLeftKickerMotor.set(direction*shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
+    OperatorConstants.krkRightKickerMotor.set(direction*shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
   }
 
   public void toggle() {
@@ -33,10 +34,17 @@ public class KickerSubsystem extends SubsystemBase {
   }
 
   public void inc() {
-    shootSpeed += 0.0625*((shootSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
+    shootSpeed += 0.025*((shootSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
   }
   public void dec() {
-    shootSpeed -= 0.0625*((shootSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
+    shootSpeed -= 0.025*((shootSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
+  }
+
+  public void forward() {
+    direction = OperatorConstants.FORWARD;
+  }
+  public void reverse() {
+    direction = OperatorConstants.REVERSE;
   }
 
   public void stop() {

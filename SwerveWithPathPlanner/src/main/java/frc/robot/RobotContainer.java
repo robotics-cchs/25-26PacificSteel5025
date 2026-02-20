@@ -15,13 +15,13 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+// import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+// import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -62,6 +62,14 @@ public class RobotContainer {
         m_kickerSubsystem.toggle();
     }, m_kickerSubsystem);
 
+    Command kickerSetForwardCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.forward();
+    }, m_kickerSubsystem);
+
+    Command kickerSetReverseCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.reverse();
+    }, m_kickerSubsystem);
+
     Command kickerSpeedUpCommand = Commands.runOnce(() -> {
         m_kickerSubsystem.inc();
     }, m_kickerSubsystem);
@@ -83,6 +91,14 @@ public class RobotContainer {
         m_intakeSubsystem.reverse();
     }, m_intakeSubsystem);
 
+    Command intakeUpCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.up();
+    }, m_intakeSubsystem);
+
+    Command intakeDownCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.down();
+    }, m_intakeSubsystem);
+
     // Conveyor commands
     Command toggleConveyorCommand = Commands.runOnce(() -> {
         m_conveyorSubsystem.toggle();
@@ -101,9 +117,9 @@ public class RobotContainer {
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+    // private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+    // private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
+    //         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
@@ -132,10 +148,14 @@ public class RobotContainer {
         NamedCommands.registerCommand("ToggleKicker", toggleKickerCommand);
         NamedCommands.registerCommand("KickerSpeedUp", kickerSpeedUpCommand);
         NamedCommands.registerCommand("KickerSpeedDown", kickerSpeedDownCommand);
+        NamedCommands.registerCommand("KickerSetForward", kickerSetForwardCommand);
+        NamedCommands.registerCommand("KickerSetReverse", kickerSetReverseCommand);
 
         NamedCommands.registerCommand("ToggleIntake", toggleIntakeCommand);
         NamedCommands.registerCommand("IntakeForward", intakeForwardCommand);
         NamedCommands.registerCommand("IntakeReverse", intakeReverseCommand);
+        NamedCommands.registerCommand("IntakeUp", intakeUpCommand);
+        NamedCommands.registerCommand("IntakeDown", intakeDownCommand);
 
         NamedCommands.registerCommand("ToggleConveyor", toggleConveyorCommand);
         NamedCommands.registerCommand("ConveyorForward", conveyorForwardCommand);
@@ -164,17 +184,44 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        OperatorConstants.controllerOne.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        OperatorConstants.controllerOne.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-OperatorConstants.controllerOne.getLeftY(), -OperatorConstants.controllerOne.getLeftX()))
-        ));
+        OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
+        OperatorConstants.controllerOne.b().onTrue(toggleShootCommand);
+        OperatorConstants.controllerOne.a().onTrue(shooterSpeedDownCommand);
+        OperatorConstants.controllerOne.y().onTrue(shooterSpeedUpCommand);
 
-        OperatorConstants.controllerOne.povUp().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        );
-        OperatorConstants.controllerOne.povDown().whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        );
+        OperatorConstants.controllerOne.rightBumper().onTrue(toggleKickerCommand);
+        OperatorConstants.controllerOne.rightBumper().onTrue(kickerSetForwardCommand);
+        OperatorConstants.controllerOne.leftBumper().onTrue(toggleKickerCommand);
+        OperatorConstants.controllerOne.leftBumper().onTrue(kickerSetReverseCommand);
+
+        OperatorConstants.controllerOne.povUp().onTrue(kickerSpeedUpCommand);
+        OperatorConstants.controllerOne.povUp().onFalse(kickerSpeedDownCommand);
+
+        OperatorConstants.controllerTwo.x().onTrue(toggleIntakeCommand);
+        OperatorConstants.controllerTwo.a().onTrue(intakeDownCommand);
+        OperatorConstants.controllerTwo.y().onTrue(intakeUpCommand);
+        OperatorConstants.controllerTwo.b().onTrue(toggleConveyorCommand);
+
+        OperatorConstants.controllerTwo.rightBumper().onTrue(conveyorForwardCommand);
+        OperatorConstants.controllerTwo.rightBumper().onTrue(toggleConveyorCommand);
+        OperatorConstants.controllerTwo.rightBumper().onFalse(toggleConveyorCommand);
+        OperatorConstants.controllerTwo.leftBumper().onTrue(conveyorReverseCommand);
+        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleConveyorCommand);
+        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleConveyorCommand);
+
+        OperatorConstants.controllerTwo.povUpRight().onTrue(intakeForwardCommand);
+        OperatorConstants.controllerTwo.povDownRight().onTrue(intakeReverseCommand);
+
+        // OperatorConstants.controllerOne.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-OperatorConstants.controllerOne.getLeftY(), -OperatorConstants.controllerOne.getLeftX()))
+        // ));
+
+        // OperatorConstants.controllerOne.povUp().whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
+        // );
+        // OperatorConstants.controllerOne.povDown().whileTrue(drivetrain.applyRequest(() ->
+        //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+        // );
         if (OperatorConstants.controllerOne.povLeft().getAsBoolean()) {
             sped = .6666;
         } else {
@@ -187,13 +234,13 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
-        OperatorConstants.controllerOne.back().and(OperatorConstants.controllerOne.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        OperatorConstants.controllerOne.back().and(OperatorConstants.controllerOne.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        OperatorConstants.controllerOne.start().and(OperatorConstants.controllerOne.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        OperatorConstants.controllerOne.start().and(OperatorConstants.controllerOne.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // OperatorConstants.controllerOne.back().and(OperatorConstants.controllerOne.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // OperatorConstants.controllerOne.back().and(OperatorConstants.controllerOne.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // OperatorConstants.controllerOne.start().and(OperatorConstants.controllerOne.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // OperatorConstants.controllerOne.start().and(OperatorConstants.controllerOne.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
         
         // Reset the field-centric heading on left bumper press.
-        // joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

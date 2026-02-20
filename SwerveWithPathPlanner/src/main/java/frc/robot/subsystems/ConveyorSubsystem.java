@@ -9,23 +9,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class ConveyorSubsystem extends SubsystemBase {
-  double dir = 1;
+  double dir = OperatorConstants.FORWARD;
   boolean currentToggleStatus = false;
   /** Creates a new ConveyorSubsystem. */
   public ConveyorSubsystem() {
-    OperatorConstants.krkLeftConveyorMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
-    OperatorConstants.krkRightConveyorMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
-    OperatorConstants.krkLeftConveyorMotor.setSafetyEnabled(true);
-    OperatorConstants.krkRightConveyorMotor.setSafetyEnabled(true);
+    OperatorConstants.krkConveyorMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkConveyorMotor.setSafetyEnabled(true);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Right Intake Motor",OperatorConstants.krkRightConveyorMotor.getMotorVoltage().getValueAsDouble());
-    SmartDashboard.putNumber("Left Intake Motor",OperatorConstants.krkLeftConveyorMotor.getMotorVoltage().getValueAsDouble());
-    SmartDashboard.putBoolean("Current Shooter Toggle Status", currentToggleStatus);
-    OperatorConstants.krkLeftConveyorMotor.set(dir*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
-    OperatorConstants.krkRightConveyorMotor.set(dir*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
+    SmartDashboard.putNumber("Conveyor Motor",OperatorConstants.krkConveyorMotor.getMotorVoltage().getValueAsDouble());
+    SmartDashboard.putBoolean("Current Conveyor Toggle Status", currentToggleStatus);
+    OperatorConstants.krkConveyorMotor.set(OperatorConstants.MotorSettings.CONVEYOR_SPEED*dir*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
   }
 
   public void toggle() {
@@ -33,13 +29,13 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
 
   public void forward() {
-    if (dir!=1) {
-      dir = -1;
+    if (dir!=OperatorConstants.FORWARD) {
+      dir = OperatorConstants.REVERSE;
     }
   }
   public void reverse() {
-    if (dir!=-1) {
-      dir = 1;
+    if (dir!=OperatorConstants.REVERSE) {
+      dir = OperatorConstants.FORWARD;
     }
   }
 

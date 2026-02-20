@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  double shootSpeed = .5;
+  double shootSpeed = OperatorConstants.MotorSettings.SHOOTER_SPEED_BASE;
   boolean currentToggleStatus = false;
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -33,10 +33,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void inc() {
-    shootSpeed += 0.0625*((shootSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
+    shootSpeed += 0.025*((shootSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
   }
   public void dec() {
-    shootSpeed -= 0.0625*((shootSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
+    shootSpeed -= 0.025*((shootSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
   }
 
   public void stop() {
