@@ -8,9 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
-// TODO
-// - Work on intake down and up code
-
 public class IntakeSubsystem extends SubsystemBase {
   double dir = OperatorConstants.FORWARD;
   boolean currentToggleStatus = false;
