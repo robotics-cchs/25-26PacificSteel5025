@@ -8,8 +8,10 @@ import static edu.wpi.first.units.Units.Amps;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -23,11 +25,11 @@ public class MechanismConstants {
     public static class OperatorConstants {
         public final class MotorSettings {
 
-            public static final double INTAKE_SPEED = 0.5;
-            public static final double INTAKE_LIFTER_SPEED = 0.5;
+            public static final double INTAKE_SPEED = 0.2;
+            public static final double INTAKE_LIFTER_SPEED = 0.125;
             public static final double KICKER_SPEED_BASE = 0.4;
             public static final double SHOOTER_SPEED_BASE = 0.4;
-            public static final double CONVEYOR_SPEED = 0.5;
+            public static final double CONVEYOR_SPEED = 0.2;
 
             private MotorSettings() {}
         }
@@ -124,6 +126,10 @@ public class MechanismConstants {
         ).withMotorOutput(
             new MotorOutputConfigs()
                 .withInverted(InvertedValue.Clockwise_Positive) // Says to not inverse the motor
+                .withNeutralMode(NeutralModeValue.Coast)
+        ).withVoltage(
+            new VoltageConfigs()
+                .withPeakForwardVoltage(maxVoltage)
         );
         public static final TalonFXConfiguration invertedDefaultConfig = new TalonFXConfiguration().withCurrentLimits(
             new CurrentLimitsConfigs()
@@ -134,6 +140,10 @@ public class MechanismConstants {
         ).withMotorOutput(
             new MotorOutputConfigs()
                 .withInverted(InvertedValue.CounterClockwise_Positive) // Says to inverse the motor
+                .withNeutralMode(NeutralModeValue.Coast)
+        ).withVoltage(
+            new VoltageConfigs()
+                .withPeakForwardVoltage(maxVoltage)
         );
 
         // Initialize Pneumatics

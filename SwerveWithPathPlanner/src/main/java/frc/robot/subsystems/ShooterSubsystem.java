@@ -13,8 +13,8 @@ public class ShooterSubsystem extends SubsystemBase {
   boolean currentToggleStatus = false;
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
-    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
-    OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
+    OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
     OperatorConstants.krkLeftKickerMotor.setSafetyEnabled(true);
     OperatorConstants.krkRightKickerMotor.setSafetyEnabled(true);
   }
