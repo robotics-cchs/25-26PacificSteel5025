@@ -27,14 +27,16 @@ public class ShooterActivationCommand extends Command {
   @Override
   public void initialize() {
     shooterSpeed = 0;
-    shooterActivated = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(OperatorConstants.controllerOne.getBButtonPressed()) {
-      shooterActivated = !shooterActivated;
+    if(OperatorConstants.controllerTwo.getAButtonPressed()) {
+      shooterActivated = true;
+    }
+    if(OperatorConstants.controllerTwo.getXButtonPressed()) {
+      shooterActivated = false;
     }
 
     SmartDashboard.putBoolean("Shooter Activated", shooterActivated);
