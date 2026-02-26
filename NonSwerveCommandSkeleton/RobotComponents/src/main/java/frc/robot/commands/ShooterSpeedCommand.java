@@ -33,11 +33,11 @@ public class ShooterSpeedCommand extends Command {
   @Override
   public void execute() {
    
-    if(OperatorConstants.controllerOne.getYButtonPressed() && shooterSpeed < MAX_SPEED_COUNTER) {
+    if(OperatorConstants.controllerOne.getRightBumperButtonPressed() && shooterSpeed < MAX_SPEED_COUNTER) {
       shooterSpeed = (shooterSpeed + 0.025);
     }
 
-    if(OperatorConstants.controllerOne.getAButtonPressed() && shooterSpeed > MIN_SPEED_COUNTER) {
+    if(OperatorConstants.controllerOne.getLeftBumperButtonPressed() && shooterSpeed > MIN_SPEED_COUNTER) {
       shooterSpeed = (shooterSpeed - 0.025);
     }
 
