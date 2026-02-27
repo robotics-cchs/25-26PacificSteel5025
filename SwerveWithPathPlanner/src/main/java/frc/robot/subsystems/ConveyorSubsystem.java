@@ -9,18 +9,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class ConveyorSubsystem extends SubsystemBase {
+  
   double dir = OperatorConstants.FORWARD;
+  
   boolean currentToggleStatus = false;
+
   /** Creates a new ConveyorSubsystem. */
   public ConveyorSubsystem() {
     OperatorConstants.krkConveyorMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
-    OperatorConstants.krkConveyorMotor.setSafetyEnabled(true);
+    OperatorConstants.krkConveyorMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Conveyor Motor",OperatorConstants.krkConveyorMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Current Conveyor Toggle Status", currentToggleStatus);
+    
     OperatorConstants.krkConveyorMotor.set(OperatorConstants.MotorSettings.CONVEYOR_SPEED*dir*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
   }
 

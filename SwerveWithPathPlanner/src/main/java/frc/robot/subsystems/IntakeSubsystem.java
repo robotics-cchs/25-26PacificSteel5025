@@ -9,17 +9,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
+  
   double dir = OperatorConstants.FORWARD;
   double lifterDir = OperatorConstants.FORWARD;
+
   boolean currentToggleStatus = false;
   boolean currentLifterToggleStatus = false;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     OperatorConstants.krkIntakeMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
-    OperatorConstants.krkIntakeMotor.setSafetyEnabled(true);
+    OperatorConstants.krkIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
-    OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(true);
+    OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
   }
 
   @Override

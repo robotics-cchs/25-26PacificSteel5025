@@ -5,9 +5,6 @@ package frc.robot.constants;
 
 import static edu.wpi.first.units.Units.Amps;
 
-import java.security.PublicKey;
-
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -33,9 +30,10 @@ public class MechanismConstants {
         public static final double FORWARD = 1;
         public static final double REVERSE = -1;
 
-        public static final double maxVoltage = 12.2;
-        public static final double maxCurrentSupply = 60;
-        public static final double maxCurrentStator = 60;
+        public static final double MAX_VOLTAGE = 12.2;
+        public static final double MAX_CURRENT_SUPPLY = 60;
+        public static final double MAX_CURRENT_STATOR = 60;
+        public static final boolean SET_SAFETY_TRUE = true;
         
         // Controller/Joystick Ports
         public static final int controllerOnePort = 0;
@@ -69,9 +67,9 @@ public class MechanismConstants {
         
         public static final TalonFXConfiguration defaultConfig = new TalonFXConfiguration().withCurrentLimits(
             new CurrentLimitsConfigs()
-                .withStatorCurrentLimit(Amps.of(maxCurrentStator)) // Makes stator current limits
+                .withStatorCurrentLimit(Amps.of(MAX_CURRENT_STATOR)) // Makes stator current limits
                 .withStatorCurrentLimitEnable(true) // Enables the current limits
-                .withSupplyCurrentLimit(Amps.of(maxCurrentSupply)) // Makes supply current limits
+                .withSupplyCurrentLimit(Amps.of(MAX_CURRENT_SUPPLY)) // Makes supply current limits
                 .withSupplyCurrentLimitEnable(true) // Enables the current limits
         ).withMotorOutput(
             new MotorOutputConfigs()
@@ -79,13 +77,13 @@ public class MechanismConstants {
                 .withNeutralMode(NeutralModeValue.Coast)
         ).withVoltage(
             new VoltageConfigs()
-                .withPeakForwardVoltage(maxVoltage)
+                .withPeakForwardVoltage(MAX_VOLTAGE)
         );
         public static final TalonFXConfiguration invertedDefaultConfig = new TalonFXConfiguration().withCurrentLimits(
             new CurrentLimitsConfigs()
-                .withStatorCurrentLimit(Amps.of(maxCurrentStator)) // Makes stator current limits
+                .withStatorCurrentLimit(Amps.of(MAX_CURRENT_STATOR)) // Makes stator current limits
                 .withStatorCurrentLimitEnable(true) // Enables the current limits
-                .withSupplyCurrentLimit(Amps.of(maxCurrentSupply)) // Makes supply current limits
+                .withSupplyCurrentLimit(Amps.of(MAX_CURRENT_SUPPLY)) // Makes supply current limits
                 .withSupplyCurrentLimitEnable(true) // Enables the current limits
         ).withMotorOutput(
             new MotorOutputConfigs()
@@ -93,7 +91,7 @@ public class MechanismConstants {
                 .withNeutralMode(NeutralModeValue.Coast)
         ).withVoltage(
             new VoltageConfigs()
-                .withPeakForwardVoltage(maxVoltage)
+                .withPeakForwardVoltage(MAX_VOLTAGE)
         );
     }
 }
