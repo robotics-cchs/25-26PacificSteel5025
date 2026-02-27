@@ -177,6 +177,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("KickerSetForward", kickerSetForwardCommand);
         NamedCommands.registerCommand("KickerSetReverse", kickerSetReverseCommand);
 
+        // Intake Commands
         NamedCommands.registerCommand("ToggleIntake", toggleIntakeCommand);
         NamedCommands.registerCommand("IntakeForward", intakeForwardCommand);
         NamedCommands.registerCommand("IntakeReverse", intakeReverseCommand);
@@ -184,6 +185,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeUp", intakeUpCommand);
         NamedCommands.registerCommand("IntakeDown", intakeDownCommand);
 
+        // Conveyor Commands
         NamedCommands.registerCommand("ToggleConveyor", toggleConveyorCommand);
         NamedCommands.registerCommand("ConveyorForward", conveyorForwardCommand);
         NamedCommands.registerCommand("ConveyorReverse", conveyorReverseCommand);
