@@ -9,15 +9,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 public class KickerSubsystem extends SubsystemBase {
-  double shootSpeed = OperatorConstants.MotorSettings.KICKER_SPEED_BASE;
+  
+  double dir = OperatorConstants.FORWARD;
+  double kickerSpeed = OperatorConstants.MotorSettings.KICKER_SPEED_BASE;
+
   boolean currentToggleStatus = false;
-  double direction = OperatorConstants.FORWARD;
+
   /** Creates a new KickerSubsystem. */
   public KickerSubsystem() {
-    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
-    OperatorConstants.krkLeftKickerMotor.setSafetyEnabled(true);
-    OperatorConstants.krkRightKickerMotor.setSafetyEnabled(true);
+    OperatorConstants.krkRightKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+
+    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkLeftKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
   }
 
   @Override
@@ -25,8 +29,9 @@ public class KickerSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Kicker Motor",OperatorConstants.krkRightKickerMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Left Kicker Motor",OperatorConstants.krkLeftKickerMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Current Kicker Toggle Status", currentToggleStatus);
-    OperatorConstants.krkLeftKickerMotor.set(direction*shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
-    OperatorConstants.krkRightKickerMotor.set(direction*shootSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
+
+    OperatorConstants.krkLeftKickerMotor.set(dir*kickerSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
+    OperatorConstants.krkRightKickerMotor.set(dir*kickerSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
   }
 
   public void toggle() {
@@ -34,17 +39,17 @@ public class KickerSubsystem extends SubsystemBase {
   }
 
   public void inc() {
-    shootSpeed += 0.025*((shootSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
+    kickerSpeed += 0.025*((kickerSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
   }
   public void dec() {
-    shootSpeed -= 0.025*((shootSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
+    kickerSpeed -= 0.025*((kickerSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
   }
 
   public void forward() {
-    direction = OperatorConstants.FORWARD;
+    dir = OperatorConstants.FORWARD;
   }
   public void reverse() {
-    direction = OperatorConstants.REVERSE;
+    dir = OperatorConstants.REVERSE;
   }
 
   public void stop() {
