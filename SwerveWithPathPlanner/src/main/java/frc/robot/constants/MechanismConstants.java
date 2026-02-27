@@ -39,7 +39,7 @@ public class MechanismConstants {
         public static final int controllerOnePort = 0;
         public static final int controllerTwoPort = 1;
 
-        // Misc Ports 50 ... 59
+        // Kraken Ports 50 ... 59
         public static final int tfxPort50 = 50;
         public static final int tfxPort51 = 51;
         public static final int tfxPort52 = 52; 
