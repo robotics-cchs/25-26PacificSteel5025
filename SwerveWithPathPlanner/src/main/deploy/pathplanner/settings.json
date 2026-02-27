@@ -28,5 +28,26 @@
   "brModuleY": -0.281,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"FRAME\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.0},\"size\":{\"width\":0.7,\"length\":0.7},\"borderRadius\":0.0,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"SHOT AREA\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.275,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.15},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"LEFT SHOOTER\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.15,\"y\":0.2},\"size\":{\"width\":0.2,\"length\":0.4},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"CENTER SHOOTER\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.15,\"y\":0.0},\"size\":{\"width\":0.2,\"length\":0.4},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"RIGHT SHOOTER\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.15,\"y\":-0.2},\"size\":{\"width\":0.2,\"length\":0.4},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"ROLLER 1\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.375,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.025},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"ROLLER 2\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.475,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.025},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"ROLLER 3\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.55,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.025},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"INTAKE LEFT\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.4,\"y\":0.3},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.0,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"INTAKE RIGHT\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.4,\"y\":-0.3},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.0,\"strokeWidth\":0.01,\"filled\":false}}",
+    "{\"name\":\"CONVEYOR 1\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.2,\"y\":0.25},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"CONVEYOR 2\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.2,\"y\":0.15},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"CONVEYOR 3\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.2,\"y\":0.05},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"CONVEYOR 4\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.2,\"y\":-0.05},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"CONVEYOR 5\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.2,\"y\":-0.15},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"CONVEYOR 6\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.2,\"y\":-0.25},\"size\":{\"width\":0.025,\"length\":0.3},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"BALL 1\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.275,\"y\":-0.2},\"radius\":0.075,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"BALL 2\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.275,\"y\":0.0},\"radius\":0.075,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"BALL 3\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.275,\"y\":0.2},\"radius\":0.075,\"strokeWidth\":0.01,\"filled\":true}}",
+    "{\"name\":\"KICKER\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.05,\"y\":0.0},\"size\":{\"width\":0.6,\"length\":0.025},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}"
+  ]
 }
