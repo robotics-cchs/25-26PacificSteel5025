@@ -66,6 +66,14 @@ public class RobotContainer {
         m_shooterSubsystem.toggle();
     }, m_shooterSubsystem);
 
+    Command shooterOffCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.off();
+    }, m_shooterSubsystem);
+
+    Command shooterOnCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.on();
+    }, m_shooterSubsystem);
+
     Command shooterSpeedUpCommand = Commands.runOnce(() -> {
         m_shooterSubsystem.inc();
     }, m_shooterSubsystem);
@@ -156,6 +164,8 @@ public class RobotContainer {
         configureAutoBindings();
         configureBindings();
 
+        m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -169,6 +179,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("ToggleShoot", toggleShootCommand);
         NamedCommands.registerCommand("ShooterSpeedUp", shooterSpeedUpCommand);
         NamedCommands.registerCommand("ShooterSpeedDown", shooterSpeedDownCommand);
+        NamedCommands.registerCommand("ShooterOn", shooterOnCommand);
+        NamedCommands.registerCommand("ShooterOff", shooterOffCommand);
 
         // Kicker Commands
         NamedCommands.registerCommand("ToggleKicker", toggleKickerCommand);
@@ -216,8 +228,8 @@ public class RobotContainer {
         OperatorConstants.controllerOne.a().onTrue(pathFindToShootSpot);
         
         // Shooter
-        OperatorConstants.controllerTwo.a().onTrue(toggleShootCommand); // Activate Shooter
-        OperatorConstants.controllerTwo.x().onTrue(toggleShootCommand); // Deactivate Shooter
+        OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
+        OperatorConstants.controllerTwo.x().onTrue(shooterOffCommand); // Deactivate Shooter
         OperatorConstants.controllerOne.leftBumper().onTrue(shooterSpeedDownCommand); // Decrease Shooter Speed
         OperatorConstants.controllerOne.rightBumper().onTrue(shooterSpeedUpCommand); // Increase Shooter Speed
 
