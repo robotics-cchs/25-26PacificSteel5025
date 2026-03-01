@@ -21,7 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   boolean currentToggleStatus = false;
 
-  // to get the robot pose from swerve odometry, asked AI for clarification, and then read and understood what it does
+  // to get the robot pose from swerve, asked AI for clarification, and then read and understood what it does
   private Supplier<Pose2d> poseSupplier = () -> new Pose2d();
 
   // Called from RobotContainer to provide drivetrain pose
@@ -35,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   Pose2d robotPose = new Pose2d();
-  Pose2d shotLocationPose = new Pose2d(0,0, new Rotation2d()); // Replace with actual pose
+  Pose2d shotLocationPose = new Pose2d(4.650,4, new Rotation2d());
 
   // Calculate the distance using the utility method
   double distanceToTarget = 0.0;

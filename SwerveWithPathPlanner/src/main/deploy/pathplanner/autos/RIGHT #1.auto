@@ -27,6 +27,12 @@
           "data": {
             "pathName": "GRAB RIGHT TO LEFT"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LEFT OVER BUMP"
+          }
         }
       ]
     }

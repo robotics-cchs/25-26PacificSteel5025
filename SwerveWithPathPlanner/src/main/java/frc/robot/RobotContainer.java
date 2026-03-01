@@ -32,6 +32,7 @@ import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.helpers.ShooterAlignHelper;
 import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
@@ -57,7 +58,7 @@ public class RobotContainer {
     );
 
     // TODO: TARGET POSITION CODE NEEDS REFINING
-    Pose2d targetPose = new Pose2d(3.385, 4.050, Rotation2d.fromDegrees(0));
+    Pose2d targetPose = new Pose2d(4.650,4, new Rotation2d());
 
     // All requests as variables, and now instead of command files, with a more modern WPILib style
     // Shooter Subsystem
@@ -199,8 +200,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("ConveyorReverse", conveyorReverseCommand);
     }
     private void configureBindings() {
-        // TODO: PATHFINDING; Not Tested
-        Command pathFindToShootSpot = AutoBuilder.pathfindToPose(targetPose, constraints);
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -223,7 +222,7 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        OperatorConstants.controllerOne.a().onTrue(pathFindToShootSpot);
+        OperatorConstants.controllerOne.b().onTrue(new ShooterAlignHelper(drivetrain, targetPose)); // aligns to the hub
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter

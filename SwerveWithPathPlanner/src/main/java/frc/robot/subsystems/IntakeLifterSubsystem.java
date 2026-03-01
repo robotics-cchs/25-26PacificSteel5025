@@ -13,14 +13,14 @@ public class IntakeLifterSubsystem extends SubsystemBase {
   // https://docs.wpilib.org/en/stable/docs/software/commandbased/pid-subsystems-commands.html
   private final PIDController pid;
 
-  // Current setpoint in Rotations
+  // current setpoint
   private double setpointRotations = 0.0;
 
   public IntakeLifterSubsystem() {
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    // Create PID controller with constants from MechanismConstants
+    // create PID controller using constants
     pid = new PIDController(
         OperatorConstants.MotorSettings.LIFTER_kP,
         OperatorConstants.MotorSettings.LIFTER_kI,
@@ -32,16 +32,16 @@ public class IntakeLifterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    double currentRotations = readRotorPositionRotations();
+    double currentRotations = OperatorConstants.krkIntakeLifterMotor.getPosition().getValueAsDouble();
 
     // calculate PID
     double output = pid.calculate(currentRotations, setpointRotations);
 
-    // Clamping
+    // we dont want anything more or less than 100%
     if (output > 1.0) output = 1.0;
     if (output < -1.0) output = -1.0;
 
-    // Send percent output to TalonFX
+    // send da percent output to TalonFX
     OperatorConstants.krkIntakeLifterMotor.set(output);
 
     SmartDashboard.putNumber("Intake Lifter Position", currentRotations);
@@ -50,7 +50,7 @@ public class IntakeLifterSubsystem extends SubsystemBase {
   }
 
   public void setLifterPercent(double percent) {
-    setpointRotations = readRotorPositionRotations(); // cancel position control by keeping setpoint
+    setpointRotations = OperatorConstants.krkIntakeLifterMotor.getPosition().getValueAsDouble(); // cancel pid control by keeping setpoint
     pid.reset();
     OperatorConstants.krkIntakeLifterMotor.set(percent);
   }
@@ -66,11 +66,6 @@ public class IntakeLifterSubsystem extends SubsystemBase {
 
   public void zeroLifterEncoder() {
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().setPosition(0.0);
-  }
-
-  // Helper to read the rotor position in encoder Rotations. Uses Phoenix6 rotor position signal.
-  private double readRotorPositionRotations() {
-    return OperatorConstants.krkIntakeLifterMotor.getPosition().getValueAsDouble();
   }
 
 }
