@@ -23,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+
   }
 
   @Override

@@ -13,25 +13,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "OVER BUMP LEFT TO NEUTRAL"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "ToggleKicker"
+            "pathName": "GRAB SET LEFT"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleKicker"
+            "pathName": "GRAB LEFT TO RIGHT"
           }
         }
       ]

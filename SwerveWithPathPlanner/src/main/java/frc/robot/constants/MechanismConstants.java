@@ -18,14 +18,20 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 /** Add your docs here. */
 public class MechanismConstants {
     public static class OperatorConstants {
-        public final class MotorSettings {
+        public static class MotorSettings {
             public static final double INTAKE_SPEED = 0.2;
-            public static final double INTAKE_LIFTER_SPEED = 0.125;
+            public static final double INTAKE_LIFTER_SPEED = 0.25;
             public static final double KICKER_SPEED_BASE = 0.4;
             public static final double SHOOTER_SPEED_BASE = 0.4;
             public static final double CONVEYOR_SPEED = 0.2;
 
-            private MotorSettings() {}
+            // Lifter PID constants
+            public static final double LIFTER_kP = 0.005;
+            public static final double LIFTER_kI = 0.0;
+            public static final double LIFTER_kD = 0.0;
+            public static final double LIFTER_kF = 0.0;
+            // Tolerance
+            public static final double LIFTER_POSITION_TOLERANCE_ROTATIONS = 0.05; // adjust based on testing and requirements
         }
         public static final double FORWARD = 1;
         public static final double REVERSE = -1;

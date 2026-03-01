@@ -17,6 +17,8 @@ public class ShooterSubsystem extends SubsystemBase {
   
   double shooterSpeed = OperatorConstants.MotorSettings.SHOOTER_SPEED_BASE;
   
+  double calculationSpeed = 0.0;
+
   boolean currentToggleStatus = false;
 
   // to get the robot pose from swerve odometry, asked AI for clarification, and then read and understood what it does
@@ -50,6 +52,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Right Shooter Motor",OperatorConstants.krkRightShooterMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Left Shooter Motor",OperatorConstants.krkLeftShooterMotor.getMotorVoltage().getValueAsDouble());
+    SmartDashboard.putNumber("Shooter Speed", shooterSpeed);
     SmartDashboard.putBoolean("Current Shooter Toggle Status", currentToggleStatus);
 
     OperatorConstants.krkLeftShooterMotor.set(shooterSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
@@ -57,7 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     robotPose = getPose();
     // could be used to adjust the shooter speed automatically
-    shooterSpeed = ShooterSpeedHelper.quadraticShooterSpeed(robotPose, shotLocationPose, 0.001, 0.05, 0.2); // TODO: adjust coefficients based on testing and requirements
+    calculationSpeed = ShooterSpeedHelper.quadraticShooterSpeed(robotPose, shotLocationPose, 0.001, 0.05, 0.2); // adjust coefficients based on testing and requirements
   }
 
   public void toggle() {

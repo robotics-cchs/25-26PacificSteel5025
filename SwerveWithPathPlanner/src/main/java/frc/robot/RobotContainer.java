@@ -19,7 +19,6 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
 import com.pathplanner.lib.path.PathConstraints;
 
-// import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -141,9 +140,6 @@ public class RobotContainer {
         m_conveyorSubsystem.reverse();
     }, m_conveyorSubsystem);
 
-    // TODO: PATHFINDING; Not Tested
-    Command pathFindToShootSpot = AutoBuilder.pathfindToPose(targetPose, constraints);
-
     // Setting up bindings for necessary control of the swerve drive platform
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -203,6 +199,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("ConveyorReverse", conveyorReverseCommand);
     }
     private void configureBindings() {
+        // TODO: PATHFINDING; Not Tested
+        Command pathFindToShootSpot = AutoBuilder.pathfindToPose(targetPose, constraints);
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
