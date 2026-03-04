@@ -11,66 +11,73 @@ import frc.robot.constants.MechanismConstants.OperatorConstants;
 public class IntakeSubsystem extends SubsystemBase {
   
   double dir = OperatorConstants.FORWARD;
-  double lifterDir = OperatorConstants.FORWARD;
+  // double lifterDir = OperatorConstants.FORWARD;
 
   boolean currentToggleStatus = false;
-  boolean currentLifterToggleStatus = false;
+  // boolean currentLifterToggleStatus = false;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     OperatorConstants.krkIntakeMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
-    OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+    // OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    // OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Intake Lifter Motor",OperatorConstants.krkIntakeLifterMotor.getMotorVoltage().getValueAsDouble());
+    // SmartDashboard.putNumber("Intake Lifter Motor",OperatorConstants.krkIntakeLifterMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Intake Motor",OperatorConstants.krkIntakeMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Current Intake Toggle Status", currentToggleStatus);
-    SmartDashboard.putBoolean("Current Intake Lifter Toggle Status", currentLifterToggleStatus);
+    // SmartDashboard.putBoolean("Current Intake Lifter Toggle Status", currentLifterToggleStatus);
     OperatorConstants.krkIntakeMotor.set(OperatorConstants.MotorSettings.INTAKE_SPEED*dir*(currentToggleStatus?1:0)); // Sets the speed to intakeSpeed when toggled
-    OperatorConstants.krkIntakeMotor.set(OperatorConstants.MotorSettings.INTAKE_LIFTER_SPEED*dir*(currentToggleStatus?1:0)); // Sets the speed to intakeLifterSpeed when toggled
+    // OperatorConstants.krkIntakeLifterMotor.set(OperatorConstants.MotorSettings.INTAKE_LIFTER_SPEED*lifterDir*(currentLifterToggleStatus?1:0)); // Sets the speed to intakeLifterSpeed when toggled
   }
 
   public void toggle() {
     currentToggleStatus = !currentToggleStatus;
   }
 
-  public void toggleLifter() {
-    currentLifterToggleStatus = !currentLifterToggleStatus;
-  }
+  // public void toggleLifter() {
+  //   currentLifterToggleStatus = !currentLifterToggleStatus;
+  // }
 
+  // public void on() {
+  //   currentLifterToggleStatus = true;
+  // }
+
+  // public void off() {
+  //   currentLifterToggleStatus = false;
+  // }
 
   public void forward() {
-    if (dir!=OperatorConstants.REVERSE) {
+    if (dir!=OperatorConstants.FORWARD) {
       dir = OperatorConstants.FORWARD;
     }
   }
 
   public void reverse() {
-    if (dir!=OperatorConstants.FORWARD) {
+    if (dir!=OperatorConstants.REVERSE) {
       dir = OperatorConstants.REVERSE;
     }
   }
 
-  public void down() {
-    if (lifterDir!=OperatorConstants.FORWARD) {
-      lifterDir = OperatorConstants.REVERSE;
-    }
-  }
+  // public void down() {
+  //   if (lifterDir!=OperatorConstants.REVERSE) {
+  //     lifterDir = OperatorConstants.REVERSE;
+  //   }
+  // }
 
-  public void up() {
-    if (lifterDir!=OperatorConstants.REVERSE) {
-      lifterDir = OperatorConstants.FORWARD;
-    }
-  }
+  // public void up() {
+  //   if (lifterDir!=OperatorConstants.FORWARD) {
+  //     lifterDir = OperatorConstants.FORWARD;
+  //   }
+  // }
 
   public void stop() {
     currentToggleStatus = false;
-    currentLifterToggleStatus = false;
+    // currentLifterToggleStatus = false;
   }
 }

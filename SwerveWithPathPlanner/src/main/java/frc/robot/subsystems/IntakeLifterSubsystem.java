@@ -10,11 +10,15 @@ import frc.robot.constants.MechanismConstants.OperatorConstants;
 import edu.wpi.first.math.controller.PIDController;
 
 public class IntakeLifterSubsystem extends SubsystemBase {
-  // https://docs.wpilib.org/en/stable/docs/software/commandbased/pid-subsystems-commands.html
+  // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/controllers/pidcontroller.html#pid-control-in-wpilib
   private final PIDController pid;
 
   // current setpoint
   private double setpointRotations = 0.0;
+
+  private double up = OperatorConstants.MotorSettings.LIFTER_UP_SETPOINT;
+  private double mid = OperatorConstants.MotorSettings.LIFTER_MIDDLE_SETPOINT;
+  private double down = OperatorConstants.MotorSettings.LIFTER_DOWN_SETPOINT;
 
   public IntakeLifterSubsystem() {
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
@@ -47,21 +51,35 @@ public class IntakeLifterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Intake Lifter Position", currentRotations);
     SmartDashboard.putNumber("Intake Lifter Setpoint", setpointRotations);
     SmartDashboard.putNumber("Intake Lifter PID Output", output);
+    SmartDashboard.putBoolean("Intake Lifter At Position?", atSetpoint());
   }
 
-  public void setLifterPercent(double percent) {
+  public void setLifterPercent(double percent) { // for manual use
     setpointRotations = OperatorConstants.krkIntakeLifterMotor.getPosition().getValueAsDouble(); // cancel pid control by keeping setpoint
     pid.reset();
     OperatorConstants.krkIntakeLifterMotor.set(percent);
+    
   }
 
-  public void setLifterPositionRotations(double rotations) {
+  public void setLifterPositionRotations(double rotations) { // for manual setting
     setpointRotations = rotations;
     pid.reset();
   }
 
   public boolean atSetpoint() {
     return pid.atSetpoint();
+  }
+
+  public void setLifterUp() {
+    if (setpointRotations < up) {
+      setpointRotations += 12.5;
+    }
+  }
+
+  public void setLifterDown() {
+    if (setpointRotations > down) {
+      setpointRotations -= 12.5;
+    }
   }
 
   public void zeroLifterEncoder() {

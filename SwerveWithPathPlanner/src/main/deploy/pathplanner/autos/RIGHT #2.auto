@@ -37,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SHOOT MOVE LEFT TO RIGHT"
+            "pathName": "SHOOT BACK MOVE LEFT TO RIGHT"
           }
         },
         {
@@ -56,12 +56,6 @@
           "type": "path",
           "data": {
             "pathName": "GRAB RIGHT TO LEFT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LEFT OVER BUMP"
           }
         }
       ]

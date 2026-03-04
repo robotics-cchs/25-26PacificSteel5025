@@ -29,6 +29,7 @@ import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.IntakeLifterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -45,6 +46,7 @@ public class RobotContainer {
     // Initialization of Subsystems
     private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
     private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+    private final IntakeLifterSubsystem m_intakeLifterSubsystem = new IntakeLifterSubsystem();
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     
@@ -116,17 +118,13 @@ public class RobotContainer {
         m_intakeSubsystem.reverse();
     }, m_intakeSubsystem);
 
-    Command toggleIntakeLifterCommand = Commands.runOnce(() -> {
-        m_intakeSubsystem.toggle();
-    }, m_intakeSubsystem);
-
     Command intakeUpCommand = Commands.runOnce(() -> {
-        m_intakeSubsystem.up();
-    }, m_intakeSubsystem);
+        m_intakeLifterSubsystem.setLifterUp();
+    }, m_intakeLifterSubsystem);
 
     Command intakeDownCommand = Commands.runOnce(() -> {
-        m_intakeSubsystem.down();
-    }, m_intakeSubsystem);
+        m_intakeLifterSubsystem.setLifterDown();
+    }, m_intakeLifterSubsystem);
 
     // Conveyor Subsystem
     Command toggleConveyorCommand = Commands.runOnce(() -> {
@@ -158,9 +156,9 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        m_intakeLifterSubsystem.zeroLifterEncoder();
         configureAutoBindings();
         configureBindings();
-
         m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
@@ -190,7 +188,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("ToggleIntake", toggleIntakeCommand);
         NamedCommands.registerCommand("IntakeForward", intakeForwardCommand);
         NamedCommands.registerCommand("IntakeReverse", intakeReverseCommand);
-        NamedCommands.registerCommand("ToggleIntakeLifter", toggleIntakeLifterCommand);
         NamedCommands.registerCommand("IntakeUp", intakeUpCommand);
         NamedCommands.registerCommand("IntakeDown", intakeDownCommand);
 
@@ -231,12 +228,9 @@ public class RobotContainer {
         OperatorConstants.controllerOne.rightBumper().onTrue(shooterSpeedUpCommand); // Increase Shooter Speed
 
         // Intake Lifter
-        OperatorConstants.controllerOne.leftTrigger().onTrue(toggleIntakeLifterCommand); // Activate Intake Lifter
         OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
-        OperatorConstants.controllerOne.leftTrigger().onFalse(toggleIntakeLifterCommand); // Deactivate Intake Lifter
-        OperatorConstants.controllerOne.rightTrigger().onTrue(toggleIntakeLifterCommand); // Activate Intake Lifter
+        OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
         OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
-        OperatorConstants.controllerOne.rightTrigger().onFalse(toggleIntakeLifterCommand); // Deactivate Intake Lifter
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
@@ -245,6 +239,22 @@ public class RobotContainer {
         OperatorConstants.controllerTwo.y().onTrue(intakeReverseCommand); // Intake Out
         OperatorConstants.controllerTwo.y().onTrue(toggleIntakeCommand); // Activate Intake
         OperatorConstants.controllerTwo.y().onFalse(toggleIntakeCommand); // Deactivate Intake
+
+        // Kicker
+        OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
+        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
+        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
+
+        // Kicker
+        OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
+        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
+        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
 
         // Kicker
         OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter

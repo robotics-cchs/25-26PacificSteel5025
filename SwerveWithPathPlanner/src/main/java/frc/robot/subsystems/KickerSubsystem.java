@@ -17,10 +17,10 @@ public class KickerSubsystem extends SubsystemBase {
 
   /** Creates a new KickerSubsystem. */
   public KickerSubsystem() {
-    OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
+    OperatorConstants.krkRightKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkRightKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
-    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkLeftKickerMotor.getConfigurator().apply(OperatorConstants.invertedDefaultConfig);
     OperatorConstants.krkLeftKickerMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
   }
 
@@ -36,6 +36,14 @@ public class KickerSubsystem extends SubsystemBase {
 
   public void toggle() {
     currentToggleStatus = !currentToggleStatus;
+  }
+
+  public void on() {
+    currentToggleStatus = true;
+  }
+
+  public void off() {
+    currentToggleStatus = false;
   }
 
   public void inc() {

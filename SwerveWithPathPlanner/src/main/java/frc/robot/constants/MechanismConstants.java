@@ -20,16 +20,22 @@ public class MechanismConstants {
     public static class OperatorConstants {
         public static class MotorSettings {
             public static final double INTAKE_SPEED = 0.2;
-            public static final double INTAKE_LIFTER_SPEED = 0.25;
+            public static final double INTAKE_LIFTER_SPEED = 0.5;
             public static final double KICKER_SPEED_BASE = 0.4;
             public static final double SHOOTER_SPEED_BASE = 0.4;
             public static final double CONVEYOR_SPEED = 0.2;
 
             // Lifter PID constants
-            public static final double LIFTER_kP = 0.005;
+            public static final double LIFTER_kP = 0.05;
             public static final double LIFTER_kI = 0.0;
             public static final double LIFTER_kD = 0.0;
             public static final double LIFTER_kF = 0.0;
+
+            // Lifter reference points
+            public static final double LIFTER_UP_SETPOINT = 0.0;
+            public static final double LIFTER_MIDDLE_SETPOINT = -12.5;
+            public static final double LIFTER_DOWN_SETPOINT = -25.0;
+            
             // Tolerance
             public static final double LIFTER_POSITION_TOLERANCE_ROTATIONS = 0.05; // adjust based on testing and requirements
         }
@@ -60,16 +66,16 @@ public class MechanismConstants {
         public static final CommandXboxController controllerTwo = new CommandXboxController(controllerTwoPort);
 
         // Initialize TalonFX Non-Swerve MotorControllers
-        public static final TalonFX krkLeftShooterMotor = new TalonFX(tfxPort50); //Kraken X60 : Shooter
-        public static final TalonFX krkRightShooterMotor = new TalonFX(tfxPort51); // Kraken X60 : Shooter
+        public static final TalonFX krkLeftShooterMotor = new TalonFX(tfxPort50); //Kraken X60 : Left Shooter
+        public static final TalonFX krkRightShooterMotor = new TalonFX(tfxPort51); // Kraken X60 : Right Shooter
 
-        public static final TalonFX krkIntakeMotor = new TalonFX(tfxPort52); // Kraken X44 : Intake
+        public static final TalonFX krkIntakeMotor = new TalonFX(tfxPort52); // Kraken X44 : Intake (right)
         public static final TalonFX krkIntakeLifterMotor = new TalonFX(tfxPort53); // Kraken X60 : Intake Lifter
 
         public static final TalonFX krkConveyorMotor = new TalonFX(tfxPort54); // Kraken X44 : Conveyor
 
-        public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44 : Kicker
-        public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44 : Kicker
+        public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44 : Left Kicker
+        public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44 : Right Kicker
         
         public static final TalonFXConfiguration defaultConfig = new TalonFXConfiguration().withCurrentLimits(
             new CurrentLimitsConfigs()
