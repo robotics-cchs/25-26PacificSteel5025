@@ -2,39 +2,37 @@
 # Team
 PacificSteel5025
 
-Lead Developer: Armine, Celine, Diego
+Lead Developers: Armine, Celine, Diego
 
-Developers: Roy
+Developer: Roy
 
-This is our codebase for the 2025-2026 FRCRobotics Competition
+This is our codebase for the 2025-2026 FRC Robotics Competition
 
 # Specifications
 Programming Language: Java
 
-Software: Github, 2026 WPILib VS Code 
+### Software
+- Github Desktop
+- 2026 WPILib VS Code
+- Java
 
-Programming tasks:
-1. Update Tan Laptop: WPI, Game Tools Computer, 
-2. Update Blue Laptop
-3. Update Gaming Laptop: GT, Computer
-4. Update Roborios: R2, R3
-5. Update Radios
-6. Update Motor Controllers: Kraken, TalonSRX
-7. Update PDP
+### Vendor Libraries
+- Phoenix Software 
+  - Phoenix v5
+  - Phoenix 6 2026
+- REVLib
+  - REVLib-2026
 
-### Syntax: 
-- Numbers
-  - 00...09 &rarr; swerve encoders
-  - 10...19 &rarr; misc encoders
-  - 20...29 &rarr; turners
-  - 30...39 &rarr; drive
-  - 40...59 &rarr; other motor controllers
-  - 60...69 &rarr; pneumatics
- 
-- Constants
-  - Motor Controllers
-      - KMCPort &rarr; Kraken Motor Controller Ports
-      - SMC     &rarr; Other Motor Controllers
-  - Subsystems
-      - fullnameSubsystem &rarr; subsystem named part
-      - fullnameCommand   &rarr; command for the subsystems
+### Hardware:
+- TalonFX Motors &rarr; 7 motors
+
+### Constants:
+- MechanismConstants
+- SwerveConstants
+
+### Subsystems: 
+- CommandSwerveDrivetrain
+- ConveyorSubsystem
+- IntakeSubsystem
+- KickerSubsystem
+- ShooterSubsystem
