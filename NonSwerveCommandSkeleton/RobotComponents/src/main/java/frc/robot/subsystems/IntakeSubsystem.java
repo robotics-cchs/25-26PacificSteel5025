@@ -72,6 +72,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeUpSpeed(double speed) {
+    OperatorConstants.tfxIntakeLifterMotor.getPosition();
     OperatorConstants.tfxIntakeLifterMotor.set(speed);
   }
 
