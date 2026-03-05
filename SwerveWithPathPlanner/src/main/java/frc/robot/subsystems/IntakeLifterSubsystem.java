@@ -17,7 +17,6 @@ public class IntakeLifterSubsystem extends SubsystemBase {
   private double setpointRotations = 0.0;
 
   private double up = OperatorConstants.MotorSettings.LIFTER_UP_SETPOINT;
-  private double mid = OperatorConstants.MotorSettings.LIFTER_MIDDLE_SETPOINT;
   private double down = OperatorConstants.MotorSettings.LIFTER_DOWN_SETPOINT;
 
   public IntakeLifterSubsystem() {
@@ -58,7 +57,6 @@ public class IntakeLifterSubsystem extends SubsystemBase {
     setpointRotations = OperatorConstants.krkIntakeLifterMotor.getPosition().getValueAsDouble(); // cancel pid control by keeping setpoint
     pid.reset();
     OperatorConstants.krkIntakeLifterMotor.set(percent);
-    
   }
 
   public void setLifterPositionRotations(double rotations) { // for manual setting
