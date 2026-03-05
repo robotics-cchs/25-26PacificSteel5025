@@ -32,13 +32,21 @@ public class ConveyorSubsystem extends SubsystemBase {
     currentToggleStatus = !currentToggleStatus;
   }
 
+  public void on() {
+    currentToggleStatus = true;
+  }
+
+  public void off() {
+    currentToggleStatus = false;
+  }
+  
   public void forward() {
-    if (dir!=OperatorConstants.FORWARD) {
+    if (dir!=OperatorConstants.REVERSE) {
       dir = OperatorConstants.REVERSE;
     }
   }
   public void reverse() {
-    if (dir!=OperatorConstants.REVERSE) {
+    if (dir!=OperatorConstants.FORWARD) {
       dir = OperatorConstants.FORWARD;
     }
   }
