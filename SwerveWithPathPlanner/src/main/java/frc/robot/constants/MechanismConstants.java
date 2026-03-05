@@ -26,7 +26,7 @@ public class MechanismConstants {
             public static final double CONVEYOR_SPEED = 0.2;
 
             // Lifter PID constants
-            public static final double LIFTER_kP = 0.05;
+            public static final double LIFTER_kP = 0.5;
             public static final double LIFTER_kI = 0.0;
             public static final double LIFTER_kD = 0.0;
             public static final double LIFTER_kF = 0.0;
