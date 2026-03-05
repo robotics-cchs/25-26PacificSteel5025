@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class MechanismConstants {
     public static class OperatorConstants {
         public static class MotorSettings {
-            public static final double INTAKE_SPEED = 0.2;
+            public static final double INTAKE_SPEED = 0.8;
             public static final double INTAKE_LIFTER_SPEED = 0.5;
             public static final double KICKER_SPEED_BASE = 0.4;
             public static final double SHOOTER_SPEED_BASE = 0.4;
