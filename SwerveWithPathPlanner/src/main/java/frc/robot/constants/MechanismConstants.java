@@ -22,7 +22,7 @@ public class MechanismConstants {
             public static final double INTAKE_SPEED = 0.8;
             public static final double INTAKE_LIFTER_SPEED = 0.5;
             public static final double KICKER_SPEED_BASE = 0.4;
-            public static final double SHOOTER_SPEED_BASE = 0.4;
+            public static final double SHOOTER_SPEED_BASE = 0.65;
             public static final double CONVEYOR_SPEED = 0.2;
 
             // Lifter PID constants

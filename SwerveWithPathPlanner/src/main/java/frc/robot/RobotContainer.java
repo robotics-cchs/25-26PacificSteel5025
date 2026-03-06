@@ -228,9 +228,9 @@ public class RobotContainer {
         OperatorConstants.controllerOne.rightBumper().onTrue(shooterSpeedUpCommand); // Increase Shooter Speed
 
         // Intake Lifter
-        OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
-        OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
-        OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
+        // OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
+        // OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
+        // OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
