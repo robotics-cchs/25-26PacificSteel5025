@@ -227,7 +227,27 @@ public class RobotContainer {
         OperatorConstants.controllerOne.leftBumper().onTrue(shooterSpeedDownCommand); // Decrease Shooter Speed
         OperatorConstants.controllerOne.rightBumper().onTrue(shooterSpeedUpCommand); // Increase Shooter Speed
 
-        // Intake Lifter
+        /**
+         * Potential Issues with Lifter Code
+         * IMPORTANT: Take chain off and try to fix without chain first
+         * 
+         * Issue One: In the original code the leftTrigger() was called twice and that could be what was causing the chain 
+         * to bounce while going down
+         * 
+         * Issue Two: OnTrue() may not work in this situation because there is no toggle for on and off like Intake, Conveyor,
+         * and Kicker have.
+         * 
+         * Potential Fix: We might need to change it from onTrue() to whileTrue() because that means while the button is pressed down
+         * and technically true it will activate until it becomes false when the button is unpressed
+         * 
+         * I've written code below for you guys to take a look and test 
+         */
+
+        // Potential Intake Lifter Fix Below
+        // OperatorConstants.controllerOne.leftTrigger().whileTrue(intakeDownCommand); // Intake Down
+        // OperatorConstants.controllerOne.rightTrigger().whileTrue(intakeUpCommand); // Intake Up
+
+        // Intake Lifter (Original Broken Code)
         // OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
         // OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
         // OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
@@ -239,22 +259,6 @@ public class RobotContainer {
         OperatorConstants.controllerTwo.y().onTrue(intakeReverseCommand); // Intake Out
         OperatorConstants.controllerTwo.y().onTrue(toggleIntakeCommand); // Activate Intake
         OperatorConstants.controllerTwo.y().onFalse(toggleIntakeCommand); // Deactivate Intake
-
-        // Kicker
-        OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
-        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
-
-        // Kicker
-        OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
-        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
 
         // Kicker
         OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
