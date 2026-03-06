@@ -20,6 +20,7 @@ public class MechanismConstants {
     public static class OperatorConstants {
         public static class MotorSettings {
             public static final double INTAKE_SPEED = 0.8;
+            // LOWER SPEED WHEN CHAIN IS ON AND TEST UNTIL WE GET A GOOD VALUE
             public static final double INTAKE_LIFTER_SPEED = 0.5;
             public static final double KICKER_SPEED_BASE = 0.4;
             public static final double SHOOTER_SPEED_BASE = 0.65;
@@ -76,6 +77,14 @@ public class MechanismConstants {
 
         public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44 : Left Kicker
         public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44 : Right Kicker
+
+        /**
+         * We might need to change the lifter motor to be a NeutralModeValue.Brake instead of Coast because unlike a 
+         * swerve motor we don't want it to coast but it needs testing
+         * 
+         * Potential Fix: Add another TalonFXConfiguration that is strictly only for the lifter subsystem.
+         * DO NOT MODIFY THE CURRENT TalonFXConfiguration!!! MAKE A NEW ONE AND APPLY IT TO THE LIFTER SUBSYSTEM
+         */
         
         public static final TalonFXConfiguration defaultConfig = new TalonFXConfiguration().withCurrentLimits(
             new CurrentLimitsConfigs()
