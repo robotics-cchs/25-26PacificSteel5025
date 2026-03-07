@@ -11,9 +11,27 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "PREP SHOOT RIGHT FROM START"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ToggleIntake"
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
           }
         },
         {
@@ -23,9 +41,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "OVER BUMP RIGHT TO NEUTRAL"
+            "pathName": "SHOOT BUMP RIGHT TO NEUTRAL FROM SET"
           }
         },
         {
@@ -67,7 +91,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SHOOT MOVE LEFT TO RIGHT"
+            "pathName": "SHOOT BACK MOVE LEFT TO RIGHT"
           }
         },
         {
@@ -80,24 +104,6 @@
           "type": "path",
           "data": {
             "pathName": "SHOOT BUMP RIGHT TO NEUTRAL"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB SET RIGHT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB RIGHT TO LEFT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LEFT OVER BUMP"
           }
         }
       ]

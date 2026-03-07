@@ -11,6 +11,18 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeDown"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "OVER BUMP LEFT TO NEUTRAL"
@@ -29,15 +41,39 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "IntakeUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "RIGHT OVER BUMP"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "SHOOT MOVE RIGHT TO LEFT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
           }
         },
         {
@@ -68,6 +104,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }

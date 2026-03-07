@@ -25,19 +25,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OVER BUMP RIGHT TO NEUTRAL"
+            "pathName": "OVER BUMP LEFT TO NEUTRAL"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GRAB SET RIGHT"
+            "pathName": "GRAB SET LEFT"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GRAB RIGHT TO LEFT"
+            "pathName": "GRAB LEFT TO RIGHT"
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LEFT OVER BUMP"
+            "pathName": "RIGHT OVER BUMP"
           }
         },
         {
@@ -67,7 +67,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SHOOT MOVE LEFT TO RIGHT"
+            "pathName": "SHOOT BACK MOVE RIGHT TO LEFT"
           }
         },
         {
@@ -79,31 +79,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SHOOT BUMP RIGHT TO NEUTRAL"
+            "pathName": "SHOOT BUMP LEFT TO NEUTRAL"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GRAB SET RIGHT"
+            "pathName": "GRAB SET LEFT"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GRAB RIGHT TO LEFT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LEFT OVER BUMP"
+            "pathName": "GRAB LEFT TO RIGHT"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }
