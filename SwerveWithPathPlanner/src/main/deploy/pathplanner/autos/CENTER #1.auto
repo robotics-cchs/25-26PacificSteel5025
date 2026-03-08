@@ -13,7 +13,31 @@
         {
           "type": "named",
           "data": {
-            "name": "ToggleIntake"
+            "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PREP SHOOT CENTER FROM START"
           }
         },
         {
@@ -23,51 +47,45 @@
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "OVER BUMP LEFT TO NEUTRAL"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB SET LEFT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB LEFT TO RIGHT"
+            "waitTime": 1.0
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "IntakeUp"
+            "name": "ConveyorForward"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ToggleIntake"
+            "name": "KickerSetForward"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "RIGHT OVER BUMP"
+            "waitTime": 1.5
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ToggleKicker"
+            "name": "IntakeZero"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "SHOOT MOVE RIGHT TO LEFT"
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
           }
         },
         {
@@ -77,33 +95,15 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "SHOOT BUMP LEFT TO NEUTRAL"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB SET LEFT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB LEFT TO RIGHT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RIGHT OVER BUMP"
+            "name": "ToggleShoot"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "LEFT AUTOS",
+  "folder": null,
   "choreoAuto": false
 }

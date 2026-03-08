@@ -7,25 +7,25 @@
         {
           "type": "named",
           "data": {
-            "name": "ToggleShoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "ConveyorBackward"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "KickerSetReverse"
+            "name": "KickerForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
+            "pathName": "PREP SHOOT LEFT FROM START"
           }
         },
         {
@@ -41,15 +41,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeDown"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 2.0
           }
         },
         {
@@ -59,27 +53,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "KickerSetForward"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeZero"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
+            "waitTime": 5.0
           }
         },
         {
@@ -104,6 +80,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }

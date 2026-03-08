@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
+            "pathName": "Copy of PREP SHOOT LEFT FROM START"
           }
         },
         {
@@ -113,9 +113,15 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "GOTO OUTPOST"
+            "pathName": "LEFT GOTO OUTPOST"
           }
         },
         {
@@ -128,12 +134,6 @@
           "type": "named",
           "data": {
             "name": "ToggleKicker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleIntake"
           }
         },
         {
@@ -194,6 +194,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }

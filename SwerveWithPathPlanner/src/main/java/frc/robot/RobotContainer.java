@@ -33,7 +33,6 @@ import frc.robot.subsystems.IntakeLifterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.helpers.ShooterAlignHelper;
 import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
@@ -46,7 +45,7 @@ public class RobotContainer {
     // Initialization of Subsystems
     private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
     private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-    private final IntakeLifterSubsystem m_intakeLifterSubsystem = new IntakeLifterSubsystem();
+    // private final IntakeLifterSubsystem m_intakeLifterSubsystem = new IntakeLifterSubsystem();
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     
@@ -118,14 +117,26 @@ public class RobotContainer {
         m_intakeSubsystem.reverse();
     }, m_intakeSubsystem);
 
+    // Command intakeUpCommand = Commands.runOnce(() -> {
+    //     m_intakeLifterSubsystem.setLifterUp();
+    // }, m_intakeLifterSubsystem);
+
+    // Command intakeDownCommand = Commands.runOnce(() -> {
+    //     m_intakeLifterSubsystem.setLifterDown();
+    // }, m_intakeLifterSubsystem);
+
     Command intakeUpCommand = Commands.runOnce(() -> {
-        m_intakeLifterSubsystem.setLifterUp();
-    }, m_intakeLifterSubsystem);
+        m_intakeSubsystem.intakeLifterSpeed(OperatorConstants.MotorSettings.INTAKE_LIFTER_SPEED);
+    }, m_intakeSubsystem);
 
     Command intakeDownCommand = Commands.runOnce(() -> {
-        m_intakeLifterSubsystem.setLifterDown();
-    }, m_intakeLifterSubsystem);
-
+        m_intakeSubsystem.intakeLifterSpeed(-OperatorConstants.MotorSettings.INTAKE_LIFTER_SPEED);
+    }, m_intakeSubsystem);
+    
+    Command intakeZeroCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.intakeLifterSpeed(0);
+    }, m_intakeSubsystem);
+    
     // Conveyor Subsystem
     Command toggleConveyorCommand = Commands.runOnce(() -> {
         m_conveyorSubsystem.toggle();
@@ -156,7 +167,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        m_intakeLifterSubsystem.zeroLifterEncoder();
+        // m_intakeLifterSubsystem.zeroLifterEncoder();
         configureAutoBindings();
         configureBindings();
         m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
@@ -190,6 +201,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeReverse", intakeReverseCommand);
         NamedCommands.registerCommand("IntakeUp", intakeUpCommand);
         NamedCommands.registerCommand("IntakeDown", intakeDownCommand);
+        NamedCommands.registerCommand("IntakeZero", intakeZeroCommand);
 
         // Conveyor Commands
         NamedCommands.registerCommand("ToggleConveyor", toggleConveyorCommand);
@@ -219,7 +231,6 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        OperatorConstants.controllerOne.b().onTrue(new ShooterAlignHelper(drivetrain, targetPose)); // aligns to the hub
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
@@ -229,8 +240,9 @@ public class RobotContainer {
 
         // Intake Lifter
         OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
-        OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
         OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
+        OperatorConstants.controllerOne.leftTrigger().onFalse(intakeZeroCommand); // Intake Down
+        OperatorConstants.controllerOne.rightTrigger().onFalse(intakeZeroCommand); // Intake Up
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
@@ -239,22 +251,6 @@ public class RobotContainer {
         OperatorConstants.controllerTwo.y().onTrue(intakeReverseCommand); // Intake Out
         OperatorConstants.controllerTwo.y().onTrue(toggleIntakeCommand); // Activate Intake
         OperatorConstants.controllerTwo.y().onFalse(toggleIntakeCommand); // Deactivate Intake
-
-        // Kicker
-        OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
-        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
-
-        // Kicker
-        OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
-        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
 
         // Kicker
         OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter

@@ -11,9 +11,27 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "PREP SHOOT RIGHT FROM START"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ToggleIntake"
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
           }
         },
         {
@@ -23,21 +41,27 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "OVER BUMP LEFT TO NEUTRAL"
+            "name": "ToggleIntake"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GRAB SET LEFT"
+            "pathName": "SHOOT BUMP RIGHT TO NEUTRAL FROM SET"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "GRAB LEFT TO RIGHT"
+            "pathName": "GRAB SET RIGHT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB RIGHT TO LEFT"
           }
         },
         {
@@ -55,7 +79,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "RIGHT OVER BUMP"
+            "pathName": "LEFT OVER BUMP"
           }
         },
         {
@@ -67,7 +91,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SHOOT MOVE RIGHT TO LEFT"
+            "pathName": "SHOOT BACK MOVE LEFT TO RIGHT"
           }
         },
         {
@@ -79,31 +103,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SHOOT BUMP LEFT TO NEUTRAL"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB SET LEFT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB LEFT TO RIGHT"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RIGHT OVER BUMP"
+            "pathName": "SHOOT BUMP RIGHT TO NEUTRAL"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "LEFT AUTOS",
+  "folder": "RIGHT AUTOS",
   "choreoAuto": false
 }

@@ -19,25 +19,25 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class MechanismConstants {
     public static class OperatorConstants {
         public static class MotorSettings {
-            public static final double INTAKE_SPEED = 0.8;
-            public static final double INTAKE_LIFTER_SPEED = 0.5;
-            public static final double KICKER_SPEED_BASE = 0.4;
-            public static final double SHOOTER_SPEED_BASE = 0.4;
-            public static final double CONVEYOR_SPEED = 0.2;
+            public static final double INTAKE_SPEED = 0.5;
+            public static final double INTAKE_LIFTER_SPEED = 0.1;
+            public static final double KICKER_SPEED_BASE = 0.55;
+            public static final double SHOOTER_SPEED_BASE = 0.525;
+            public static final double CONVEYOR_SPEED = 0.3;
 
             // Lifter PID constants
-            public static final double LIFTER_kP = 0.5;
+            public static final double LIFTER_kP = 0.05;
             public static final double LIFTER_kI = 0.0;
             public static final double LIFTER_kD = 0.0;
             public static final double LIFTER_kF = 0.0;
 
             // Lifter reference points
             public static final double LIFTER_UP_SETPOINT = 0.0;
-            public static final double LIFTER_MIDDLE_SETPOINT = -12.5;
-            public static final double LIFTER_DOWN_SETPOINT = -25.0;
+            public static final double LIFTER_MIDDLE_SETPOINT = 25/2;
+            public static final double LIFTER_DOWN_SETPOINT = -25;
             
             // Tolerance
-            public static final double LIFTER_POSITION_TOLERANCE_ROTATIONS = 0.05; // adjust based on testing and requirements
+            public static final double LIFTER_POSITION_TOLERANCE_ROTATIONS = 1; // adjust based on testing and requirements
         }
         public static final double FORWARD = 1;
         public static final double REVERSE = -1;
@@ -76,7 +76,7 @@ public class MechanismConstants {
 
         public static final TalonFX krkLeftKickerMotor = new TalonFX(tfxPort55); // Kraken X44 : Left Kicker
         public static final TalonFX krkRightKickerMotor = new TalonFX(tfxPort56); // Kraken X44 : Right Kicker
-        
+
         public static final TalonFXConfiguration defaultConfig = new TalonFXConfiguration().withCurrentLimits(
             new CurrentLimitsConfigs()
                 .withStatorCurrentLimit(Amps.of(MAX_CURRENT_STATOR)) // Makes stator current limits

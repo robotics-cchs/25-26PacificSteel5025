@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
-import frc.robot.helpers.ShooterSpeedHelper;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -59,8 +58,6 @@ public class ShooterSubsystem extends SubsystemBase {
     OperatorConstants.krkRightShooterMotor.set(shooterSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
 
     robotPose = getPose();
-    // could be used to adjust the shooter speed automatically
-    calculationSpeed = ShooterSpeedHelper.quadraticShooterSpeed(robotPose, shotLocationPose, 0.001, 0.05, 0.2); // adjust coefficients based on testing and requirements
   }
 
   public void toggle() {

@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
+
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.math.controller.PIDController;
 
 public class IntakeLifterSubsystem extends SubsystemBase {
@@ -21,6 +24,7 @@ public class IntakeLifterSubsystem extends SubsystemBase {
 
   public IntakeLifterSubsystem() {
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkIntakeLifterMotor.setNeutralMode(NeutralModeValue.Brake);
     OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
 
     // create PID controller using constants
@@ -45,7 +49,11 @@ public class IntakeLifterSubsystem extends SubsystemBase {
     if (output < -1.0) output = -1.0;
 
     // send da percent output to TalonFX
+    if (!atSetpoint()) {
     OperatorConstants.krkIntakeLifterMotor.set(output);
+    } else {
+      OperatorConstants.krkIntakeLifterMotor.stopMotor();
+    }
 
     SmartDashboard.putNumber("Intake Lifter Position", currentRotations);
     SmartDashboard.putNumber("Intake Lifter Setpoint", setpointRotations);
@@ -70,13 +78,13 @@ public class IntakeLifterSubsystem extends SubsystemBase {
 
   public void setLifterUp() {
     if (setpointRotations < up) {
-      setpointRotations += 12.5;
+      setpointRotations += OperatorConstants.MotorSettings.LIFTER_MIDDLE_SETPOINT;
     }
   }
 
   public void setLifterDown() {
     if (setpointRotations > down) {
-      setpointRotations -= 12.5;
+      setpointRotations -= OperatorConstants.MotorSettings.LIFTER_MIDDLE_SETPOINT;
     }
   }
 
