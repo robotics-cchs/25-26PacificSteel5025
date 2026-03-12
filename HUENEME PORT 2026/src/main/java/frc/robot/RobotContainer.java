@@ -33,7 +33,6 @@ import frc.robot.subsystems.IntakeLifterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.helpers.ShooterAlignHelper;
 import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
@@ -219,7 +218,6 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        // OperatorConstants.controllerOne.b().onTrue(new ShooterAlignHelper(drivetrain, targetPose)); // aligns to the hub
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
