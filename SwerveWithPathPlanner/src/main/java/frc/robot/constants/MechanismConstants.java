@@ -21,8 +21,9 @@ public class MechanismConstants {
         public static class MotorSettings {
             public static final double INTAKE_SPEED = 0.5;
             public static final double INTAKE_LIFTER_SPEED = 0.1;
-            public static final double KICKER_SPEED_BASE = 0.55;
+            public static final double KICKER_SPEED_BASE = 0.525;
             public static final double SHOOTER_SPEED_BASE = 0.525;
+            public static final double TELEOP_SPEED_BASE = 0.6;
             public static final double CONVEYOR_SPEED = 0.3;
 
             // Lifter PID constants
@@ -30,6 +31,11 @@ public class MechanismConstants {
             public static final double LIFTER_kI = 0.0;
             public static final double LIFTER_kD = 0.0;
             public static final double LIFTER_kF = 0.0;
+
+            public static final double ALIGN_P = 20.0;
+            public static final double ALIGN_I = 0.0;
+            public static final double ALIGN_D = 0.0;
+            public static final double ALIGN_TOLERANCE = 0.0;
 
             // Lifter reference points
             public static final double LIFTER_UP_SETPOINT = 0.0;

@@ -78,6 +78,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void dec() {
     shooterSpeed -= 0.025*((shooterSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
   }
+  public void teleopEnable() {
+    shooterSpeed = OperatorConstants.MotorSettings.TELEOP_SPEED_BASE;
+  }
 
   public void stop() {
     currentToggleStatus = false;

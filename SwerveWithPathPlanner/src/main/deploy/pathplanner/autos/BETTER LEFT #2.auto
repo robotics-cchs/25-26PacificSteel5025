@@ -83,12 +83,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "ToggleConveyor"
@@ -104,6 +98,12 @@
           "type": "named",
           "data": {
             "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
           }
         },
         {
@@ -127,19 +127,13 @@
         {
           "type": "named",
           "data": {
-            "name": "ToggleConveyor"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "ToggleKicker"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 1.0
           }
         },
         {
@@ -163,7 +157,7 @@
         {
           "type": "named",
           "data": {
-            "name": "KickerForward"
+            "name": "KickerSetReverse"
           }
         },
         {

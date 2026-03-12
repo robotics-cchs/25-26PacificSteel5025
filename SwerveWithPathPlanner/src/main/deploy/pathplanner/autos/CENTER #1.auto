@@ -41,12 +41,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeDown"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 1.0
@@ -71,12 +65,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeZero"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 3.0
@@ -98,6 +86,18 @@
           "type": "named",
           "data": {
             "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of SHOOT BUMP LEFT TO NEUTRAL FROM SET"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TeleopEnable"
           }
         }
       ]

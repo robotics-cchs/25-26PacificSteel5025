@@ -27,9 +27,9 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
+import frc.robot.helpers.AutoAlign;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.IntakeLifterSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KickerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -48,6 +48,7 @@ public class RobotContainer {
     // private final IntakeLifterSubsystem m_intakeLifterSubsystem = new IntakeLifterSubsystem();
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    private final AutoAlign m_autoAlign = new AutoAlign();
     
     //
 
@@ -81,6 +82,10 @@ public class RobotContainer {
 
     Command shooterSpeedDownCommand = Commands.runOnce(() -> {
         m_shooterSubsystem.dec();
+    }, m_shooterSubsystem);
+
+    Command teleopEnableCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.teleopEnable();
     }, m_shooterSubsystem);
 
     // Kicker Subsystem
@@ -183,6 +188,7 @@ public class RobotContainer {
         // Register Commands
         // Shooter Commands
         NamedCommands.registerCommand("ToggleShoot", toggleShootCommand);
+        NamedCommands.registerCommand("TeleopEnable", teleopEnableCommand);
         NamedCommands.registerCommand("ShooterSpeedUp", shooterSpeedUpCommand);
         NamedCommands.registerCommand("ShooterSpeedDown", shooterSpeedDownCommand);
         NamedCommands.registerCommand("ShooterOn", shooterOnCommand);
@@ -216,7 +222,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(OperatorConstants.controllerOne.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
                     .withVelocityY(OperatorConstants.controllerOne.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
-                    .withRotationalRate(-OperatorConstants.controllerOne.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate((-OperatorConstants.controllerOne.getRightX() + m_autoAlign.robotRotationOffset(drivetrain.getState().Pose, drivetrain.getState().RawHeading, OperatorConstants.controllerOne.b().getAsBoolean())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 

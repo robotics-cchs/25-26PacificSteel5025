@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
+            "pathName": "Copy of PREP SHOOT LEFT FROM START"
           }
         },
         {
@@ -67,25 +67,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
+            "waitTime": 2.5
           }
         },
         {
           "type": "named",
           "data": {
             "name": "IntakeZero"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         },
         {
@@ -109,19 +97,25 @@
         {
           "type": "named",
           "data": {
-            "name": "KickerSetReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GOTO OUTPOST"
+            "name": "ToggleConveyor"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ToggleConveyor"
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LEFT GOTO OUTPOST"
           }
         },
         {
@@ -137,21 +131,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleIntake"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Copy of GOTO OUTPOST"
+            "pathName": "Copy of GOTO OUTPOST 2"
           }
         },
         {
@@ -163,7 +145,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "KickerSetForward"
           }
         },
         {
@@ -194,6 +176,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }
