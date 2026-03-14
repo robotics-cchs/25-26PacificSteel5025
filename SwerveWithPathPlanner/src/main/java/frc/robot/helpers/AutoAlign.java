@@ -20,12 +20,29 @@ public class AutoAlign {
   private final PIDController pid;
   /** Creates a new AutoAlign. */
 
-  public static Pose2d targetPose() {
+  public static Pose2d targetPose(Pose2d robotLocation) {
       Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
       if (alliance == Alliance.Red) {
-        return new Pose2d(11.9,4.0,new Rotation2d());
+        if (robotLocation.getX() > 12) {
+          return new Pose2d(11.9,4.0,new Rotation2d());
+        } else {
+          if (robotLocation.getY()>4) {
+            return new Pose2d(11.9,5.6,new Rotation2d());
+          } else {
+            return new Pose2d(11.9,2.5,new Rotation2d());
+          }
+        }
       } else {
-        return new Pose2d(4.650,4.0,new Rotation2d());
+        if (robotLocation.getX() < 4) {
+          return new Pose2d(4.650,4.0,new Rotation2d());
+        } else {
+          if (robotLocation.getY()>4) {
+            return new Pose2d(4.650,5.6,new Rotation2d());
+          } else {
+            return new Pose2d(4.650,2.5,new Rotation2d());
+          }
+        }
+        
       }
   }
   public AutoAlign() {
@@ -37,7 +54,7 @@ public class AutoAlign {
   }
 
   public double robotRotationOffset(Pose2d robotLocation, Rotation2d robotDir, boolean tracking) {
-    double yaw = PhotonUtils.getYawToPose(robotLocation, targetPose()).getRotations();
+    double yaw = PhotonUtils.getYawToPose(robotLocation, targetPose(robotLocation)).getRotations();
     double offset = pid.calculate(0, yaw);
 
     SmartDashboard.putNumber("Offset", offset);
@@ -46,7 +63,7 @@ public class AutoAlign {
     if (offset > 1.0) offset = 1.0;
     if (offset < -1.0) offset = -1.0;
 
-    if (!((robotLocation.getX() < 3.5)||(robotLocation.getX() > 13))) offset = 0;
+    if ((((robotLocation.getX() > 3.5)&&(robotLocation.getX() < 5))||((robotLocation.getX() < 13)&&(robotLocation.getX() > 11.5)))) offset = 0;
     
     if (!tracking) offset = 0;
 

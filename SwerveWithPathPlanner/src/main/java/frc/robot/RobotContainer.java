@@ -29,10 +29,11 @@ import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.helpers.AutoAlign;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.KickerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.mechanisms.ConveyorSubsystem;
+import frc.robot.subsystems.mechanisms.IntakeSubsystem;
+import frc.robot.subsystems.mechanisms.KickerSubsystem;
+import frc.robot.subsystems.mechanisms.ShooterSubsystem;
+// import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
@@ -58,9 +59,6 @@ public class RobotContainer {
         3.0, 3.0,
         Units.degreesToRadians(540), Units.degreesToRadians(720)
     );
-
-    // TODO: TARGET POSITION CODE NEEDS REFINING
-    Pose2d targetPose = new Pose2d(4.650,4, new Rotation2d());
 
     // All requests as variables, and now instead of command files, with a more modern WPILib style
     // Shooter Subsystem
@@ -172,17 +170,17 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
+        // VisionSubsystem vision = new VisionSubsystem(drivetrain);
         // m_intakeLifterSubsystem.zeroLifterEncoder();
         configureAutoBindings();
         configureBindings();
-        m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
-
-        CameraServer.startAutomaticCapture(0);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
+        CameraServer.startAutomaticCapture();
     }
     private void configureAutoBindings() {
         // Register Commands
