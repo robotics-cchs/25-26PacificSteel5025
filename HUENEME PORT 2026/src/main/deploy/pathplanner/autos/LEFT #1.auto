@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OVER BUMP LEFT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET LEFT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB LEFT TO RIGHT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RIGHT OVER BUMP"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT MOVE RIGHT TO LEFT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT BUMP LEFT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET LEFT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB LEFT TO RIGHT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RIGHT OVER BUMP"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
