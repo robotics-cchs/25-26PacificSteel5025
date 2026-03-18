@@ -13,31 +13,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ConveyorBackward"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "KickerSetReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleKicker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleConveyor"
+            "name": "ToggleIntake"
           }
         },
         {
@@ -47,45 +23,39 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 1.0
+            "pathName": "OVER BUMP RIGHT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET RIGHT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB RIGHT TO LEFT"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ConveyorForward"
+            "name": "IntakeUp"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "KickerSetForward"
+            "name": "ToggleIntake"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 1.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeZero"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 3.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleConveyor"
+            "pathName": "LEFT OVER BUMP"
           }
         },
         {
@@ -95,9 +65,33 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT BACK MOVE LEFT TO RIGHT"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ToggleShoot"
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT BUMP RIGHT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET RIGHT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB RIGHT TO LEFT"
           }
         }
       ]

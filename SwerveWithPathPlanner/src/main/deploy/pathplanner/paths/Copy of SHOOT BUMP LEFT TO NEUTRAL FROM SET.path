@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.5,
-        "y": 4.5
+        "x": 2.0,
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.378679656440358,
-        "y": 6.621320343559642
+        "x": 3.0,
+        "y": 4.0
       },
       "isLocked": false,
       "linkedName": null
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 3.0,
-        "y": 5.1
+        "y": 4.0
       },
       "prevControl": {
-        "x": 4.0,
-        "y": 5.1
+        "x": 2.0,
+        "y": 4.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,21 +29,7 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.25,
-      "maxWaypointRelativePos": 0.75,
-      "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -55,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 3.0,
+    "velocity": 0.0,
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "BACK TO SET",
+  "folder": "BUMP",
   "idealStartingState": {
-    "velocity": 3.0,
-    "rotation": 90.0
+    "velocity": 0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

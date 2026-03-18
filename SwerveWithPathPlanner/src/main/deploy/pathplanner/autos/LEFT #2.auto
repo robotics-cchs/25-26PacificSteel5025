@@ -13,7 +13,43 @@
         {
           "type": "path",
           "data": {
-            "pathName": "OVER BUMP LEFT TO NEUTRAL"
+            "pathName": "PREP SHOOT LEFT FROM START"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeDown"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT BUMP LEFT TO NEUTRAL FROM SET"
           }
         },
         {
@@ -29,15 +65,39 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "IntakeUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "RIGHT OVER BUMP"
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "SHOOT BACK MOVE RIGHT TO LEFT"
+            "pathName": "SHOOT MOVE RIGHT TO LEFT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
           }
         },
         {
@@ -51,17 +111,11 @@
           "data": {
             "pathName": "GRAB SET LEFT"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GRAB LEFT TO RIGHT"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }

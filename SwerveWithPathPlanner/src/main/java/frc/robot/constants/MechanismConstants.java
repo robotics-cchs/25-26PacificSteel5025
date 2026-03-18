@@ -19,26 +19,31 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class MechanismConstants {
     public static class OperatorConstants {
         public static class MotorSettings {
-            public static final double INTAKE_SPEED = 0.8;
-            // LOWER SPEED WHEN CHAIN IS ON AND TEST UNTIL WE GET A GOOD VALUE
-            public static final double INTAKE_LIFTER_SPEED = 0.5;
-            public static final double KICKER_SPEED_BASE = 0.4;
-            public static final double SHOOTER_SPEED_BASE = 0.65;
-            public static final double CONVEYOR_SPEED = 0.2;
+            public static final double INTAKE_SPEED = 0.5;
+            public static final double INTAKE_LIFTER_SPEED = 0.1;
+            public static final double KICKER_SPEED_BASE = 0.525;
+            public static final double SHOOTER_SPEED_BASE = 0.525;
+            public static final double TELEOP_SPEED_BASE = 0.6;
+            public static final double CONVEYOR_SPEED = 0.3;
 
             // Lifter PID constants
-            public static final double LIFTER_kP = 0.1;
+            public static final double LIFTER_kP = 0.05;
             public static final double LIFTER_kI = 0.0;
             public static final double LIFTER_kD = 0.0;
             public static final double LIFTER_kF = 0.0;
 
+            public static final double ALIGN_P = 20.0;
+            public static final double ALIGN_I = 0.0;
+            public static final double ALIGN_D = 0.0;
+            public static final double ALIGN_TOLERANCE = 0.0;
+
             // Lifter reference points
             public static final double LIFTER_UP_SETPOINT = 0.0;
-            public static final double LIFTER_MIDDLE_SETPOINT = -12.5;
-            public static final double LIFTER_DOWN_SETPOINT = -25.0;
+            public static final double LIFTER_MIDDLE_SETPOINT = 25/2;
+            public static final double LIFTER_DOWN_SETPOINT = -25;
             
             // Tolerance
-            public static final double LIFTER_POSITION_TOLERANCE_ROTATIONS = 0.05; // adjust based on testing and requirements
+            public static final double LIFTER_POSITION_TOLERANCE_ROTATIONS = 1; // adjust based on testing and requirements
         }
         public static final double FORWARD = 1;
         public static final double REVERSE = -1;

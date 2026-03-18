@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
+            "pathName": "Copy of PREP SHOOT LEFT FROM START"
           }
         },
         {
@@ -83,12 +83,6 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "ToggleConveyor"
@@ -109,25 +103,13 @@
         {
           "type": "named",
           "data": {
-            "name": "KickerSetReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GOTO OUTPOST"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "ToggleConveyor"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "ToggleKicker"
+            "name": "KickerSetReverse"
           }
         },
         {
@@ -137,9 +119,21 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "LEFT GOTO OUTPOST"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 1.0
           }
         },
         {
@@ -163,7 +157,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "KickerSetReverse"
           }
         },
         {
@@ -194,6 +188,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": "LEFT AUTOS",
   "choreoAuto": false
 }

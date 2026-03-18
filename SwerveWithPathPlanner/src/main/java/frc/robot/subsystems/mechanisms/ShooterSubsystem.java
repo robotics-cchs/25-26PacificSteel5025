@@ -2,12 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.mechanisms;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
-import frc.robot.helpers.ShooterSpeedHelper;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -59,8 +58,6 @@ public class ShooterSubsystem extends SubsystemBase {
     OperatorConstants.krkRightShooterMotor.set(shooterSpeed*(currentToggleStatus?1:0)); // Sets the speed to shootSpeed when toggled
 
     robotPose = getPose();
-    // could be used to adjust the shooter speed automatically
-    calculationSpeed = ShooterSpeedHelper.quadraticShooterSpeed(robotPose, shotLocationPose, 0.001, 0.05, 0.2); // adjust coefficients based on testing and requirements
   }
 
   public void toggle() {
@@ -80,6 +77,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   public void dec() {
     shooterSpeed -= 0.025*((shooterSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
+  }
+  public void teleopEnable() {
+    shooterSpeed = OperatorConstants.MotorSettings.TELEOP_SPEED_BASE;
   }
 
   public void stop() {

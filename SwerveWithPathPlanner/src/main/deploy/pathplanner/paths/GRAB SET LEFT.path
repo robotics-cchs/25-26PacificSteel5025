@@ -20,8 +20,8 @@
         "y": 7.0
       },
       "prevControl": {
-        "x": 6.792893218813452,
-        "y": 7.707106781186548
+        "x": 6.5,
+        "y": 7.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "GRAB",
   "idealStartingState": {
     "velocity": 3.0,
-    "rotation": 0.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }

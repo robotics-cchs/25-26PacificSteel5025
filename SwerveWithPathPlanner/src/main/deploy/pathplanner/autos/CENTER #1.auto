@@ -23,12 +23,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "ToggleKicker"
@@ -41,9 +35,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "IntakeDown"
+            "pathName": "PREP SHOOT CENTER FROM START"
           }
         },
         {
@@ -71,12 +65,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeZero"
-          }
-        },
-        {
           "type": "wait",
           "data": {
             "waitTime": 3.0
@@ -99,11 +87,23 @@
           "data": {
             "name": "ToggleShoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of SHOOT BUMP LEFT TO NEUTRAL FROM SET"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TeleopEnable"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": null,
   "choreoAuto": false
 }

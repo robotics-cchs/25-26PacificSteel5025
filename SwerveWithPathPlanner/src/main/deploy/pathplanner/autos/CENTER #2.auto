@@ -19,12 +19,6 @@
         {
           "type": "named",
           "data": {
-            "name": "IntakeForward"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "KickerSetReverse"
           }
         },
@@ -43,13 +37,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
+            "pathName": "PREP SHOOT CENTER FROM START"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "IntakeDown"
+            "waitTime": 1.0
           }
         },
         {
@@ -67,25 +61,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
             "waitTime": 1.5
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "IntakeZero"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 3.0
           }
         },
         {
@@ -98,90 +80,6 @@
           "type": "named",
           "data": {
             "name": "ToggleKicker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ConveyorBackward"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "KickerSetReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "GOTO OUTPOST"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleConveyor"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleKicker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleIntake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleIntake"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Copy of GOTO OUTPOST"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ConveyorForward"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": null
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.5
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleKicker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleConveyor"
           }
         },
         {
@@ -189,11 +87,41 @@
           "data": {
             "name": "ToggleShoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of SHOOT BUMP LEFT TO NEUTRAL FROM SET"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CENTER TO GOTO"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB CENTER TO DEPOT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of GOTO OUTPOST 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TeleopEnable"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "RIGHT AUTOS",
+  "folder": null,
   "choreoAuto": false
 }

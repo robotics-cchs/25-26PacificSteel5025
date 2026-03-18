@@ -27,13 +27,13 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
+import frc.robot.helpers.AutoAlign;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.subsystems.IntakeLifterSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.KickerSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.helpers.ShooterAlignHelper;
+import frc.robot.subsystems.mechanisms.ConveyorSubsystem;
+import frc.robot.subsystems.mechanisms.IntakeSubsystem;
+import frc.robot.subsystems.mechanisms.KickerSubsystem;
+import frc.robot.subsystems.mechanisms.ShooterSubsystem;
+// import frc.robot.subsystems.vision.VisionSubsystem;
 import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
@@ -46,9 +46,10 @@ public class RobotContainer {
     // Initialization of Subsystems
     private final ConveyorSubsystem m_conveyorSubsystem = new ConveyorSubsystem();
     private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-    private final IntakeLifterSubsystem m_intakeLifterSubsystem = new IntakeLifterSubsystem();
+    // private final IntakeLifterSubsystem m_intakeLifterSubsystem = new IntakeLifterSubsystem();
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+    private final AutoAlign m_autoAlign = new AutoAlign();
     
     //
 
@@ -58,9 +59,6 @@ public class RobotContainer {
         3.0, 3.0,
         Units.degreesToRadians(540), Units.degreesToRadians(720)
     );
-
-    // TODO: TARGET POSITION CODE NEEDS REFINING
-    Pose2d targetPose = new Pose2d(4.650,4, new Rotation2d());
 
     // All requests as variables, and now instead of command files, with a more modern WPILib style
     // Shooter Subsystem
@@ -82,6 +80,10 @@ public class RobotContainer {
 
     Command shooterSpeedDownCommand = Commands.runOnce(() -> {
         m_shooterSubsystem.dec();
+    }, m_shooterSubsystem);
+
+    Command teleopEnableCommand = Commands.runOnce(() -> {
+        m_shooterSubsystem.teleopEnable();
     }, m_shooterSubsystem);
 
     // Kicker Subsystem
@@ -118,14 +120,34 @@ public class RobotContainer {
         m_intakeSubsystem.reverse();
     }, m_intakeSubsystem);
 
+    Command intakeSpeedUpCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.inc();
+    }, m_intakeSubsystem);
+
+    Command intakeSpeedDownCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.dec();
+    }, m_intakeSubsystem);
+
+    // Command intakeUpCommand = Commands.runOnce(() -> {
+    //     m_intakeLifterSubsystem.setLifterUp();
+    // }, m_intakeLifterSubsystem);
+
+    // Command intakeDownCommand = Commands.runOnce(() -> {
+    //     m_intakeLifterSubsystem.setLifterDown();
+    // }, m_intakeLifterSubsystem);
+
     Command intakeUpCommand = Commands.runOnce(() -> {
-        m_intakeLifterSubsystem.setLifterUp();
-    }, m_intakeLifterSubsystem);
+        m_intakeSubsystem.intakeLifterSpeed(OperatorConstants.MotorSettings.INTAKE_LIFTER_SPEED);
+    }, m_intakeSubsystem);
 
     Command intakeDownCommand = Commands.runOnce(() -> {
-        m_intakeLifterSubsystem.setLifterDown();
-    }, m_intakeLifterSubsystem);
-
+        m_intakeSubsystem.intakeLifterSpeed(-OperatorConstants.MotorSettings.INTAKE_LIFTER_SPEED);
+    }, m_intakeSubsystem);
+    
+    Command intakeZeroCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.intakeLifterSpeed(0);
+    }, m_intakeSubsystem);
+    
     // Conveyor Subsystem
     Command toggleConveyorCommand = Commands.runOnce(() -> {
         m_conveyorSubsystem.toggle();
@@ -156,22 +178,23 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        m_intakeLifterSubsystem.zeroLifterEncoder();
+        m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
+        // VisionSubsystem vision = new VisionSubsystem(drivetrain);
+        // m_intakeLifterSubsystem.zeroLifterEncoder();
         configureAutoBindings();
         configureBindings();
-        m_shooterSubsystem.setPoseSupplier(() -> drivetrain.getState().Pose); // to provide location data to shooter
 
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
-
-        CameraServer.startAutomaticCapture(0);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
+        CameraServer.startAutomaticCapture();
     }
     private void configureAutoBindings() {
         // Register Commands
         // Shooter Commands
         NamedCommands.registerCommand("ToggleShoot", toggleShootCommand);
+        NamedCommands.registerCommand("TeleopEnable", teleopEnableCommand);
         NamedCommands.registerCommand("ShooterSpeedUp", shooterSpeedUpCommand);
         NamedCommands.registerCommand("ShooterSpeedDown", shooterSpeedDownCommand);
         NamedCommands.registerCommand("ShooterOn", shooterOnCommand);
@@ -190,6 +213,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeReverse", intakeReverseCommand);
         NamedCommands.registerCommand("IntakeUp", intakeUpCommand);
         NamedCommands.registerCommand("IntakeDown", intakeDownCommand);
+        NamedCommands.registerCommand("IntakeZero", intakeZeroCommand);
 
         // Conveyor Commands
         NamedCommands.registerCommand("ToggleConveyor", toggleConveyorCommand);
@@ -204,7 +228,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(OperatorConstants.controllerOne.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
                     .withVelocityY(OperatorConstants.controllerOne.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
-                    .withRotationalRate(-OperatorConstants.controllerOne.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate((-OperatorConstants.controllerOne.getRightX() + m_autoAlign.robotRotationOffset(drivetrain.getState().Pose, drivetrain.getState().RawHeading, OperatorConstants.controllerOne.b().getAsBoolean())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -219,7 +243,6 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        // OperatorConstants.controllerOne.b().onTrue(new ShooterAlignHelper(drivetrain, targetPose)); // aligns to the hub
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
@@ -227,29 +250,13 @@ public class RobotContainer {
         OperatorConstants.controllerOne.leftBumper().onTrue(shooterSpeedDownCommand); // Decrease Shooter Speed
         OperatorConstants.controllerOne.rightBumper().onTrue(shooterSpeedUpCommand); // Increase Shooter Speed
 
-        /**
-         * Potential Issues with Lifter Code
-         * IMPORTANT: Take chain off and try to fix without chain first
-         * 
-         * Issue One: In the original code the leftTrigger() was called twice and that could be what was causing the chain 
-         * to bounce while going down
-         * 
-         * Issue Two: OnTrue() may not work in this situation because there is no toggle for on and off like Intake, Conveyor,
-         * and Kicker have.
-         * 
-         * Potential Fix: We might need to change it from onTrue() to whileTrue() because that means while the button is pressed down
-         * and technically true it will activate until it becomes false when the button is unpressed
-         * 
-         * I've written code below for you guys to take a look and test 
-         */
-
-        // Potential Intake Lifter Fix Below
-        // OperatorConstants.controllerOne.leftTrigger().whileTrue(intakeDownCommand); // Intake Down
-        // OperatorConstants.controllerOne.rightTrigger().whileTrue(intakeUpCommand); // Intake Up
-
-        // Intake Lifter (Original Broken Code)
+        // Intake Lifter
         OperatorConstants.controllerOne.leftTrigger().onTrue(intakeDownCommand); // Intake Down
         OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
+        OperatorConstants.controllerOne.leftTrigger().onFalse(intakeZeroCommand); // Intake Down
+        OperatorConstants.controllerOne.rightTrigger().onFalse(intakeZeroCommand); // Intake Up
+        OperatorConstants.controllerOne.y().onTrue(intakeSpeedUpCommand); // Intake Down
+        OperatorConstants.controllerOne.a().onTrue(intakeSpeedDownCommand); // Intake Up
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
