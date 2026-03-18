@@ -120,6 +120,14 @@ public class RobotContainer {
         m_intakeSubsystem.reverse();
     }, m_intakeSubsystem);
 
+    Command intakeSpeedUpCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.inc();
+    }, m_intakeSubsystem);
+
+    Command intakeSpeedDownCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.dec();
+    }, m_intakeSubsystem);
+
     // Command intakeUpCommand = Commands.runOnce(() -> {
     //     m_intakeLifterSubsystem.setLifterUp();
     // }, m_intakeLifterSubsystem);
@@ -247,6 +255,8 @@ public class RobotContainer {
         OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
         OperatorConstants.controllerOne.leftTrigger().onFalse(intakeZeroCommand); // Intake Down
         OperatorConstants.controllerOne.rightTrigger().onFalse(intakeZeroCommand); // Intake Up
+        OperatorConstants.controllerOne.y().onTrue(intakeSpeedUpCommand); // Intake Down
+        OperatorConstants.controllerOne.a().onTrue(intakeSpeedDownCommand); // Intake Up
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In

@@ -12,6 +12,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
   double dir = OperatorConstants.FORWARD;
   double intakeLifter = 0;
+  double intakeSpeed = OperatorConstants.MotorSettings.INTAKE_SPEED;
 
   boolean currentToggleStatus = false;
   
@@ -25,7 +26,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Intake Motor",OperatorConstants.krkIntakeMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putBoolean("Current Intake Toggle Status", currentToggleStatus);
-    OperatorConstants.krkIntakeMotor.set(OperatorConstants.MotorSettings.INTAKE_SPEED*dir*(currentToggleStatus?1:0)); // Sets the speed to intakeSpeed when toggled
+    OperatorConstants.krkIntakeMotor.set(intakeSpeed*dir*(currentToggleStatus?1:0)); // Sets the speed to intakeSpeed when toggled
     OperatorConstants.krkIntakeLifterMotor.set(intakeLifter);
   }
 
@@ -47,6 +48,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void intakeLifterSpeed(double speed) {
     intakeLifter = speed;
+  }
+
+  public void inc() {
+    intakeSpeed += 0.025*((intakeSpeed < 1.0)?1:0); // Increases by 1/16 if below 1
+  }
+  public void dec() {
+    intakeSpeed -= 0.025*((intakeSpeed > 0.1)?1:0); // Decreases by 1/16 if above 0.1
   }
 
   public void stop() {
