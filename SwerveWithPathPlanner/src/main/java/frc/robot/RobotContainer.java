@@ -29,6 +29,7 @@ import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.helpers.AutoAlign;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.mechanisms.ConveyorSubsystem;
 import frc.robot.subsystems.mechanisms.IntakeSubsystem;
 import frc.robot.subsystems.mechanisms.KickerSubsystem;
@@ -173,6 +174,8 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     public final CommandSwerveDrivetrain drivetrain = SwerveConstants.createDrivetrain();
+
+    private final VisionSubsystem vision = new VisionSubsystem(drivetrain);
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
