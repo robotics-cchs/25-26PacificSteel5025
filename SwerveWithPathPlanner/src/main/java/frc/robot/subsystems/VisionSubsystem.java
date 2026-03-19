@@ -28,7 +28,7 @@ import java.util.Optional;
 public class VisionSubsystem extends SubsystemBase {
 
   // ── Camera config ──────────────────────────────────────────────────────────
-  private static final String CAMERA_NAME = "your_camera_name";
+  private static final String CAMERA_NAME = "Default";
 
   private static final Transform3d ROBOT_TO_CAMERA = new Transform3d(
       new Translation3d(0, 0.0, Units.inchesToMeters(21.6)),
@@ -109,7 +109,7 @@ public class VisionSubsystem extends SubsystemBase {
         est.targetsUsed.get(0).getPoseAmbiguity() > MAX_AMBIGUITY) return false;
 
     double pitchDeg = Math.abs(drivetrain.getPigeon2().getPitch().getValueAsDouble());
-    if (pitchDeg > 5.0) return false; // tune this threshold
+    if (pitchDeg > 5.0) return false; // tune this threshold (for the bump to not affect vision)
 
     return true;
   }
