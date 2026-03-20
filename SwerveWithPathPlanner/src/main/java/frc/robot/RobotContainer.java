@@ -13,6 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.net.PortForwarder;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -191,7 +192,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
-        CameraServer.startAutomaticCapture();
+        PortForwarder.add(5800, "photonvision.local", 5800);
     }
     private void configureAutoBindings() {
         // Register Commands
