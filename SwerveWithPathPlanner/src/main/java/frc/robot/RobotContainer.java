@@ -93,6 +93,14 @@ public class RobotContainer {
         m_kickerSubsystem.toggle();
     }, m_kickerSubsystem);
 
+    Command kickerOnCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.on();
+    }, m_kickerSubsystem);
+
+    Command kickerOffCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.off();
+    }, m_kickerSubsystem);
+
     Command kickerSetForwardCommand = Commands.runOnce(() -> {
         m_kickerSubsystem.forward();
     }, m_kickerSubsystem);
@@ -112,6 +120,14 @@ public class RobotContainer {
     // Intake Subsystem
     Command toggleIntakeCommand = Commands.runOnce(() -> {
         m_intakeSubsystem.toggle();
+    }, m_intakeSubsystem);
+
+    Command intakeOnCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.on();
+    }, m_intakeSubsystem);
+
+    Command intakeOffCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.off();
     }, m_intakeSubsystem);
 
     Command intakeForwardCommand = Commands.runOnce(() -> {
@@ -153,6 +169,14 @@ public class RobotContainer {
     // Conveyor Subsystem
     Command toggleConveyorCommand = Commands.runOnce(() -> {
         m_conveyorSubsystem.toggle();
+    }, m_conveyorSubsystem);
+
+    Command conveyorOnCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.on();
+    }, m_conveyorSubsystem);
+
+    Command conveyorOffCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.off();
     }, m_conveyorSubsystem);
 
     Command conveyorForwardCommand = Commands.runOnce(() -> {
@@ -264,27 +288,27 @@ public class RobotContainer {
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
-        OperatorConstants.controllerTwo.b().onTrue(toggleIntakeCommand); // Activate Intake
-        OperatorConstants.controllerTwo.b().onFalse(toggleIntakeCommand); // Deactivate Intake
+        OperatorConstants.controllerTwo.b().whileTrue(intakeOnCommand); // Activate Intake
+        OperatorConstants.controllerTwo.b().onFalse(intakeOffCommand); // Deactivate Intake
         OperatorConstants.controllerTwo.y().onTrue(intakeReverseCommand); // Intake Out
-        OperatorConstants.controllerTwo.y().onTrue(toggleIntakeCommand); // Activate Intake
-        OperatorConstants.controllerTwo.y().onFalse(toggleIntakeCommand); // Deactivate Intake
+        OperatorConstants.controllerTwo.y().whileTrue(intakeOnCommand); // Activate Intake
+        OperatorConstants.controllerTwo.y().onFalse(intakeOffCommand); // Deactivate Intake
 
         // Kicker
         OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
-        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
+        OperatorConstants.controllerTwo.leftBumper().whileTrue(kickerOnCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftBumper().onFalse(kickerOffCommand); // Deactivate Kicker
         OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().whileTrue(kickerOnCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().onFalse(kickerOffCommand); // Deactivate Kicker
 
         // Conveyor
         OperatorConstants.controllerTwo.rightBumper().onTrue(conveyorReverseCommand); // Conveyor Out/Reverse/Away Kicker
-        OperatorConstants.controllerTwo.rightBumper().onTrue(toggleConveyorCommand); // Activate Conveyor
-        OperatorConstants.controllerTwo.rightBumper().onFalse(toggleConveyorCommand); // Deactivate Conveyor
+        OperatorConstants.controllerTwo.rightBumper().whileTrue(conveyorOnCommand); // Activate Conveyor
+        OperatorConstants.controllerTwo.rightBumper().onFalse(conveyorOffCommand); // Deactivate Conveyor
         OperatorConstants.controllerTwo.rightTrigger().onTrue(conveyorForwardCommand); // Conveyor In/Forward/Towards Kicker
-        OperatorConstants.controllerTwo.rightTrigger().onTrue(toggleConveyorCommand); // Activate Conveyor
-        OperatorConstants.controllerTwo.rightTrigger().onFalse(toggleConveyorCommand); // Deactivate Conveyor
+        OperatorConstants.controllerTwo.rightTrigger().whileTrue(conveyorOnCommand); // Activate Conveyor
+        OperatorConstants.controllerTwo.rightTrigger().onFalse(conveyorOffCommand); // Deactivate Conveyor
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

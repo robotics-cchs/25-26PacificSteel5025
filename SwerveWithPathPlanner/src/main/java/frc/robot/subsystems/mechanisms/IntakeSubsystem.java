@@ -20,6 +20,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public IntakeSubsystem() {
     OperatorConstants.krkIntakeMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
     OperatorConstants.krkIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+    OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.lifterConfig);
+    OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
   }
 
   @Override
@@ -32,6 +34,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public void toggle() {
     currentToggleStatus = !currentToggleStatus;
+  }
+
+  public void on() {
+    currentToggleStatus = true;
+  }
+
+  public void off() {
+    currentToggleStatus = false;
   }
 
   public void forward() {
