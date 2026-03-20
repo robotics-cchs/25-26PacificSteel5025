@@ -26,16 +26,17 @@ public class MechanismConstants {
             public static final double TELEOP_SPEED_BASE = 0.6;
             public static final double CONVEYOR_SPEED = 0.3;
 
-            // Lifter PID constants
-            public static final double LIFTER_kP = 0.05;
-            public static final double LIFTER_kI = 0.0;
-            public static final double LIFTER_kD = 0.0;
-            public static final double LIFTER_kF = 0.0;
+            // Quadratic shot constants
+            public static final double SHOT_A = 0.05;
+            public static final double SHOT_B = 0.0;
+            public static final double SHOT_C = 0.0;
 
-            public static final double ALIGN_P = 20.0;
+
+            // Auto-align PID constants
+            public static final double ALIGN_P = 0.04;
             public static final double ALIGN_I = 0.0;
-            public static final double ALIGN_D = 0.0;
-            public static final double ALIGN_TOLERANCE = 0.0;
+            public static final double ALIGN_D = 0.002;
+            public static final double ALIGN_TOLERANCE = 0.1;
 
             // Lifter reference points
             public static final double LIFTER_UP_SETPOINT = 0.0;

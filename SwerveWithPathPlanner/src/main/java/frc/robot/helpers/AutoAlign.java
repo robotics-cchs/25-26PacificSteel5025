@@ -54,7 +54,7 @@ public class AutoAlign {
   }
 
   public double robotRotationOffset(Pose2d robotLocation, Rotation2d robotDir, boolean tracking) {
-    double yaw = PhotonUtils.getYawToPose(robotLocation, targetPose(robotLocation)).getRotations();
+    double yaw = PhotonUtils.getYawToPose(robotLocation, targetPose(robotLocation)).getRadians();
     double offset = pid.calculate(0, yaw);
 
     SmartDashboard.putNumber("Offset", offset);

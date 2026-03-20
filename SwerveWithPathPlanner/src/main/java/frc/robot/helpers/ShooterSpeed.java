@@ -28,8 +28,9 @@ public class ShooterSpeed {
       }
     }
     public static double targetSpeed(Pose2d robotLocation) {
-        
-        return 0;
+        double distanceToTarget = PhotonUtils.getDistanceToPose(robotLocation, targetPose());
+        double speed = OperatorConstants.MotorSettings.SHOT_A * Math.pow(distanceToTarget, 2) + OperatorConstants.MotorSettings.SHOT_B * distanceToTarget + OperatorConstants.MotorSettings.SHOT_C;
+        return speed;
     }
 
 }
