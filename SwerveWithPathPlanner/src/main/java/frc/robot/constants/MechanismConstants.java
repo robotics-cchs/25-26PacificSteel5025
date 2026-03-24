@@ -49,8 +49,8 @@ public class MechanismConstants {
         public static final double REVERSE = -1;
 
         public static final double MAX_VOLTAGE = 12.2;
-        public static final double MAX_CURRENT_SUPPLY = 60;
-        public static final double MAX_CURRENT_STATOR = 60;
+        public static final double MAX_CURRENT_SUPPLY = 50;
+        public static final double MAX_CURRENT_STATOR = 90;
         public static final boolean SET_SAFETY_TRUE = true;
         
         // Controller/Joystick Ports
