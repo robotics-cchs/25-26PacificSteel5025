@@ -6,13 +6,19 @@ package frc.robot.helpers;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 
 import org.photonvision.PhotonUtils;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
+import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 
 
@@ -20,29 +26,12 @@ public class AutoAlign {
   private final PIDController pid;
   /** Creates a new AutoAlign. */
 
-  public static Pose2d targetPose(Pose2d robotLocation) {
+  public static Pose2d targetPose() {
       Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
       if (alliance == Alliance.Red) {
-        if (robotLocation.getX() > 12) {
           return new Pose2d(11.9,4.0,new Rotation2d());
-        } else {
-          if (robotLocation.getY()>4) {
-            return new Pose2d(11.9,5.6,new Rotation2d());
-          } else {
-            return new Pose2d(11.9,2.5,new Rotation2d());
-          }
-        }
       } else {
-        if (robotLocation.getX() < 4) {
           return new Pose2d(4.650,4.0,new Rotation2d());
-        } else {
-          if (robotLocation.getY()>4) {
-            return new Pose2d(4.650,5.6,new Rotation2d());
-          } else {
-            return new Pose2d(4.650,2.5,new Rotation2d());
-          }
-        }
-        
       }
   }
   public AutoAlign() {
@@ -51,23 +40,21 @@ public class AutoAlign {
         OperatorConstants.MotorSettings.ALIGN_I,
         OperatorConstants.MotorSettings.ALIGN_D);
     pid.setTolerance(OperatorConstants.MotorSettings.ALIGN_TOLERANCE);
+    pid.enableContinuousInput(-Math.PI, Math.PI);
   }
 
-  public double robotRotationOffset(Pose2d robotLocation, Rotation2d robotDir, boolean tracking) {
-    double yaw = PhotonUtils.getYawToPose(robotLocation, targetPose(robotLocation)).getRadians();
-    double offset = pid.calculate(0, yaw);
+  public double robotRotationOffset(CommandSwerveDrivetrain robot, boolean tracking) {
+    Pose2d predLocation = robot.getState().Pose.transformBy(new Transform2d(robot.getState().Speeds.vxMetersPerSecond/50,robot.getState().Speeds.vyMetersPerSecond/50,new Rotation2d(robot.getState().Speeds.omegaRadiansPerSecond/50)));
+    double yaw = PhotonUtils.getYawToPose(predLocation, targetPose()).getRadians();
+    double offset = pid.calculate(predLocation.getRotation().getRadians(), predLocation.getRotation().getRadians()+yaw);
 
     SmartDashboard.putNumber("Offset", offset);
     SmartDashboard.putBoolean("Tracking?", tracking);
-
-    if (offset > 1.0) offset = 1.0;
-    if (offset < -1.0) offset = -1.0;
-
-    if ((((robotLocation.getX() > 3.5)&&(robotLocation.getX() < 5))||((robotLocation.getX() < 13)&&(robotLocation.getX() > 11.5)))) offset = 0;
     
     if (!tracking) offset = 0;
-
-    return offset;
+    if (Math.abs(yaw) < .25) offset *= .1;
+    if (Math.abs(yaw) < .5) offset *= .5;
+    return MathUtil.clamp(offset, -1.0, 1.0);
     
   }
 }

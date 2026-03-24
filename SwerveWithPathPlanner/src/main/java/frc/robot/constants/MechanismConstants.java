@@ -22,20 +22,29 @@ public class MechanismConstants {
             public static final double INTAKE_SPEED = 0.5;
             public static final double INTAKE_LIFTER_SPEED = 0.1;
             public static final double KICKER_SPEED_BASE = 0.525;
-            public static final double SHOOTER_SPEED_BASE = 0.525;
+            public static final double SHOOTER_SPEED_BASE = 0.525; 
             public static final double TELEOP_SPEED_BASE = 0.6;
-            public static final double CONVEYOR_SPEED = 0.3;
+            public static final double CONVEYOR_SPEED = 0.6;
 
             // Quadratic shot constants
-            public static final double SHOT_A = 0.05;
-            public static final double SHOT_B = 0.0;
-            public static final double SHOT_C = 0.0;
+            public static final double SHOT_A = 1.72273;
+            public static final double SHOT_B = -0.125695;
+            public static final double SHOT_C = 41.46213;
 
+
+            // Shooter PID constants
+            public static final double SHOOTER_P = 0.05;
+            public static final double SHOOTER_I = 0.0;
+            public static final double SHOOTER_D = 0.0;
+            // feedforward 
+            public static final double SHOOTER_S = 0.1;
+            public static final double SHOOTER_V = 0.067;
+            public static final double SHOOTER_TOLERANCE = 0.1;
 
             // Auto-align PID constants
-            public static final double ALIGN_P = 0.04;
+            public static final double ALIGN_P = .25;
             public static final double ALIGN_I = 0.0;
-            public static final double ALIGN_D = 0.002;
+            public static final double ALIGN_D = 0.5;
             public static final double ALIGN_TOLERANCE = 0.1;
 
             // Lifter reference points

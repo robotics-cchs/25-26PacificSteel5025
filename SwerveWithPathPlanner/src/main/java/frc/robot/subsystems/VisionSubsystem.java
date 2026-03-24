@@ -31,8 +31,8 @@ public class VisionSubsystem extends SubsystemBase {
   private static final String CAMERA_NAME = "Default";
 
   private static final Transform3d ROBOT_TO_CAMERA = new Transform3d(
-      new Translation3d(0, 0.0, Units.inchesToMeters(21.6)),
-      new Rotation3d(0.0, Math.toRadians(-15.0), 0.0));
+      new Translation3d(Units.inchesToMeters(3.5), 0.0, Units.inchesToMeters(25)),
+      new Rotation3d(0.0, Math.toRadians(10.0), 0.0));
 
   // ── Noise model ────────────────────────────────────────────────────────────
   private static final Matrix<N3, N1> SINGLE_TAG_STD_DEVS =

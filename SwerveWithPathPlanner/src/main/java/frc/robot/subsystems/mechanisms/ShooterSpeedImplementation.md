@@ -1,4 +1,4 @@
-(from ChatGPT)
+Here’s your content cleaned up into proper **Markdown with LaTeX formatting**:
 
 ---
 
@@ -22,9 +22,9 @@ Pose → Distance → Lookup Table → Target RPM → PID → Motor Output
 
 Your shooter PID loop is controlling:
 
-[
+$$
 \text{error} = \text{target RPM} - \text{current RPM}
-]
+$$
 
 And adjusting motor power to reduce that error.
 
@@ -50,9 +50,9 @@ PID alone is not enough for shooters.
 
 The best practice is:
 
-[
+$$
 \text{Output} = \text{Feedforward} + \text{PID}
-]
+$$
 
 ---
 
@@ -60,20 +60,20 @@ The best practice is:
 
 This predicts how much power you need:
 
-[
+$$
 V = k_S + k_V \cdot \omega + k_A \cdot \alpha
-]
+$$
 
 For a shooter, acceleration is small, so:
 
-[
+$$
 V \approx k_S + k_V \cdot \omega
-]
+$$
 
 Where:
 
-* (k_S): static friction
-* (k_V): volts per RPM
+* $k_S$: static friction
+* $k_V$: volts per RPM
 
 WPILib has:
 
@@ -112,8 +112,6 @@ double currentRPM = encoder.getVelocity();
 double ff = kS + kV * targetRPM;
 ```
 
-(or WPILib class)
-
 ---
 
 ### Step 4: Compute PID correction
@@ -139,7 +137,7 @@ motor.setVoltage(output);
 
 Use WPILib SysId if possible.
 
-Goal:
+**Goal:**
 
 * Motor reaches near target RPM **without PID**
 
@@ -154,10 +152,10 @@ Goal:
 
 ---
 
-### Step 3: Usually:
+### Step 3: Usually
 
-* I = 0 (or very tiny)
-* D = 0 (rarely needed for shooters)
+* $I = 0$ (or very tiny)
+* $D = 0$ (rarely needed for shooters)
 
 ---
 
@@ -174,13 +172,11 @@ Good tuning = fast recovery
 
 # 7. When to allow shooting
 
-Super important:
-
 Only fire when:
 
-[
+$$
 |\text{error}| < \text{tolerance}
-]
+$$
 
 Example:
 
@@ -221,7 +217,7 @@ When your robot moves:
 
 Your PID loop should:
 
-* Update setpoint every cycle (20ms)
+* Update setpoint every cycle (20 ms)
 
 ---
 
@@ -254,41 +250,39 @@ And you control the motor with:
 
 # 1. Core Components You Need
 
-### Objects:
+### Objects
 
 ```java
 PIDController pid = new PIDController(kP, kI, kD);
 SimpleMotorFeedforward ff = new SimpleMotorFeedforward(kS, kV, kA);
 ```
 
-### Sensor:
+### Sensor
 
 * Encoder that gives **velocity (RPM or rad/s)**
 
 ---
 
-# 2. Your Control Loop (runs every 20ms)
-
-This is the heart of everything:
+# 2. Your Control Loop (runs every 20 ms)
 
 ```java
-double targetRPM = shooterMap.get(distance);  // from your lookup
+double targetRPM = shooterMap.get(distance);
 double currentRPM = encoder.getVelocity();
 
-// Convert RPM → rad/s (WPILib feedforward uses SI units)
+// Convert RPM → rad/s
 double targetRadPerSec = targetRPM * 2 * Math.PI / 60;
 double currentRadPerSec = currentRPM * 2 * Math.PI / 60;
 
 // Feedforward
 double ffVolts = ff.calculate(targetRadPerSec);
 
-// PID (note: using rad/s)
+// PID
 double pidOutput = pid.calculate(currentRadPerSec, targetRadPerSec);
 
 // Combine
 double outputVolts = ffVolts + pidOutput;
 
-// Apply to motor
+// Apply
 motor.setVoltage(outputVolts);
 ```
 
@@ -303,9 +297,9 @@ WPILib expects:
 
 So ALWAYS convert:
 
-[
-RPM \rightarrow rad/s = RPM \cdot \frac{2\pi}{60}
-]
+$$
+\text{RPM} \rightarrow \text{rad/s} = \text{RPM} \cdot \frac{2\pi}{60}
+$$
 
 ---
 
@@ -324,8 +318,6 @@ public void periodic() {
 
 # 5. Lookup Table (WPILib way)
 
-Use:
-
 ```java
 InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
@@ -333,8 +325,6 @@ shooterMap.put(2.0, 2500.0);
 shooterMap.put(3.0, 3200.0);
 shooterMap.put(4.0, 4000.0);
 ```
-
-Then:
 
 ```java
 double targetRPM = shooterMap.get(distance);
@@ -346,16 +336,14 @@ double targetRPM = shooterMap.get(distance);
 
 ### Step 1: Feedforward first
 
-Temporarily disable PID:
-
 ```java
 motor.setVoltage(ff.calculate(targetRadPerSec));
 ```
 
 Tune:
 
-* kS
-* kV
+* $k_S$
+* $k_V$
 
 Goal:
 
@@ -365,9 +353,9 @@ Goal:
 
 ### Step 2: Add P
 
-```java
-kP ≈ small (start like 0.001–0.01 depending on units)
-```
+$$
+k_P \approx \text{small (e.g., 0.001–0.01)}
+$$
 
 Increase until:
 
@@ -376,16 +364,14 @@ Increase until:
 
 ---
 
-### Step 3:
+### Step 3
 
-* kI = 0 (almost always)
-* kD = 0 (rare for shooters)
+* $k_I = 0$ (almost always)
+* $k_D = 0$ (rare for shooters)
 
 ---
 
 # 7. Shot Readiness Check
-
-Add this:
 
 ```java
 boolean atSpeed = Math.abs(targetRPM - currentRPM) < 100;
@@ -413,8 +399,6 @@ Voltage control keeps it consistent.
 
 # 9. Optional: Acceleration Limiting
 
-To avoid aggressive jumps:
-
 ```java
 targetRPM = slewRateLimiter.calculate(targetRPM);
 ```
@@ -429,21 +413,17 @@ Helps stability when distance changes quickly.
 
 → causes totally broken tuning
 
----
-
 ### ❌ PID too high
 
 → oscillation, inconsistent shots
 
----
-
 ### ❌ Bad encoder scaling
 
-→ RPM readings wrong = everything wrong
+→ wrong RPM = everything wrong
 
 ---
 
-# 11. Clean Structure (what good code looks like)
+# 11. Clean Structure
 
 ```java
 public void setTargetDistance(double distance) {
@@ -465,13 +445,107 @@ public void updateShooter() {
 
 ---
 
-# If you want to push this further
+If you want, I can also convert this into a **clean PDF**, **Notion doc**, or **commented WPILib class file**.
 
-I can help you:
 
-* Tune real kS/kV from your robot data
-* Add automatic shooting while driving
-* Simulate shot trajectories with your exact geometry
-* Build a full command-based shooter system
+Tuning **kS (static friction)** and **kV (velocity gain)** in FRC is all about characterizing how your mechanism responds to voltage. These are part of the feedforward model used in WPILib (`SimpleMotorFeedforward`), and getting them right makes your control much smoother and more predictable.
 
-Just tell me what hardware you’re running (NEO? Falcon? encoder type), and I’ll dial it in with you.
+---
+
+## 🔧 What kS and kV mean
+
+* **kS (static gain)**: Voltage needed to *just start moving* (overcome friction)
+* **kV (velocity gain)**: Voltage needed to maintain a given velocity
+
+The basic model is:
+
+```
+Voltage = kS * sign(velocity) + kV * velocity (+ kA * acceleration)
+```
+
+---
+
+## 🚀 Best Method: Use SysId (Recommended)
+
+The easiest and most accurate way is using **WPILib SysId**.
+
+### Steps:
+
+1. Install SysId (comes with WPILib tools)
+2. Run quasistatic and dynamic tests on your robot
+3. Export the data
+4. Analyze → it gives you kS, kV (and kA)
+
+This is what most competitive teams use.
+
+---
+
+## 🧪 Manual Method (if you want to do it yourself)
+
+### 1. Find kS (static friction)
+
+* Slowly increase voltage until the mechanism *just starts moving*
+* Record that voltage
+
+👉 Do this in both directions and average:
+
+```
+kS ≈ (forward_start + reverse_start) / 2
+```
+
+---
+
+### 2. Find kV (velocity gain)
+
+* Run motor at several steady speeds
+* Measure:
+
+  * Applied voltage
+  * Resulting velocity (encoder)
+
+Then compute:
+
+```
+kV ≈ (Voltage - kS) / velocity
+```
+
+Do this for multiple speeds and average the results.
+
+---
+
+## 📊 Practical Tips
+
+* Use **real units** (meters/sec, radians/sec) — WPILib expects this
+* Make sure battery is reasonably charged
+* Disable PID when measuring (just apply raw voltage)
+* Log data for better accuracy (Shuffleboard / AdvantageScope)
+
+---
+
+## ⚠️ Common Mistakes
+
+* ❌ Not accounting for kS → leads to sluggish starts
+* ❌ Using percent output instead of volts
+* ❌ Noisy velocity readings → ruins kV
+* ❌ Not testing both directions
+
+---
+
+## 💡 When to care about kA
+
+* For arms, elevators, or fast acceleration → include kA
+* For simple drivetrains → kS + kV is often enough
+
+---
+
+## 🧠 Rule of Thumb
+
+If you’re short on time:
+
+* Use SysId once
+* Plug values into `SimpleMotorFeedforward`
+* Tune PID *after*
+
+---
+
+If you tell me what mechanism you’re tuning (drivetrain, shooter, arm, etc.), I can give more specific target ranges and tuning tricks.

@@ -37,7 +37,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Copy of PREP SHOOT LEFT FROM START"
+            "pathName": "PREP SHOOT MIDDLE FROM START"
           }
         },
         {
@@ -189,11 +189,17 @@
           "data": {
             "name": "TeleopEnable"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of LEFT GOTO OUTPOST"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "LEFT AUTOS",
+  "folder": null,
   "choreoAuto": false
 }
