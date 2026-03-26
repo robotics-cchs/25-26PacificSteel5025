@@ -18,7 +18,7 @@ public class IntakeSubsystem extends SubsystemBase {
   
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    OperatorConstants.krkIntakeMotor.getConfigurator().apply(OperatorConstants.defaultConfig);
+    OperatorConstants.krkIntakeMotor.getConfigurator().apply(OperatorConstants.intakeConfig);
     OperatorConstants.krkIntakeMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
     OperatorConstants.krkIntakeLifterMotor.getConfigurator().apply(OperatorConstants.lifterConfig);
     OperatorConstants.krkIntakeLifterMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);

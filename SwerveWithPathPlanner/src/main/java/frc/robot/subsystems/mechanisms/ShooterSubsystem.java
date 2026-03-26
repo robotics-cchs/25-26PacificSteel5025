@@ -59,6 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Shooter Motor",OperatorConstants.krkRightShooterMotor.getMotorVoltage().getValueAsDouble());
     SmartDashboard.putNumber("Shooter Speed", shooterSpeed);
     SmartDashboard.putBoolean("Current Shooter Toggle Status", currentToggleStatus);
+    SmartDashboard.putNumber("Shooter PID Error", pid.getError());
 
     robotPose = getPose();
     
