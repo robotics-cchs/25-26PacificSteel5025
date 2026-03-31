@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.constants.PoseConstants;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -230,6 +231,13 @@ public class RobotContainer {
         PathfindingCommand.warmupCommand().schedule();
         PortForwarder.add(5800, "photonvision.local", 5800);
     }
+    public void setPathfindingTarget(Pose2d target) {
+        currentTarget = target;
+    }
+    public Command setTarget(Pose2d target) {
+        return new InstantCommand(() -> setPathfindingTarget(target));
+    }
+    
     private void configureAutoBindings() {
         // Register Commands
         // Shooter Commands
@@ -284,7 +292,10 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        OperatorConstants.controllerOne.y().toggleOnTrue(pathfindToCurrentTarget()); // 
+        OperatorConstants.controllerOne.y().toggleOnTrue(pathfindToCurrentTarget()); //
+        OperatorConstants.controllerOne.povLeft().onTrue(setTarget(PoseConstants.SHOOT_LEFT));
+        OperatorConstants.controllerOne.povRight().onTrue(setTarget(PoseConstants.SHOOT_RIGHT));
+        OperatorConstants.controllerOne.povDown().onTrue(setTarget(PoseConstants.SHOOT_MID));
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
