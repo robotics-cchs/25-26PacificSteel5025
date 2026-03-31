@@ -1,0 +1,12 @@
+package frc.robot.constants;
+
+import com.pathplanner.lib.path.PathConstraints;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
+
+public class PoseConstants {
+    public static final Pose2d SHOOT_LEFT = new Pose2d(1.5, 5.1, Rotation2d.fromDegrees(-20));
+
+}

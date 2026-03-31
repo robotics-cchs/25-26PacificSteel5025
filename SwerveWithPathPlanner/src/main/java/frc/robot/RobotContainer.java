@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Set;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -18,6 +20,7 @@ import edu.wpi.first.net.PortForwarder;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -25,6 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.constants.PoseConstants;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
@@ -52,9 +56,6 @@ public class RobotContainer {
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     private final AutoAlign m_autoAlign = new AutoAlign();
-    
-    //
-
     /* PATHFINDING VARIABLES */
 
     PathConstraints constraints = new PathConstraints(
@@ -62,7 +63,17 @@ public class RobotContainer {
         Units.degreesToRadians(540), Units.degreesToRadians(720)
     );
 
+    private Pose2d currentTarget = PoseConstants.SHOOT_LEFT; // default target
+
     // All requests as variables, and now instead of command files, with a more modern WPILib style
+
+    // Pathfind
+    Command pathfindToCurrentTarget() {
+    return Commands.defer(
+        () -> AutoBuilder.pathfindToPose(currentTarget, constraints, 0.0),
+        Set.of(drivetrain)
+    );
+}
     // Shooter Subsystem
     Command toggleShootCommand = Commands.runOnce(() -> {
         m_shooterSubsystem.toggle();
@@ -211,11 +222,12 @@ public class RobotContainer {
         // m_intakeLifterSubsystem.zeroLifterEncoder();
         configureAutoBindings();
         configureBindings();
-
+        
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
+        PathfindingCommand.warmupCommand().schedule();
         PortForwarder.add(5800, "photonvision.local", 5800);
     }
     private void configureAutoBindings() {
@@ -272,6 +284,7 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        OperatorConstants.controllerOne.y().toggleOnTrue(pathfindToCurrentTarget()); // 
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
@@ -284,8 +297,6 @@ public class RobotContainer {
         OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
         OperatorConstants.controllerOne.leftTrigger().onFalse(intakeZeroCommand); // Intake Down
         OperatorConstants.controllerOne.rightTrigger().onFalse(intakeZeroCommand); // Intake Up
-        OperatorConstants.controllerOne.y().onTrue(intakeSpeedUpCommand); // Intake Down
-        OperatorConstants.controllerOne.a().onTrue(intakeSpeedDownCommand); // Intake Up
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
