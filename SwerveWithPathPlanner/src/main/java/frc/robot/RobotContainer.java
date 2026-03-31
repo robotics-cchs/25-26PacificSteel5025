@@ -63,7 +63,7 @@ public class RobotContainer {
         Units.degreesToRadians(540), Units.degreesToRadians(720)
     );
 
-    private Pose2d currentTarget = PoseConstants.SHOOT_LEFT; // default target
+    private Pose2d currentTarget = PoseConstants.SHOOT_MID; // default target
 
     // All requests as variables, and now instead of command files, with a more modern WPILib style
 
