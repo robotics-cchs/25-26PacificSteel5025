@@ -1,0 +1,199 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of PREP SHOOT RIGHT FROM START"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeDown"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetForward"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeZero"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GOTO OUTPOST"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of GOTO OUTPOST"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "RIGHT AUTOS",
+  "choreoAuto": false
+}

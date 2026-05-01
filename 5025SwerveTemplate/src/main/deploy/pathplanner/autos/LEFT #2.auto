@@ -1,0 +1,121 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PREP SHOOT LEFT FROM START"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeDown"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT BUMP LEFT TO NEUTRAL FROM SET"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET LEFT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB LEFT TO RIGHT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RIGHT OVER BUMP"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT MOVE RIGHT TO LEFT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT BUMP LEFT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET LEFT"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "LEFT AUTOS",
+  "choreoAuto": false
+}

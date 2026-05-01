@@ -1,0 +1,211 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "OVER BUMP LEFT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB SET LEFT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeZero"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB LEFT TO RIGHT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SHOOT NEXT TO BUMP LEFT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorForward"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of OVER BUMP LEFT TO NEUTRAL"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of GRAB LEFT TO RIGHT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of SHOOT NEXT TO BUMP LEFT"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TeleopEnable"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "LEFT AUTOS",
+  "choreoAuto": false
+}

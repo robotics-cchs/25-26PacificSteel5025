@@ -1,0 +1,127 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetReverse"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PREP SHOOT CENTER FROM START"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ConveyorForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "KickerSetForward"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of SHOOT BUMP LEFT TO NEUTRAL FROM SET"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CENTER TO GOTO"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GRAB CENTER TO DEPOT"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of GOTO OUTPOST 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TeleopEnable"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
