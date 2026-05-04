@@ -24,10 +24,10 @@ import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import frc.robot.constants.StateConstants;
 import frc.robot.constants.PoseConstants;
 import frc.robot.constants.SwerveConstants;
-import frc.robot.constants.MechanismConstants.OperatorConstants;
+import frc.robot.constants.MechanismConstants.OIConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.StateHandler;
+import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.mechanisms.ExampleMechanismSubsystem;
 import frc.robot.telemetry.Telemetry;
 
@@ -49,19 +49,13 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = SwerveConstants.createDrivetrain();
 
     private final VisionSubsystem vision = new VisionSubsystem(drivetrain);
-    private final StateHandler stateHandler = new StateHandler(drivetrain);
+    private final StateMachine stateMachine = new StateMachine(drivetrain);
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
     
-    // Initialization of Subsystems
-    private final StateHandler m_StateHandler = new StateHandler(drivetrain);
-
     // Commands
-    Command stateCommand = Commands.runOnce(() -> {
-        m_StateHandler.setState(StateConstants.STATES.SPECIAL);
-    }, m_StateHandler);
-    
+    Command stateCommand = stateMachine.setState(StateConstants.STATES.SPECIAL);
     public RobotContainer() {
         configureAutoBindings();
         configureBindings();
@@ -72,7 +66,6 @@ public class RobotContainer {
         FollowPathCommand.warmupCommand().schedule();
         PathfindingCommand.warmupCommand().schedule();
         PortForwarder.add(5800, "photonvision.local", 5800);
-        SmartDashboard.putBoolean("Camera Connected?", vision.isCameraConnected());
     }
     // Path target and commands are handled by StateHandler now.
     
@@ -84,12 +77,13 @@ public class RobotContainer {
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(OperatorConstants.controllerOne.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
-                    .withVelocityY(OperatorConstants.controllerOne.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
-                    // .withRotationalRate((-OperatorConstants.controllerOne.getRightX() + m_autoAlign.robotRotationOffset(drivetrain, OperatorConstants.controllerOne.b().getAsBoolean())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
-                    .withRotationalRate((-OperatorConstants.controllerOne.getRightX())* MaxAngularRate) // Drive counterclockwise with negative X (left)
+            drivetrain.applyTeleopDrive(
+                drive,
+                () -> OIConstants.controllerOne.getLeftY(),
+                () -> OIConstants.controllerOne.getLeftX(),
+                () -> OIConstants.controllerOne.getRightX(),
+                MaxSpeed,
+                MaxAngularRate
             )
         );
 
@@ -101,15 +95,15 @@ public class RobotContainer {
         );
 
         // Drivetrain Bindings
-        OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
-        OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        OperatorConstants.controllerOne.y().toggleOnTrue(stateHandler.pathfindToCurrentTarget());
-        OperatorConstants.controllerOne.povLeft().onTrue(stateHandler.setTarget(PoseConstants.SHOOT_LEFT));
-        OperatorConstants.controllerOne.povRight().onTrue(stateHandler.setTarget(PoseConstants.SHOOT_RIGHT));
-        OperatorConstants.controllerOne.povDown().onTrue(stateHandler.setTarget(PoseConstants.SHOOT_MID));
+        OIConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
+        OIConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        OIConstants.controllerOne.y().toggleOnTrue(stateMachine.pathfindToCurrentTarget());
+        OIConstants.controllerOne.povLeft().onTrue(stateMachine.setTarget(PoseConstants.SHOOT_LEFT));
+        OIConstants.controllerOne.povRight().onTrue(stateMachine.setTarget(PoseConstants.SHOOT_RIGHT));
+        OIConstants.controllerOne.povDown().onTrue(stateMachine.setTarget(PoseConstants.SHOOT_MID));
         
         // Mechanism Bindings
-        OperatorConstants.controllerOne.b().onTrue(stateCommand); //
+        OIConstants.controllerOne.b().onTrue(stateCommand); //
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

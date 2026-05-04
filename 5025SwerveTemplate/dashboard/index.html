@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5025 Tactical HUD</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app">
+      <header class="glass-panel">
+        <div class="logo">
+          <h1>5025 <span>TACTICAL HUD</span></h1>
+        </div>
+        <div class="status-indicator">
+          <div id="connection-dot" class="dot disconnected"></div>
+          <span id="connection-text">Disconnected</span>
+        </div>
+      </header>
+
+      <main>
+        <!-- Telemetry Grid -->
+        <div class="grid-layout">
+          
+          <!-- Robot Pose Widget -->
+          <div class="widget glass-panel">
+            <h2>Robot Pose</h2>
+            <div class="data-row">
+              <span class="label">X (meters)</span>
+              <span class="value mono" id="pose-x">0.00</span>
+            </div>
+            <div class="data-row">
+              <span class="label">Y (meters)</span>
+              <span class="value mono" id="pose-y">0.00</span>
+            </div>
+            <div class="data-row">
+              <span class="label">Heading (deg)</span>
+              <span class="value mono" id="pose-rot">0.00</span>
+            </div>
+          </div>
+
+          <!-- Mechanism State Widget -->
+          <div class="widget glass-panel">
+            <h2>Mechanism State</h2>
+            <div class="state-display">
+              <div class="state-badge" id="mechanism-state">IDLE</div>
+            </div>
+          </div>
+
+          <!-- Vision Status Widget -->
+          <div class="widget glass-panel">
+            <h2>Vision Status</h2>
+            <div class="data-row">
+              <span class="label">Tags Visible</span>
+              <span class="value mono" id="vision-tags">0</span>
+            </div>
+            <div class="data-row">
+              <span class="label">Latency (ms)</span>
+              <span class="value mono" id="vision-latency">0.0</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar" id="vision-latency-bar"></div>
+            </div>
+          </div>
+          
+          <!-- Auto Selector Widget -->
+          <div class="widget glass-panel">
+            <h2>Autonomous Routine</h2>
+            <select id="auto-selector" class="dropdown">
+              <option value="None">Waiting for NT...</option>
+            </select>
+            <button id="refresh-auto-btn" class="glass-btn">Select Mode</button>
+          </div>
+
+          <!-- Robot Map Widget -->
+          <div class="widget glass-panel" style="grid-column: span 2;">
+            <h2>Field Map</h2>
+            <div class="map-container" style="display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); border-radius: 8px; padding: 10px;">
+              <canvas id="robot-map" width="651" height="317" style="width: 100%; max-width: 651px; height: auto; border: 1px solid var(--panel-border); border-radius: 4px; background: #222;"></canvas>
+            </div>
+          </div>
+
+          <!-- Camera Stream Widget -->
+          <div class="widget glass-panel" style="grid-column: span 2;">
+            <h2>Camera Stream</h2>
+            <div class="camera-container" style="display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.5); border-radius: 8px; padding: 10px; overflow: hidden;">
+              <!-- 10.50.25.11 is the standard IP for PhotonVision on team 5025 -->
+              <img id="camera-stream" src="http://10.50.25.11:1181/stream.mjpg" alt="Camera Stream Disconnected" style="width: 100%; max-width: 640px; height: auto; border-radius: 4px;">
+            </div>
+          </div>
+
+          <!-- Mechanism Controls Widget -->
+          <div class="widget glass-panel" style="grid-column: span 2;">
+            <h2>Mechanism Controls</h2>
+            <div class="controls-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <button id="btn-shoot-left" class="glass-btn control-btn">SHOOT LEFT</button>
+              <button id="btn-shoot-right" class="glass-btn control-btn">SHOOT RIGHT</button>
+              <button id="btn-shoot-mid" class="glass-btn control-btn" style="grid-column: span 2;">SHOOT MID</button>
+              <button id="btn-idle" class="glass-btn control-btn danger-btn" style="grid-column: span 2;">IDLE / CANCEL</button>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

@@ -4,6 +4,7 @@ import static edu.wpi.first.units.Units.*;
 
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
@@ -24,8 +25,6 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -39,10 +38,6 @@ import frc.robot.constants.SwerveConstants.TunerSwerveDrivetrain;
  * https://v6.docs.ctr-electronics.com/en/stable/docs/tuner/tuner-swerve/index.html
  */
 public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Subsystem {
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
-    private Notifier m_simNotifier = null;
-    private double m_lastSimTime;
-
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
@@ -135,9 +130,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
         super(drivetrainConstants, modules);
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
         configureAutoBuilder();
     }
 
@@ -160,9 +152,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
         super(drivetrainConstants, odometryUpdateFrequency, modules);
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
         configureAutoBuilder();
     }
 
@@ -193,9 +182,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
         super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation, modules);
-        if (Utils.isSimulation()) {
-            startSimThread();
-        }
         configureAutoBuilder();
     }
 
@@ -239,6 +225,33 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     /**
+     * Returns a command that drives the robot with teleop joystick inputs.
+     *
+     * @param driveRequest      The FieldCentric SwerveRequest to use
+     * @param xSupplier         Forward/Backward velocity supplier (-1 to 1)
+     * @param ySupplier         Left/Right velocity supplier (-1 to 1)
+     * @param rotSupplier       Rotational velocity supplier (-1 to 1)
+     * @param maxSpeed          The maximum translation speed
+     * @param maxAngularRate    The maximum rotation rate
+     * @return Command to run
+     */
+    public Command applyTeleopDrive(
+        SwerveRequest.FieldCentric driveRequest,
+        DoubleSupplier xSupplier,
+        DoubleSupplier ySupplier,
+        DoubleSupplier rotSupplier,
+        double maxSpeed,
+        double maxAngularRate
+    ) {
+        return applyRequest(() ->
+            driveRequest
+                .withVelocityX(xSupplier.getAsDouble() * -maxSpeed)
+                .withVelocityY(ySupplier.getAsDouble() * -maxSpeed)
+                .withRotationalRate(-rotSupplier.getAsDouble() * maxAngularRate)
+        );
+    }
+
+    /**
      * Runs the SysId Quasistatic test in the given direction for the routine
      * specified by {@link #m_sysIdRoutineToApply}.
      *
@@ -270,31 +283,19 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
          * This ensures driving behavior doesn't change until an explicit disable event occurs during testing.
          */
         if (!m_hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
-            DriverStation.getAlliance().ifPresent(allianceColor -> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
                 setOperatorPerspectiveForward(
-                    allianceColor == Alliance.Red
+                    alliance.get() == Alliance.Red
                         ? kRedAlliancePerspectiveRotation
                         : kBlueAlliancePerspectiveRotation
                 );
                 m_hasAppliedOperatorPerspective = true;
-            });
+            }
         }
     }
 
-    private void startSimThread() {
-        m_lastSimTime = Utils.getCurrentTimeSeconds();
 
-        /* Run simulation at a faster rate so PID gains behave more reasonably */
-        m_simNotifier = new Notifier(() -> {
-            final double currentTime = Utils.getCurrentTimeSeconds();
-            double deltaTime = currentTime - m_lastSimTime;
-            m_lastSimTime = currentTime;
-
-            /* use the measured time delta, get battery voltage from WPILib */
-            updateSimState(deltaTime, RobotController.getBatteryVoltage());
-        });
-        m_simNotifier.startPeriodic(kSimLoopPeriod);
-    }
 
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the odometry pose estimate

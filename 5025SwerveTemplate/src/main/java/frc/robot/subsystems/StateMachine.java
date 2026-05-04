@@ -18,17 +18,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.PoseConstants;
 import frc.robot.constants.StateConstants.STATES;
 import frc.robot.subsystems.mechanisms.ExampleMechanismSubsystem;
+import frc.robot.subsystems.mechanisms.ExampleMechanismSubsystem.State;
 
-public class StateHandler extends SubsystemBase {
+public class StateMachine extends SubsystemBase {
   private final CommandSwerveDrivetrain drivetrain;
-  private final ExampleMechanismSubsystem m_ExampleMechanismSubsystem = new ExampleMechanismSubsystem();
+  public final ExampleMechanismSubsystem m_ExampleMechanismSubsystem = new ExampleMechanismSubsystem();
   Pose2d currentTarget = PoseConstants.SHOOT_MID;
   PathConstraints constraints = new PathConstraints(
     3.0, 3.0,
     Units.degreesToRadians(540), Units.degreesToRadians(720)
   );
-  /** Creates a new StateHandler. */
-  public StateHandler(CommandSwerveDrivetrain drivetrain) {
+  
+  /** Creates a new StateMachine. */
+  public StateMachine(CommandSwerveDrivetrain drivetrain) {
     this.drivetrain = drivetrain;
   }
 
@@ -54,13 +56,16 @@ public class StateHandler extends SubsystemBase {
 
   public Command setState(STATES state) {
     switch (state) {
-      case SPECIAL:
+      case SHOOT_MID:
         return Commands.parallel(
-          Commands.runOnce(() -> m_ExampleMechanismSubsystem.on(), m_ExampleMechanismSubsystem),
-          setTarget(currentTarget)
+          m_ExampleMechanismSubsystem.setStateCommand(State.FORWARD),
+          setTarget(PoseConstants.SHOOT_MID),
+          pathfindToCurrentTarget()
         );
       default:
-        return Commands.none();
+        return Commands.parallel(
+          m_ExampleMechanismSubsystem.setStateCommand(State.IDLE)
+        );
     }
   }
 }

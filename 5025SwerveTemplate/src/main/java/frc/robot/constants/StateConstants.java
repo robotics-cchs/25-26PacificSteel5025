@@ -6,5 +6,5 @@ package frc.robot.constants;
 
 /** Add your docs here. */
 public class StateConstants {
-    public static enum STATES { SPECIAL }
+    public static enum STATES { SHOOT_MID, SHOOT_LEFT, SHOOT_RIGHT }
 }

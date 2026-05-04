@@ -5,54 +5,58 @@
 package frc.robot.subsystems.mechanisms;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.MechanismConstants.OperatorConstants;
+import edu.wpi.first.wpilibj.RobotController;
+import frc.robot.constants.MechanismConstants.HardwareConstants;
+import frc.robot.constants.MechanismConstants.Settings;
+import frc.robot.constants.MechanismConstants.Configs;
+import frc.robot.telemetry.Logger;
 
 public class ExampleMechanismSubsystem extends SubsystemBase {
-  
-  double dir = OperatorConstants.FORWARD;
-  double motorSpeed = OperatorConstants.MotorSettings.EX_MOTOR_SPEED;
 
-  boolean currentToggleStatus = false;
-  
+  public enum State {
+    IDLE,
+    FORWARD,
+    REVERSE
+  }
+
+  private State currentState = State.IDLE;
+  private final double motorSpeed = Settings.EX_MOTOR_SPEED;
+
   /** Creates a new IntakeSubsystem. */
   public ExampleMechanismSubsystem() {
-    OperatorConstants.krkExampleMotor.getConfigurator().apply(OperatorConstants.defaultPowerConfig);
-    OperatorConstants.krkExampleMotor.setSafetyEnabled(OperatorConstants.SET_SAFETY_TRUE);
+    HardwareConstants.krkExampleMotor.getConfigurator().apply(Configs.defaultPowerConfig);
+    HardwareConstants.krkExampleMotor.setSafetyEnabled(Settings.SET_SAFETY_TRUE);
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Example Motor",OperatorConstants.krkExampleMotor.getMotorVoltage().getValueAsDouble());
-    SmartDashboard.putBoolean("Current Intake Toggle Status", currentToggleStatus);
-    OperatorConstants.krkExampleMotor.set(motorSpeed*dir*(currentToggleStatus?1:0));
-  }
+    Logger.recordOutput("ExampleMechanism/MotorVoltage", HardwareConstants.krkExampleMotor.getMotorVoltage().getValueAsDouble());
+    Logger.recordOutput("ExampleMechanism/State", currentState.toString());
 
-  public void toggle() {
-    currentToggleStatus = !currentToggleStatus;
-  }
-
-  public void on() {
-    currentToggleStatus = true;
-  }
-
-  public void off() {
-    currentToggleStatus = false;
-  }
-
-  public void forward() {
-    if (dir!=OperatorConstants.FORWARD) {
-      dir = OperatorConstants.FORWARD;
+    switch (currentState) {
+      case FORWARD:
+        HardwareConstants.krkExampleMotor.set(motorSpeed * Settings.FORWARD);
+        break;
+      case REVERSE:
+        HardwareConstants.krkExampleMotor.set(motorSpeed * Settings.REVERSE);
+        break;
+      case IDLE:
+      default:
+        HardwareConstants.krkExampleMotor.set(0);
+        break;
     }
   }
 
-  public void reverse() {
-    if (dir!=OperatorConstants.REVERSE) {
-      dir = OperatorConstants.REVERSE;
-    }
+  public void setState(State state) {
+    this.currentState = state;
   }
-  
-  public void stop() {
-    currentToggleStatus = false;
+
+  public Command setStateCommand(State state) {
+    return Commands.runOnce(() -> setState(state), this);
   }
+
+
 }

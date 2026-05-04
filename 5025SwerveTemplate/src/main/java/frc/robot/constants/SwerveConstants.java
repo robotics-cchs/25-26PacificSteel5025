@@ -92,16 +92,16 @@ public class SwerveConstants {
     private static final Distance kWheelRadius = Inches.of(2);
 
     private static final boolean kInvertLeftSide = false;
-    private static final boolean kInvertRightSide = true;
+    private static final boolean kInvertRightSide = false;
 
     private static final int kPigeonId = 0;
 
     // These are only used for simulation
-    private static final MomentOfInertia kSteerInertia = KilogramSquareMeters.of(0.01);
-    private static final MomentOfInertia kDriveInertia = KilogramSquareMeters.of(0.01);
+    private static final MomentOfInertia kSteerInertia = KilogramSquareMeters.of(0.004); // Typical for SDS Mk4i Steer
+    private static final MomentOfInertia kDriveInertia = KilogramSquareMeters.of(0.0438); // Equivalent to a 150lb robot distributed across 4 wheels
     // Simulated voltage necessary to overcome friction
-    private static final Voltage kSteerFrictionVoltage = Volts.of(0.2);
-    private static final Voltage kDriveFrictionVoltage = Volts.of(0.2);
+    private static final Voltage kSteerFrictionVoltage = Volts.of(0.25);
+    private static final Voltage kDriveFrictionVoltage = Volts.of(0.25);
 
     public static final SwerveDrivetrainConstants DrivetrainConstants = new SwerveDrivetrainConstants()
             .withCANBusName(kCANBus.getName())

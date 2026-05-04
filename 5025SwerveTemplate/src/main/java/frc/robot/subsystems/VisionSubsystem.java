@@ -24,6 +24,8 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 import java.util.Optional;
 
+import frc.robot.telemetry.Logger;
+
 public class VisionSubsystem extends SubsystemBase {
 
   // ── Camera config ──────────────────────────────────────────────────────────
@@ -71,11 +73,17 @@ public class VisionSubsystem extends SubsystemBase {
   // ── Periodic ───────────────────────────────────────────────────────────────
   @Override
   public void periodic() {
+    Logger.recordOutput("Vision/CameraConnected", camera.isConnected());
+
     PhotonPipelineResult result = camera.getLatestResult();
+    
+    Logger.recordOutput("Vision/TagsVisible", result.getTargets().size());
 
     lastEstimate = poseEstimator.update(result);
 
     lastEstimate.ifPresent(est -> {
+      Logger.recordOutput("Vision/LatestEstimate", est.estimatedPose.toPose2d());
+
       if (!isGoodEstimate(est)) return;
 
       Matrix<N3, N1> stdDevs = selectStdDevs(est);
@@ -114,6 +122,21 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   private Matrix<N3, N1> selectStdDevs(EstimatedRobotPose est) {
-    return est.targetsUsed.size() > 1 ? MULTI_TAG_STD_DEVS : SINGLE_TAG_STD_DEVS;
+    double avgDist = 0.0;
+    for (var target : est.targetsUsed) {
+      avgDist += target.getBestCameraToTarget().getTranslation().getNorm();
+    }
+    avgDist /= est.targetsUsed.size();
+
+    // The uncertainty roughly scales quadratically with distance.
+    double scalar = 1.0 + (avgDist * avgDist) / 10.0;
+
+    Matrix<N3, N1> baseDevs = est.targetsUsed.size() > 1 ? MULTI_TAG_STD_DEVS : SINGLE_TAG_STD_DEVS;
+    
+    return VecBuilder.fill(
+        baseDevs.get(0, 0) * scalar,
+        baseDevs.get(1, 0) * scalar,
+        baseDevs.get(2, 0) * scalar
+    );
   }
 }
