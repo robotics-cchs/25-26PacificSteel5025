@@ -54,8 +54,6 @@ public class RobotContainer {
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
     
-    // Commands
-    Command stateCommand = stateMachine.setState(StateConstants.STATES.SPECIAL);
     public RobotContainer() {
         configureAutoBindings();
         configureBindings();
@@ -97,13 +95,9 @@ public class RobotContainer {
         // Drivetrain Bindings
         OIConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OIConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        OIConstants.controllerOne.y().toggleOnTrue(stateMachine.pathfindToCurrentTarget());
-        OIConstants.controllerOne.povLeft().onTrue(stateMachine.setTarget(PoseConstants.SHOOT_LEFT));
-        OIConstants.controllerOne.povRight().onTrue(stateMachine.setTarget(PoseConstants.SHOOT_RIGHT));
-        OIConstants.controllerOne.povDown().onTrue(stateMachine.setTarget(PoseConstants.SHOOT_MID));
-        
-        // Mechanism Bindings
-        OIConstants.controllerOne.b().onTrue(stateCommand); //
+        OIConstants.controllerOne.povLeft().onTrue(stateMachine.setState(SHOOT_LEFT));
+        OIConstants.controllerOne.povRight().onTrue(stateMachine.setState(SHOOT_RIGHT));
+        OIConstants.controllerOne.povDown().onTrue(stateMachine.setState(SHOOT_MID));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
