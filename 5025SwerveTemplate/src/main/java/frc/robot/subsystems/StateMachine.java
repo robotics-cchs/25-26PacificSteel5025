@@ -62,6 +62,18 @@ public class StateMachine extends SubsystemBase {
           setTarget(PoseConstants.SHOOT_MID),
           pathfindToCurrentTarget()
         );
+      case SHOOT_LEFT:
+        return Commands.parallel(
+          m_ExampleMechanismSubsystem.setStateCommand(State.FORWARD),
+          setTarget(PoseConstants.SHOOT_LEFT),
+          pathfindToCurrentTarget()
+        );
+      case SHOOT_RIGHT:
+        return Commands.parallel(
+          m_ExampleMechanismSubsystem.setStateCommand(State.FORWARD),
+          setTarget(PoseConstants.SHOOT_RIGHT),
+          pathfindToCurrentTarget()
+        );
       default:
         return Commands.parallel(
           m_ExampleMechanismSubsystem.setStateCommand(State.IDLE)
