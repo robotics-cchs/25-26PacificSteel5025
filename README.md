@@ -15,6 +15,7 @@ Programming Language: Java
 - Github Desktop
 - 2026 WPILib VS Code
 - Java
+- PhotonVision
 
 ### Vendor Libraries
 - Phoenix Software 
@@ -22,6 +23,7 @@ Programming Language: Java
   - Phoenix 6 2026
 - REVLib
   - REVLib-2026
+- PhotonLib
 
 ### Hardware:
 - TalonFX Motors &rarr; 7 motors
@@ -36,3 +38,4 @@ Programming Language: Java
 - IntakeSubsystem
 - KickerSubsystem
 - ShooterSubsystem
+- VisionSubsystem

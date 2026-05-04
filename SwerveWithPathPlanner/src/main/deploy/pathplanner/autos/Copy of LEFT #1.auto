@@ -29,15 +29,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "IntakeDown"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "OVER BUMP LEFT TO NEUTRAL"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "IntakeDown"
+            "waitTime": 1.0
           }
         },
         {
@@ -97,18 +103,6 @@
         {
           "type": "named",
           "data": {
-            "name": "ToggleKicker"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleConveyor"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "KickerSetReverse"
           }
         },
@@ -116,6 +110,18 @@
           "type": "named",
           "data": {
             "name": "ConveyorBackward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleKicker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleConveyor"
           }
         },
         {
@@ -128,12 +134,6 @@
           "type": "path",
           "data": {
             "pathName": "Copy of GRAB LEFT TO RIGHT"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ToggleIntake"
           }
         },
         {
@@ -164,6 +164,12 @@
           "type": "named",
           "data": {
             "name": "ConveyorForward"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ToggleIntake"
           }
         },
         {

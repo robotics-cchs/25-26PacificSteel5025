@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.535,
+        "x": 2.535,
         "y": 5.600462633451957
       },
       "isLocked": false,
@@ -47,7 +47,7 @@
   },
   "goalEndState": {
     "velocity": 3.0,
-    "rotation": -90.0
+    "rotation": -125.00000000000001
   },
   "reversed": false,
   "folder": "BUMP",

@@ -19,23 +19,33 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class MechanismConstants {
     public static class OperatorConstants {
         public static class MotorSettings {
-            public static final double INTAKE_SPEED = 0.5;
-            public static final double INTAKE_LIFTER_SPEED = 0.1;
+            public static final double INTAKE_SPEED = 0.7;
+            public static final double INTAKE_LIFTER_SPEED = 0.2;
             public static final double KICKER_SPEED_BASE = 0.525;
-            public static final double SHOOTER_SPEED_BASE = 0.525;
+            public static final double SHOOTER_SPEED_BASE = 0.525; 
             public static final double TELEOP_SPEED_BASE = 0.6;
-            public static final double CONVEYOR_SPEED = 0.3;
+            public static final double CONVEYOR_SPEED = 0.6;
 
-            // Lifter PID constants
-            public static final double LIFTER_kP = 0.05;
-            public static final double LIFTER_kI = 0.0;
-            public static final double LIFTER_kD = 0.0;
-            public static final double LIFTER_kF = 0.0;
+            // Quadratic shot constants
+            public static final double SHOT_A = 1.72273;
+            public static final double SHOT_B = -0.125695;
+            public static final double SHOT_C = 41.46213;
 
-            public static final double ALIGN_P = 20.0;
+
+            // Shooter PID constants
+            public static final double SHOOTER_P = 0.05;
+            public static final double SHOOTER_I = 0.0;
+            public static final double SHOOTER_D = 0.0;
+            // feedforward 
+            public static final double SHOOTER_S = 0.1;
+            public static final double SHOOTER_V = 0.067;
+            public static final double SHOOTER_TOLERANCE = 0.1;
+
+            // Auto-align PID constants
+            public static final double ALIGN_P = .25;
             public static final double ALIGN_I = 0.0;
-            public static final double ALIGN_D = 0.0;
-            public static final double ALIGN_TOLERANCE = 0.0;
+            public static final double ALIGN_D = 0.5;
+            public static final double ALIGN_TOLERANCE = 0.1;
 
             // Lifter reference points
             public static final double LIFTER_UP_SETPOINT = 0.0;
@@ -128,6 +138,20 @@ public class MechanismConstants {
         ).withMotorOutput(
             new MotorOutputConfigs()
                 .withInverted(InvertedValue.CounterClockwise_Positive) // Says to inverse the motor
+                .withNeutralMode(NeutralModeValue.Coast)
+        ).withVoltage(
+            new VoltageConfigs()
+                .withPeakForwardVoltage(MAX_VOLTAGE)
+        );
+        public static final TalonFXConfiguration intakeConfig = new TalonFXConfiguration().withCurrentLimits(
+            new CurrentLimitsConfigs()
+                .withStatorCurrentLimit(Amps.of(90)) // Makes stator current limits
+                .withStatorCurrentLimitEnable(true) // Enables the current limits
+                .withSupplyCurrentLimit(Amps.of(50)) // Makes supply current limits
+                .withSupplyCurrentLimitEnable(true) // Enables the current limits
+        ).withMotorOutput(
+            new MotorOutputConfigs()
+                .withInverted(InvertedValue.Clockwise_Positive) // Says to not inverse the motor
                 .withNeutralMode(NeutralModeValue.Coast)
         ).withVoltage(
             new VoltageConfigs()

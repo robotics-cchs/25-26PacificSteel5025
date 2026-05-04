@@ -13,8 +13,6 @@ import frc.robot.constants.MechanismConstants.OperatorConstants;
 
 import org.photonvision.PhotonUtils;
 
-import edu.wpi.first.math.controller.PIDController;
-
 public class ShooterSpeed {
     public ShooterSpeed() {
         
@@ -22,14 +20,16 @@ public class ShooterSpeed {
     public static Pose2d targetPose() {
       Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
       if (alliance == Alliance.Red) {
-        return new Pose2d(11.9,4.0,new Rotation2d());
+          return new Pose2d(11.9,4.0,new Rotation2d());
       } else {
-        return new Pose2d(4.650,4.0,new Rotation2d());
+          return new Pose2d(4.650,4.0,new Rotation2d());
       }
     }
     public static double targetSpeed(Pose2d robotLocation) {
-        
-        return 0;
+        double distanceToTarget = PhotonUtils.getDistanceToPose(robotLocation, targetPose());
+        SmartDashboard.putNumber("Robot Distance", distanceToTarget);
+        double speed = (OperatorConstants.MotorSettings.SHOT_A * Math.pow(distanceToTarget, 2) + OperatorConstants.MotorSettings.SHOT_B * distanceToTarget + OperatorConstants.MotorSettings.SHOT_C)/1.85;
+        return speed;
     }
 
 }

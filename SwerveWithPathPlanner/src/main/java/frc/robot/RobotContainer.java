@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.Set;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -13,22 +15,27 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.net.PortForwarder;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.commands.PathfindingCommand;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
+import frc.robot.constants.PoseConstants;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OperatorConstants;
 import frc.robot.helpers.AutoAlign;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.mechanisms.ConveyorSubsystem;
 import frc.robot.subsystems.mechanisms.IntakeSubsystem;
 import frc.robot.subsystems.mechanisms.KickerSubsystem;
@@ -50,9 +57,6 @@ public class RobotContainer {
     private final KickerSubsystem m_kickerSubsystem = new KickerSubsystem();
     private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
     private final AutoAlign m_autoAlign = new AutoAlign();
-    
-    //
-
     /* PATHFINDING VARIABLES */
 
     PathConstraints constraints = new PathConstraints(
@@ -60,7 +64,17 @@ public class RobotContainer {
         Units.degreesToRadians(540), Units.degreesToRadians(720)
     );
 
+    private Pose2d currentTarget = PoseConstants.SHOOT_MID; // default target
+
     // All requests as variables, and now instead of command files, with a more modern WPILib style
+
+    // Pathfind
+    Command pathfindToCurrentTarget() {
+    return Commands.defer(
+        () -> AutoBuilder.pathfindToPose(currentTarget, constraints, 0.0),
+        Set.of(drivetrain)
+    );
+}
     // Shooter Subsystem
     Command toggleShootCommand = Commands.runOnce(() -> {
         m_shooterSubsystem.toggle();
@@ -91,6 +105,14 @@ public class RobotContainer {
         m_kickerSubsystem.toggle();
     }, m_kickerSubsystem);
 
+    Command kickerOnCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.on();
+    }, m_kickerSubsystem);
+
+    Command kickerOffCommand = Commands.runOnce(() -> {
+        m_kickerSubsystem.off();
+    }, m_kickerSubsystem);
+
     Command kickerSetForwardCommand = Commands.runOnce(() -> {
         m_kickerSubsystem.forward();
     }, m_kickerSubsystem);
@@ -110,6 +132,14 @@ public class RobotContainer {
     // Intake Subsystem
     Command toggleIntakeCommand = Commands.runOnce(() -> {
         m_intakeSubsystem.toggle();
+    }, m_intakeSubsystem);
+
+    Command intakeOnCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.on();
+    }, m_intakeSubsystem);
+
+    Command intakeOffCommand = Commands.runOnce(() -> {
+        m_intakeSubsystem.off();
     }, m_intakeSubsystem);
 
     Command intakeForwardCommand = Commands.runOnce(() -> {
@@ -153,6 +183,14 @@ public class RobotContainer {
         m_conveyorSubsystem.toggle();
     }, m_conveyorSubsystem);
 
+    Command conveyorOnCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.on();
+    }, m_conveyorSubsystem);
+
+    Command conveyorOffCommand = Commands.runOnce(() -> {
+        m_conveyorSubsystem.off();
+    }, m_conveyorSubsystem);
+
     Command conveyorForwardCommand = Commands.runOnce(() -> {
         m_conveyorSubsystem.forward();
     }, m_conveyorSubsystem);
@@ -174,6 +212,8 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = SwerveConstants.createDrivetrain();
 
+    private final VisionSubsystem vision = new VisionSubsystem(drivetrain);
+
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
@@ -183,13 +223,21 @@ public class RobotContainer {
         // m_intakeLifterSubsystem.zeroLifterEncoder();
         configureAutoBindings();
         configureBindings();
-
+        
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
         // Warmup PathPlanner to avoid Java pauses
         FollowPathCommand.warmupCommand().schedule();
-        CameraServer.startAutomaticCapture();
+        PathfindingCommand.warmupCommand().schedule();
+        PortForwarder.add(5800, "photonvision.local", 5800);
     }
+    public void setPathfindingTarget(Pose2d target) {
+        currentTarget = target;
+    }
+    public Command setTarget(Pose2d target) {
+        return new InstantCommand(() -> setPathfindingTarget(target));
+    }
+    
     private void configureAutoBindings() {
         // Register Commands
         // Shooter Commands
@@ -228,7 +276,8 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
                 drive.withVelocityX(OperatorConstants.controllerOne.getLeftY() * -MaxSpeed / 1) // Drive forward with negative Y (forward)
                     .withVelocityY(OperatorConstants.controllerOne.getLeftX() * -MaxSpeed / 1) // Drive left with negative X (left)
-                    .withRotationalRate((-OperatorConstants.controllerOne.getRightX() + m_autoAlign.robotRotationOffset(drivetrain.getState().Pose, drivetrain.getState().RawHeading, OperatorConstants.controllerOne.b().getAsBoolean())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    // .withRotationalRate((-OperatorConstants.controllerOne.getRightX() + m_autoAlign.robotRotationOffset(drivetrain, OperatorConstants.controllerOne.b().getAsBoolean())) * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate((-OperatorConstants.controllerOne.getRightX())* MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
@@ -243,6 +292,10 @@ public class RobotContainer {
         // Drivetrain Bindings
         OperatorConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
         OperatorConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        OperatorConstants.controllerOne.y().toggleOnTrue(pathfindToCurrentTarget()); //
+        OperatorConstants.controllerOne.povLeft().onTrue(setTarget(PoseConstants.SHOOT_LEFT));
+        OperatorConstants.controllerOne.povRight().onTrue(setTarget(PoseConstants.SHOOT_RIGHT));
+        OperatorConstants.controllerOne.povDown().onTrue(setTarget(PoseConstants.SHOOT_MID));
         
         // Shooter
         OperatorConstants.controllerTwo.a().onTrue(shooterOnCommand); // Activate Shooter
@@ -255,32 +308,30 @@ public class RobotContainer {
         OperatorConstants.controllerOne.rightTrigger().onTrue(intakeUpCommand); // Intake Up
         OperatorConstants.controllerOne.leftTrigger().onFalse(intakeZeroCommand); // Intake Down
         OperatorConstants.controllerOne.rightTrigger().onFalse(intakeZeroCommand); // Intake Up
-        OperatorConstants.controllerOne.y().onTrue(intakeSpeedUpCommand); // Intake Down
-        OperatorConstants.controllerOne.a().onTrue(intakeSpeedDownCommand); // Intake Up
 
         // Intake
         OperatorConstants.controllerTwo.b().onTrue(intakeForwardCommand); // Intake In
-        OperatorConstants.controllerTwo.b().onTrue(toggleIntakeCommand); // Activate Intake
-        OperatorConstants.controllerTwo.b().onFalse(toggleIntakeCommand); // Deactivate Intake
+        OperatorConstants.controllerTwo.b().whileTrue(intakeOnCommand); // Activate Intake
+        OperatorConstants.controllerTwo.b().onFalse(intakeOffCommand); // Deactivate Intake
         OperatorConstants.controllerTwo.y().onTrue(intakeReverseCommand); // Intake Out
-        OperatorConstants.controllerTwo.y().onTrue(toggleIntakeCommand); // Activate Intake
-        OperatorConstants.controllerTwo.y().onFalse(toggleIntakeCommand); // Deactivate Intake
+        OperatorConstants.controllerTwo.y().whileTrue(intakeOnCommand); // Activate Intake
+        OperatorConstants.controllerTwo.y().onFalse(intakeOffCommand); // Deactivate Intake
 
         // Kicker
         OperatorConstants.controllerTwo.leftBumper().onTrue(kickerSetReverseCommand); // Kicker Out/Reverse/Away Shooter
-        OperatorConstants.controllerTwo.leftBumper().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftBumper().onFalse(toggleKickerCommand); // Deactivate Kicker
+        OperatorConstants.controllerTwo.leftBumper().whileTrue(kickerOnCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftBumper().onFalse(kickerOffCommand); // Deactivate Kicker
         OperatorConstants.controllerTwo.leftTrigger().onTrue(kickerSetForwardCommand); // Kicker In/Forward/Towards Shooter
-        OperatorConstants.controllerTwo.leftTrigger().onTrue(toggleKickerCommand); // Activate Kicker
-        OperatorConstants.controllerTwo.leftTrigger().onFalse(toggleKickerCommand); // Deactivate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().whileTrue(kickerOnCommand); // Activate Kicker
+        OperatorConstants.controllerTwo.leftTrigger().onFalse(kickerOffCommand); // Deactivate Kicker
 
         // Conveyor
         OperatorConstants.controllerTwo.rightBumper().onTrue(conveyorReverseCommand); // Conveyor Out/Reverse/Away Kicker
-        OperatorConstants.controllerTwo.rightBumper().onTrue(toggleConveyorCommand); // Activate Conveyor
-        OperatorConstants.controllerTwo.rightBumper().onFalse(toggleConveyorCommand); // Deactivate Conveyor
+        OperatorConstants.controllerTwo.rightBumper().whileTrue(conveyorOnCommand); // Activate Conveyor
+        OperatorConstants.controllerTwo.rightBumper().onFalse(conveyorOffCommand); // Deactivate Conveyor
         OperatorConstants.controllerTwo.rightTrigger().onTrue(conveyorForwardCommand); // Conveyor In/Forward/Towards Kicker
-        OperatorConstants.controllerTwo.rightTrigger().onTrue(toggleConveyorCommand); // Activate Conveyor
-        OperatorConstants.controllerTwo.rightTrigger().onFalse(toggleConveyorCommand); // Deactivate Conveyor
+        OperatorConstants.controllerTwo.rightTrigger().whileTrue(conveyorOnCommand); // Activate Conveyor
+        OperatorConstants.controllerTwo.rightTrigger().onFalse(conveyorOffCommand); // Deactivate Conveyor
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
