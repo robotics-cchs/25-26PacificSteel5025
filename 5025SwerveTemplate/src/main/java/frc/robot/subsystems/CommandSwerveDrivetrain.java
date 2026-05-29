@@ -16,6 +16,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,9 +27,11 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.constants.SwerveConstants.TunerSwerveDrivetrain;
+import frc.robot.telemetry.Logger;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
@@ -340,5 +343,22 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     @Override
     public Optional<Pose2d> samplePoseAt(double timestampSeconds) {
         return super.samplePoseAt(Utils.fpgaToCurrentTime(timestampSeconds));
+    }
+
+    /**
+     * Reusable PathPlanner pathfinding command factory.
+     *
+     * @param targetPose The target pose to pathfind to.
+     * @return The pathfinding command.
+     */
+    public Command pathfindToPoseCommand(Pose2d targetPose) {
+        PathConstraints constraints = new PathConstraints(
+            3.0, 3.0,
+            edu.wpi.first.math.util.Units.degreesToRadians(540), edu.wpi.first.math.util.Units.degreesToRadians(720)
+        );
+        return Commands.defer(
+            () -> AutoBuilder.pathfindToPose(targetPose, constraints, 0.0),
+            java.util.Set.of(this)
+        );
     }
 }

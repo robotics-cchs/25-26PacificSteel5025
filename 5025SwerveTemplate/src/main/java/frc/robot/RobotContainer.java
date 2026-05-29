@@ -21,14 +21,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
-import frc.robot.constants.StateConstants;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.constants.PoseConstants;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.constants.MechanismConstants.OIConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.StateMachine;
 import frc.robot.subsystems.mechanisms.ExampleMechanismSubsystem;
+import frc.robot.subsystems.mechanisms.ExampleMechanismSubsystem.State;
 import frc.robot.telemetry.Telemetry;
 
 public class RobotContainer {
@@ -49,7 +49,10 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = SwerveConstants.createDrivetrain();
 
     private final VisionSubsystem vision = new VisionSubsystem(drivetrain);
-    private final StateMachine stateMachine = new StateMachine(drivetrain);
+    private final ExampleMechanismSubsystem mechanism = new ExampleMechanismSubsystem();
+
+    private final CommandXboxController controllerOne = new CommandXboxController(OIConstants.controllerOnePort);
+    private final CommandXboxController controllerTwo = new CommandXboxController(OIConstants.controllerTwoPort);
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
@@ -69,7 +72,7 @@ public class RobotContainer {
     
     private void configureAutoBindings() {
         // Register Commands
-        NamedCommands.registerCommand("ExampleToggle", stateCommand);
+        NamedCommands.registerCommand("ExampleToggle", mechanism.runStateCommand(State.FORWARD));
     }
     private void configureBindings() {
         // Note that X is defined as forward according to WPILib convention,
@@ -77,9 +80,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             drivetrain.applyTeleopDrive(
                 drive,
-                () -> OIConstants.controllerOne.getLeftY(),
-                () -> OIConstants.controllerOne.getLeftX(),
-                () -> OIConstants.controllerOne.getRightX(),
+                () -> controllerOne.getLeftY(),
+                () -> controllerOne.getLeftX(),
+                () -> controllerOne.getRightX(),
                 MaxSpeed,
                 MaxAngularRate
             )
@@ -92,12 +95,29 @@ public class RobotContainer {
             drivetrain.applyRequest(() -> idle).ignoringDisable(true)
         );
 
-        // Drivetrain Bindings
-        OIConstants.controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
-        OIConstants.controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
-        OIConstants.controllerOne.povLeft().onTrue(stateMachine.setState(SHOOT_LEFT));
-        OIConstants.controllerOne.povRight().onTrue(stateMachine.setState(SHOOT_RIGHT));
-        OIConstants.controllerOne.povDown().onTrue(stateMachine.setState(SHOOT_MID));
+        // Drivetrain & Mechanism Bindings
+        controllerOne.x().whileTrue(drivetrain.applyRequest(() -> brake));
+        controllerOne.back().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        controllerOne.y().whileTrue(mechanism.runVelocityCommand(50.0));
+
+        controllerOne.povLeft().onTrue(
+            Commands.parallel(
+                drivetrain.pathfindToPoseCommand(PoseConstants.SHOOT_LEFT),
+                mechanism.runStateCommand(State.FORWARD)
+            )
+        );
+        controllerOne.povRight().onTrue(
+            Commands.parallel(
+                drivetrain.pathfindToPoseCommand(PoseConstants.SHOOT_RIGHT),
+                mechanism.runStateCommand(State.FORWARD)
+            )
+        );
+        controllerOne.povDown().onTrue(
+            Commands.parallel(
+                drivetrain.pathfindToPoseCommand(PoseConstants.SHOOT_MID),
+                mechanism.runStateCommand(State.FORWARD)
+            )
+        );
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
